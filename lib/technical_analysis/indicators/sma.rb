@@ -1,6 +1,7 @@
 module TechnicalAnalysis
   class Sma
     # Calculates the simple moving average for the data over the given period
+    # https://en.wikipedia.org/wiki/Moving_average#Simple_moving_average
     # 
     # @param data [Hash] Date strings to price values
     # @param period [Integer] The given period to calculate the SMA
