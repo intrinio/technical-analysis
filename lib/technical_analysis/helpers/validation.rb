@@ -1,8 +1,10 @@
 class Validation
 
-  def self.validate_price_data(data)
-    unless data.values.all? { |v| v.class == Float || v.class == Integer}
-      raise ValidationError.new "Invalid Data. Price is not a number"
+  def self.validate_numeric_data(data, *keys)
+    keys.each do |key|
+      unless data.all? { |v| v[key].is_a? Numeric}
+        raise ValidationError.new "Invalid Data. '#{key}' is not valid price data."
+      end
     end
   end
 

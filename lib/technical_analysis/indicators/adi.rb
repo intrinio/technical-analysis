@@ -1,33 +1,32 @@
 module TechnicalAnalysis
   class Adi
-    # Calculates the Accumulation/Distribution Index for the data over the given period
+    # Calculates the Accumulation/Distribution Index for the given data
     # https://en.wikipedia.org/wiki/Accumulation/distribution_index
     # 
-    # @param data [Hash] Date strings to hash with keys (:high, :low, :close, :volume)
+    # @param data [Array] Array of hashes with keys (:date, :high, :low, :close, :volume)
     # @return [Hash] A hash of date strings to ADI values
     def self.calculate(data)
-      # Validation.validate_price_data(data)
-      # Validation.validate_length(data, period)
+      Validation.validate_numeric_data(data, :high, :low, :close, :volume)
       
-      ads = {}
-      data = data.sort.to_h # Sort data by descending dates
+      data = data.sort_by_hash_date_asc
+      
+      ads = []
 
-      data.each do |date, values|
-        clv = 0
-        if values[:high] > values[:low]
+      clv = 0
+      ad = 0
+      prev_ad = 0
+      data.each_with_index do |values, i|
+        if values[:high] == values[:low]
+          clv = 0
+        else
           clv = ((values[:close] - values[:low]) - (values[:high] - values[:close])) / (values[:high] - values[:low])
         end
-        ad = clv * values[:volume]
-        ads[date] = ad
-      end
 
-      keys = ads.keys
-      (1..keys.size-1).each do |index|
-        cur_key = keys[index]
-        prev_key = keys[index-1]
-        ads[cur_key] = ads[cur_key] + ads[prev_key]
-      end
+        ad = prev_ad + (clv * values[:volume])
+        prev_ad = ad
 
+        ads << {date: values[:date], value: ad}
+      end
       ads
     end
   end
