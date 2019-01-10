@@ -6,7 +6,7 @@ module TechnicalAnalysis
     # @param data [Array] Array of hashes with keys (:date, :value)
     # @param period [Integer] The given period to calculate the SMA
     # @param price_key [Symbol] The hash key for the price data. Default :value
-    # @return [Hash] A hash with keys :date and :value
+    # @return [Hash] A hash of the results with keys (:date, :value)
     def self.calculate(data, period: 30, price_key: :value)
       Validation.validate_numeric_data(data, price_key)
       Validation.validate_length(data, period)

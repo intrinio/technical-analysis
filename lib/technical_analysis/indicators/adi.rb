@@ -4,7 +4,7 @@ module TechnicalAnalysis
     # https://en.wikipedia.org/wiki/Accumulation/distribution_index
     # 
     # @param data [Array] Array of hashes with keys (:date, :high, :low, :close, :volume)
-    # @return [Hash] A hash of date strings to ADI values
+    # @return [Hash] A hash of the results with keys (:date, :value)
     def self.calculate(data)
       Validation.validate_numeric_data(data, :high, :low, :close, :volume)
       
