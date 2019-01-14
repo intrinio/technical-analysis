@@ -1,5 +1,3 @@
-require "technical_analysis/calculate"
-
 # Helpers
 require 'technical_analysis/helpers/array'
 require 'technical_analysis/helpers/validation'
