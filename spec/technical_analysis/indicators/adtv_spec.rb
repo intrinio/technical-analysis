@@ -7,7 +7,7 @@ describe 'Indicators' do
 
     describe 'Average Daily Trading Volume' do
       it 'Calculates ADTV (22 day)' do
-        output = TechnicalAnalysis::Adtv.calculate(input_data, period: 22, price_key: :volume)
+        output = TechnicalAnalysis::Adtv.calculate(input_data, period: 22, volume_key: :volume)
 
         expected_output = [
           {:date=>"2018/11/07", :value=>40280851.81818182},
@@ -58,7 +58,7 @@ describe 'Indicators' do
       end
 
       it "Throws exception if not enough data" do
-        expect {TechnicalAnalysis::Adtv.calculate(input_data, period: input_data.size+1, price_key: :volume)}.to raise_exception(Validation::ValidationError)
+        expect {TechnicalAnalysis::Adtv.calculate(input_data, period: input_data.size+1, volume_key: :volume)}.to raise_exception(Validation::ValidationError)
       end
     end
   end
