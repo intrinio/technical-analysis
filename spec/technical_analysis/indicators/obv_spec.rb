@@ -77,6 +77,10 @@ describe 'Indicators' do
 
         expect(output).to eq(expected_output)
       end
+
+      it "Throws exception if not enough data" do
+        expect {TechnicalAnalysis::Obv.calculate([])}.to raise_exception(Validation::ValidationError)
+      end
     end
   end
 end

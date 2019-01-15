@@ -8,6 +8,7 @@ module TechnicalAnalysis
     # @return [Hash] A hash of the results with keys (:date, :value)
     def self.calculate(data)
       Validation.validate_numeric_data(data, :close, :volume)
+      Validation.validate_length(data, 1)
 
       data = data.sort_by_hash_date_asc # Sort data by descending dates
 
