@@ -13,7 +13,7 @@ module TechnicalAnalysis
     # @param low_period [Integer] The given period to calculate tenkan_sen (Conversion Line)
     # @param medium_period [Integer] The given period to calculate kijun_sen (Base Line), senkou_span_a (Leading Span A), and chikou_span (Lagging Span)
     # @param high_period [Integer] The given period to calculate senkou_span_b (Leadning Span B)
-    # @return [Hash] A hash of the results with keys (:date, :tenkan_sen, :kijun_sen, :senkou_span_a, :senkou_span_b, :chickou_span)
+    # @return [Hash] A hash of the results with keys (:date, :value)
     def self.calculate(data, low_period: 9, medium_period: 26, high_period: 52)
       Validation.validate_numeric_data(data, :high, :low, :close)
       Validation.validate_length(data, high_period + medium_period - 2)
@@ -34,11 +34,13 @@ module TechnicalAnalysis
 
         output << {
           date: date,
-          tenkan_sen: tenkan_sen,
-          kijun_sen: kinjun_sen,
-          senkou_span_a: senkou_span_a,
-          senkou_span_b: senkou_span_b,
-          chikou_span: chikou_span
+          value: {
+            tenkan_sen: tenkan_sen,
+            kijun_sen: kinjun_sen,
+            senkou_span_a: senkou_span_a,
+            senkou_span_b: senkou_span_b,
+            chikou_span: chikou_span
+          }
         }
 
         index += 1
