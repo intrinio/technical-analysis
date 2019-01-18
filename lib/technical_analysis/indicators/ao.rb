@@ -14,20 +14,13 @@ module TechnicalAnalysis
 
       data = data.sort_by_hash_date_asc # Sort data by descending dates
 
-      midpoint_data = []
+      midpoint_values = []
+      output = []
 
-      # Build new Array of hashes with keys :date, :value where value is the midpoint
       data.each do |v|
         midpoint = (v[:high] + v[:low]) / 2
-        midpoint_data << { date: v[:date], value: midpoint }
-      end
+        midpoint_values << midpoint
 
-      output = []
-      midpoint_values = []
-
-      midpoint_data.each do |v|
-        midpoint_values << v[:value]
-        
         if midpoint_values.size == long_period
           short_period_sma = midpoint_values.last(short_period).sum / short_period.to_f
           long_period_sma = midpoint_values.sum / long_period.to_f
