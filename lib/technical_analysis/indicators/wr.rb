@@ -13,24 +13,21 @@ module TechnicalAnalysis
 
       data = data.sort_by_hash_date_asc # Sort data by descending dates
 
-      highs = []
-      lows = []
       output = []
+      period_values = []
 
       data.each do |v|
-        lows << v[:low]
-        highs << v[:high]
+        period_values << { high: v[:high], low: v[:low] }
 
-        if lows.size == period && highs.size == period
-          lowest_low = lows.min
-          highest_high = highs.max
+        if period_values.size == period
+          lowest_low = period_values.map { |pv| pv[:low] }.min
+          highest_high = period_values.map { |pv| pv[:high] }.max
 
           wr = (highest_high - v[:close]) / (highest_high - lowest_low) * -100
 
           output << { date: v[:date], value: wr }
 
-          lows.shift
-          highs.shift
+          period_values.shift
         end
       end
 
