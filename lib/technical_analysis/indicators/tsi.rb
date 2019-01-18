@@ -21,7 +21,6 @@ module TechnicalAnalysis
       low_multiplier = (2.0 / (low_period + 1.0))
       momentum_values = []
       output = []
-      prev_low_ema = nil
       prev_price = data.shift[price_key]
 
       data.each do |v|
