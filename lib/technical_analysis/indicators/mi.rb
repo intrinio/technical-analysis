@@ -26,42 +26,39 @@ module TechnicalAnalysis
         high_low_diffs << high_low_diff
 
         if high_low_diffs.size == ema_period
-          if single_emas.empty?
-            single_ema = high_low_diffs.sum / ema_period.to_f
-            single_emas << single_ema
-          else
-            last_single_ema = single_emas.last
-            single_ema = ((multiplier * (high_low_diff - last_single_ema)) + last_single_ema)
-            single_emas << single_ema
+          single_emas = process_ema(high_low_diff, high_low_diffs, multiplier, ema_period, single_emas)
 
-            if single_emas.size == ema_period
-              if double_emas.empty?
-                double_ema = single_emas.sum / ema_period.to_f
-                double_emas << double_ema
-              else
-                last_double_ema = double_emas.last
-                double_ema = ((multiplier * (single_ema - last_double_ema)) + last_double_ema)
-                double_emas << double_ema
-              end
-              ratio_of_emas << (single_ema / double_ema)
+          if single_emas.size == ema_period
+            double_emas = process_ema(single_emas.last, single_emas, multiplier, ema_period, double_emas)
 
-              if ratio_of_emas.size == sum_period
-                output << { date: v[:date], value: ratio_of_emas.sum }
+            ratio_of_emas << (single_emas.last / double_emas.last)
 
-                double_emas.shift
-                ratio_of_emas.shift
-              end
+            if ratio_of_emas.size == sum_period
+              output << { date: v[:date], value: ratio_of_emas.sum }
 
-              single_emas.shift
+              double_emas.shift
+              ratio_of_emas.shift
             end
+
+            single_emas.shift
           end
 
           high_low_diffs.shift
         end
-        
       end
 
       output
+    end
+
+    def self.process_ema(current_value, data, multiplier, period, store)
+      if store.empty?
+        store << data.sum / period.to_f
+      else
+        prev_value = store.last
+        store << ((multiplier * (current_value - prev_value)) + prev_value)
+      end
+
+      store
     end
 
   end
