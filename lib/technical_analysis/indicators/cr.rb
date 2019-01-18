@@ -15,7 +15,6 @@ module TechnicalAnalysis
 
       output = []
       start_price = data.first[price_key] 
-      puts start_price
 
       data.each do |v|
         output << { date: v[:date], value: ((v[price_key] - start_price) / start_price) }
