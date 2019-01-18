@@ -9,7 +9,7 @@ module TechnicalAnalysis
     # @return [Array] Array of hashes with keys(:date, :value)
     def self.calculate(data, period: 14, signal_period: 3)
       Validation.validate_numeric_data(data, :high, :low, :close)
-      Validation.validate_length(data, period)
+      Validation.validate_length(data, period + signal_period - 1)
 
       data = data.sort_by_hash_date_asc # Sort data by descending dates
 
