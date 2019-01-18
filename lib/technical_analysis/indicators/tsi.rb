@@ -15,80 +15,55 @@ module TechnicalAnalysis
 
       data = data.sort_by_hash_date_asc # Sort data by descending dates
 
-      abs_momentum_data = []
       high_emas = []
-      high_ema_abs_values = []
-      high_ema_values = []
       low_emas = []
       high_multiplier = (2.0 / (high_period + 1.0))
       low_multiplier = (2.0 / (low_period + 1.0))
-      momentum_data = []
-      new_data = []
+      momentum_values = []
       output = []
-      prev_price = data.first[price_key]
+      prev_low_ema = nil
+      prev_price = data.shift[price_key]
 
-      data.shift
-
-      # Use data array to create new array (high_emas) of hashes with keys :date, :value, and :abs_value
-      # value - high period EMA of momentum
-      # abs_value - high period EMA of absolute momentum
       data.each do |v|
         current_price = v[price_key]
         momentum = current_price - prev_price
+        momentum_hash = { value: momentum, abs_value: momentum.abs }
 
-        momentum_data << momentum
-        abs_momentum_data << momentum.abs
+        momentum_values << momentum_hash
 
-        if momentum_data.size == high_period && abs_momentum_data.size == high_period
-          value = nil
-          abs_value = nil
+        if momentum_values.size == high_period
+          high_emas << process_ema(momentum_hash, momentum_values, high_multiplier, high_period, high_emas)
 
-          if high_emas.empty?
-            value = momentum_data.sum / high_period.to_f
-            abs_value = abs_momentum_data.sum / high_period.to_f
-          else
-            value = (high_emas.last[:value] + (high_multiplier * (momentum - high_emas.last[:value])))
-            abs_value = (high_emas.last[:abs_value] + (high_multiplier * (momentum.abs - high_emas.last[:abs_value])))
+          if high_emas.size == low_period
+            low_ema = process_ema(high_emas.last, high_emas, low_multiplier, low_period, low_emas)
+            low_emas << low_ema
+
+            output << { date: v[:date], value: ((100 * (low_ema[:value] / low_ema[:abs_value]))) }
+
+            low_emas.shift if low_emas.size > 1 # Only need to retain the last low_ema
+            high_emas.shift
           end
 
-          high_emas << { date: v[:date], value: value, abs_value: abs_value }
-
-          momentum_data.shift
-          abs_momentum_data.shift
+          momentum_values.shift
         end
 
         prev_price = current_price
       end
-
-      # Use high_emas array to create new array (low_emas) of hashes with keys :date, :value, and :abs_value
-      # value - low period EMA of high period EMA of momentum
-      # abs_value - low period EMA of high period EMA of absolute momentum
-      high_emas.each do |v|
-        high_ema_values << v[:value]
-        high_ema_abs_values << v[:abs_value]
-
-        if high_ema_values.size == low_period && high_ema_abs_values.size == low_period
-          if low_emas.empty?
-            value = high_ema_values.sum / low_period.to_f
-            abs_value = high_ema_abs_values.sum / low_period.to_f
-          else
-            value = (low_emas.last[:value] + (low_multiplier * (v[:value] - low_emas.last[:value])))
-            abs_value = (low_emas.last[:abs_value] + (low_multiplier * (v[:abs_value] - low_emas.last[:abs_value])))
-          end
-
-          low_emas << { date: v[:date], value: value, abs_value: abs_value }
-
-          high_ema_values.shift
-          high_ema_abs_values.shift
-        end
-      end
-
-      # Use low_emas array of hashes with keys :date, :value, and :abs_value to calculate TSI
-      low_emas.each do |v|
-        output << { date: v[:date], value: ((100 * (v[:value] / v[:abs_value]))) }
-      end
       
       output
+    end
+
+    def self.process_ema(current_value, data, multiplier, period, store)
+      if store.empty?
+        value = data.map { |d| d[:value] }.sum / period.to_f
+        abs_value = data.map { |d| d[:abs_value] }.sum / period.to_f
+      else
+        prev_value = store.last
+        value = ((multiplier * (current_value[:value] - prev_value[:value])) + prev_value[:value])
+        abs_value = ((multiplier * (current_value[:abs_value] - prev_value[:abs_value])) + prev_value[:abs_value])
+      end
+
+      { value: value, abs_value: abs_value }
     end
 
   end
