@@ -16,48 +16,36 @@ module TechnicalAnalysis
 
       ema1 = []
       ema2 = []
+      ema3 = []
       multiplier = (2.0 / (period + 1.0))
       output = []
       period_values = []
-      prev_ema_3 = nil
 
       data.each do |v|
         price = v[price_key]
         period_values << price
 
         if period_values.size == period
-          if ema1.empty?
-            ema1 << period_values.sum / period.to_f
-          else
-            last_ema1 = ema1.last
-            ema_1 = ((multiplier * (price - last_ema1)) + last_ema1)
-            ema1 << ema_1
+          ema1 = process_ema(price, period_values, multiplier, period, ema1)
 
-            if ema1.size == period
-              if ema2.empty?
-                ema2 << ema1.sum / period.to_f
-              else
-                last_ema2 = ema2.last
-                ema_2 = ((multiplier * (ema_1 - last_ema2)) + last_ema2)
-                ema2 << ema_2
+          if ema1.size == period
+            ema2 = process_ema(ema1.last, ema1, multiplier, period, ema2)
 
-                if ema2.size == period
-                  if prev_ema_3.nil?
-                    prev_ema_3 = ema2.sum / period.to_f
-                  else
-                    ema_3 = ((multiplier * (ema_2 - prev_ema_3)) + prev_ema_3)
+            if ema2.size == period
+              ema3 = process_ema(ema2.last, ema2, multiplier, period, ema3)
 
-                    trix = ((ema_3 - prev_ema_3) / prev_ema_3)
-                    output << { date: v[:date], value: trix }
-                    prev_ema_3 = ema_3
-                  end
+              if ema3.size == 2
+                prev_ema3, current_ema3 = ema3
+                trix = ((current_ema3 - prev_ema3) / prev_ema3)
+                output << { date: v[:date], value: trix }
 
-                  ema2.shift
-                end
+                ema3.shift
               end
 
-              ema1.shift
+              ema2.shift
             end
+
+            ema1.shift
           end
 
           period_values.shift
@@ -65,6 +53,17 @@ module TechnicalAnalysis
       end
 
       output
+    end
+
+    def self.process_ema(current_value, data, multiplier, period, store)
+      if store.empty?
+        store << data.sum / period.to_f
+      else
+        prev_value = store.last
+        store << ((multiplier * (current_value - prev_value)) + prev_value)
+      end
+
+      store
     end
 
   end
