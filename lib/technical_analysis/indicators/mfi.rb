@@ -33,8 +33,8 @@ module TechnicalAnalysis
         raw_money_flows << money_flow
 
         if raw_money_flows.size == period
-          positive_period_flows = raw_money_flows.select(&:positive?).sum
-          negative_period_flows = raw_money_flows.select(&:negative?).sum.abs
+          positive_period_flows = raw_money_flows.map { |rmf| rmf.positive? ? rmf : 0 }.sum
+          negative_period_flows = raw_money_flows.map { |rmf| rmf.negative? ? rmf.abs : 0 }.sum
 
           money_flow_ratio = (positive_period_flows / negative_period_flows)
           mfi = (100.00 - (100.00 / (1.0 + money_flow_ratio)))
