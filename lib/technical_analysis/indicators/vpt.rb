@@ -1,11 +1,10 @@
 module TechnicalAnalysis
   class Vpt
 
-    # Calculates the volume-price trend (VPT) for the data over the given period
+    # Calculates the volume-price trend (VPT) for the data
     # https://en.wikipedia.org/wiki/Volume%E2%80%93price_trend
     # 
     # @param data [Array] Array of hashes with keys (:date, :close, :volume)
-    # @param period [Integer] The given period to calculate the VPT
     # @return [Hash] A hash of the results with keys (:date, :value)
     def self.calculate(data)
       Validation.validate_numeric_data(data, :close, :volume)
