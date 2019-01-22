@@ -1,7 +1,7 @@
 module TechnicalAnalysis
   class Fi
 
-    # Calculates the force index (FI) for the data over the given period
+    # Calculates the force index (FI) for the data
     # https://en.wikipedia.org/wiki/Force_index
     # 
     # @param data [Array] Array of hashes with keys (:date, :close, :volume)
