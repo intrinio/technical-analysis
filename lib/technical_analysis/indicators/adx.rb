@@ -21,7 +21,12 @@ module TechnicalAnalysis
       smoothed_values = []
 
       data.each do |v|
-        tr = [(v[:high] - v[:low]), (v[:high] - prev_price[:close]).abs, (v[:low] - prev_price[:close]).abs].max
+        tr = [
+          (v[:high] - v[:low]),
+          (v[:high] - prev_price[:close]).abs,
+          (v[:low] - prev_price[:close]).abs
+        ].max
+
         dm_pos, dm_neg = calculate_dm(v, prev_price)
 
         periodic_values << { tr: tr, dm_pos: dm_pos, dm_neg: dm_neg }
