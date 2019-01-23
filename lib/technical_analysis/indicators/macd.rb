@@ -27,33 +27,18 @@ module TechnicalAnalysis
         period_values << v[price_key]
 
         if period_values.size >= fast_period
-          if prev_fast_ema.nil?
-            fast_ema = period_values.last(fast_period).average
-          else
-            fast_ema = (v[price_key] - prev_fast_ema) * (2.0 / (fast_period + 1.0)) + prev_fast_ema
-          end
-
+          fast_ema = process_ema(v[price_key], period_values, fast_period, prev_fast_ema)
           prev_fast_ema = fast_ema
 
           if period_values.size == slow_period
-            if prev_slow_ema.nil?
-              slow_ema = period_values.average
-            else
-              slow_ema = (v[price_key] - prev_slow_ema) * (2.0 / (slow_period + 1.0)) + prev_slow_ema
-            end
-
+            slow_ema = process_ema(v[price_key], period_values, slow_period, prev_slow_ema)
             prev_slow_ema = slow_ema
 
             macd = fast_ema - slow_ema
             macd_values << macd
             
             if macd_values.size == signal_period
-              if prev_signal.nil?
-                signal = macd_values.average
-              else
-                signal = (macd - prev_signal) * (2.0 / (signal_period + 1.0)) + prev_signal
-              end
-
+              signal = process_ema(macd, macd_values, signal_period, prev_signal)
               prev_signal = signal
 
               output << {
@@ -74,6 +59,14 @@ module TechnicalAnalysis
       end
 
       output
+    end
+
+    def self.process_ema(current_value, data, period, prev_value)
+      if prev_value.nil?
+        data.average
+      else
+        (current_value - prev_value) * (2.0 / (period + 1.0)) + prev_value
+      end
     end
 
   end
