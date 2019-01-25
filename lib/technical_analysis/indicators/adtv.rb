@@ -20,7 +20,7 @@ module TechnicalAnalysis
       data.each do |v|
         period_values << v[volume_key]
         if period_values.size == period
-          output << { date: v[:date], value: period_values.sum / period.to_f }
+          output << { date: v[:date], value: period_values.average }
           period_values.shift
         end
       end

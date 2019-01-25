@@ -33,7 +33,7 @@ module TechnicalAnalysis
         prior_close = close
 
         if obvs.size == period
-          output << { date: v[:date], value: obvs.sum / period.to_f }
+          output << { date: v[:date], value: obvs.average }
           obvs.shift
         end
       end

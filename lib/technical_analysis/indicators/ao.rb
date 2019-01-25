@@ -22,8 +22,8 @@ module TechnicalAnalysis
         midpoint_values << midpoint
 
         if midpoint_values.size == long_period
-          short_period_sma = midpoint_values.last(short_period).sum / short_period.to_f
-          long_period_sma = midpoint_values.sum / long_period.to_f
+          short_period_sma = midpoint_values.last(short_period).average
+          long_period_sma = midpoint_values.average
           value = short_period_sma - long_period_sma
 
           output << { date: v[:date], value: value }

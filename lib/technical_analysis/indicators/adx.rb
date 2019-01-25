@@ -21,11 +21,7 @@ module TechnicalAnalysis
       smoothed_values = []
 
       data.each do |v|
-        tr = [
-          (v[:high] - v[:low]),
-          (v[:high] - prev_price[:close]).abs,
-          (v[:low] - prev_price[:close]).abs
-        ].max
+        tr = StockCalculation.true_range(v[:high], v[:low], prev_price[:close])
 
         dm_pos, dm_neg = calculate_dm(v, prev_price)
 

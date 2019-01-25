@@ -17,7 +17,6 @@ module TechnicalAnalysis
       output = []
       index = period + (period / 2) - 1
       midpoint_index = (period / 2) + 1
-      puts midpoint_index
 
       while index < data.size
         current_record = data[index]
@@ -25,7 +24,7 @@ module TechnicalAnalysis
         current_price = current_record[price_key]
 
         sma_range = (index - midpoint_index - period + 2)..(index - midpoint_index + 1)
-        midpoint_period_sma = data[sma_range].map { |v| v[price_key] }.sum / period.to_f
+        midpoint_period_sma = data[sma_range].map { |v| v[price_key] }.average
 
         dop = (current_price - midpoint_period_sma)
       

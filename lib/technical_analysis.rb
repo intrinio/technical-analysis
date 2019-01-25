@@ -1,5 +1,6 @@
 # Helpers
 require 'technical_analysis/helpers/array'
+require 'technical_analysis/helpers/stock_calculation'
 require 'technical_analysis/helpers/validation'
 
 # Indicators

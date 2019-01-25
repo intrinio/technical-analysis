@@ -29,7 +29,7 @@ module TechnicalAnalysis
           sr_values << sr
 
           if sr_values.size == signal_period
-            signal = sr_values.sum / signal_period.to_f
+            signal = sr_values.average
 
             output << {
               date: v[:date],

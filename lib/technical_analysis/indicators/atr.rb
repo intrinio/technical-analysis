@@ -18,17 +18,13 @@ module TechnicalAnalysis
       prev_price = data.shift
 
       data.each do |v|
-        tr = [
-          (v[:high] - v[:low]),
-          (v[:high] - prev_price[:close]).abs,
-          (v[:low] - prev_price[:close]).abs
-        ].max
+        tr = StockCalculation.true_range(v[:high], v[:low], prev_price[:close])
 
         period_values << tr
 
         if period_values.size == period
           if output.empty?
-            atr = period_values.sum / period.to_f
+            atr = period_values.average
           else
             atr = (output.last[:value] * (period - 1.0) + tr) / period.to_f
           end

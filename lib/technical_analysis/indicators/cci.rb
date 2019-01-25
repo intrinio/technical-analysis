@@ -22,8 +22,8 @@ module TechnicalAnalysis
         typical_prices << typical_price
 
         if typical_prices.size == period
-          period_sma = typical_prices.sum / period.to_f
-          mean_deviation = typical_prices.map { |tp| (tp - period_sma).abs }.sum / period.to_f
+          period_sma = typical_prices.average
+          mean_deviation = typical_prices.map { |tp| (tp - period_sma).abs }.mean
           cci = (typical_price - period_sma) / (constant * mean_deviation)
 
           output << { date: v[:date], value: cci }
