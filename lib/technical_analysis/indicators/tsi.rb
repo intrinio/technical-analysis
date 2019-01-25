@@ -16,8 +16,8 @@ module TechnicalAnalysis
       data = data.sort_by_hash_date_asc # Sort data by descending dates
 
       high_emas = []
-      low_emas = []
       high_multiplier = (2.0 / (high_period + 1.0))
+      low_emas = []
       low_multiplier = (2.0 / (low_period + 1.0))
       momentum_values = []
       output = []

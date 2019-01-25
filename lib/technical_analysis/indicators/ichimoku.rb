@@ -20,8 +20,8 @@ module TechnicalAnalysis
 
       data = data.sort_by_hash_date_asc # Sort data by descending dates
 
-      output = []
       index = high_period + medium_period - 2
+      output = []
 
       while index < data.size
         date = data[index][:date]

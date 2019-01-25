@@ -1,5 +1,6 @@
 module TechnicalAnalysis
   class Sma
+
     # Calculates the simple moving average for the data over the given period
     # https://en.wikipedia.org/wiki/Moving_average#Simple_moving_average
     # 
@@ -15,15 +16,17 @@ module TechnicalAnalysis
       
       output = []
       period_values = []
+
       data.each do |v|
         period_values << v[price_key]
         if period_values.size == period
-          output << {date: v[:date], value: period_values.average }
+          output << { date: v[:date], value: period_values.average }
           period_values.shift
         end
       end
 
       output
     end
+
   end
 end

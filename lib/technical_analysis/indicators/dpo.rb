@@ -14,9 +14,9 @@ module TechnicalAnalysis
 
       data = data.sort_by_hash_date_asc # Sort data by descending dates
 
-      output = []
       index = period + (period / 2) - 1
       midpoint_index = (period / 2) + 1
+      output = []
 
       while index < data.size
         current_record = data[index]

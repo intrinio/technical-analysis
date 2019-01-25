@@ -16,12 +16,12 @@ module TechnicalAnalysis
 
       data = data.sort_by_hash_date_asc # Sort data by descending dates
 
-      prev_fast_ema = nil
-      prev_signal = nil
-      prev_slow_ema = nil
       macd_values = []
       output = []
       period_values = []
+      prev_fast_ema = nil
+      prev_signal = nil
+      prev_slow_ema = nil
 
       data.each do |v|
         period_values << v[price_key]

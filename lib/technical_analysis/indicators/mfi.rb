@@ -14,8 +14,8 @@ module TechnicalAnalysis
       data = data.sort_by_hash_date_asc # Sort data by descending dates
 
       output = []
-      raw_money_flows = []
       prev_typical_price = StockCalculation.typical_price(data.first)
+      raw_money_flows = []
 
       data.shift
 

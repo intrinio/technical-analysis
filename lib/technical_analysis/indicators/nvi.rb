@@ -12,9 +12,9 @@ module TechnicalAnalysis
 
       data = data.sort_by_hash_date_asc # Sort data by descending dates
 
+      nvi_cumulative = 1_000.00
       output = []
       prev_price = data.shift
-      nvi_cumulative = 1_000.00
 
       output << { date: prev_price[:date], value: nvi_cumulative } # Start with default of 1_000
 
