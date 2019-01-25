@@ -7,5 +7,9 @@ class StockCalculation
       (current_low - previous_close).abs
     ].max
   end
+  
+  def self.typical_price(price)
+    (price[:high] + price[:low] + price[:close]) / 3.0
+  end
 
 end

@@ -17,7 +17,7 @@ module TechnicalAnalysis
       period_values = []
 
       data.each do |v|
-        tp = (v[:high] + v[:low] + v[:close]) / 3.0
+        tp = StockCalculation.typical_price(v)
         tr = v[:high] - v[:low]
         period_values << { typical_price: tp, trading_range: tr }
 

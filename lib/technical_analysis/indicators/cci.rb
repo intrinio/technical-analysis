@@ -18,7 +18,7 @@ module TechnicalAnalysis
       typical_prices = []
 
       data.each do |v|
-        typical_price = (v[:high] + v[:low] + v[:close]) / 3
+        typical_price = StockCalculation.typical_price(v)
         typical_prices << typical_price
 
         if typical_prices.size == period

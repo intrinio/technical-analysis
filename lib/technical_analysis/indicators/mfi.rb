@@ -15,12 +15,12 @@ module TechnicalAnalysis
 
       output = []
       raw_money_flows = []
-      prev_typical_price = calc_typical_price(data.first)
+      prev_typical_price = StockCalculation.typical_price(data.first)
 
       data.shift
 
       data.each do |v|
-        typical_price = calc_typical_price(v)
+        typical_price = StockCalculation.typical_price(v)
 
         if typical_price < prev_typical_price
           money_flow = (-1.0 * typical_price * v[:volume])
@@ -48,10 +48,6 @@ module TechnicalAnalysis
       end
 
       output
-    end
-
-    def self.calc_typical_price(price)
-      ((price[:high] + price[:low] + price[:close]) / 3).to_f
     end
 
   end
