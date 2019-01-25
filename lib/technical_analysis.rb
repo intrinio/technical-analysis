@@ -5,6 +5,7 @@ require 'technical_analysis/helpers/validation'
 # Indicators
 require 'technical_analysis/indicators/adi'
 require 'technical_analysis/indicators/adtv'
+require 'technical_analysis/indicators/adx'
 require 'technical_analysis/indicators/ao'
 require 'technical_analysis/indicators/cci'
 require 'technical_analysis/indicators/cr'
