@@ -17,7 +17,6 @@ module TechnicalAnalysis
       ema1 = []
       ema2 = []
       ema3 = []
-      multiplier = (2.0 / (period + 1.0))
       output = []
       period_values = []
 
@@ -26,13 +25,16 @@ module TechnicalAnalysis
         period_values << price
 
         if period_values.size == period
-          ema1 = process_ema(price, period_values, multiplier, period, ema1)
+          ema1_value = StockCalculation.ema(price, period_values, period, ema1.last)
+          ema1 << ema1_value
 
           if ema1.size == period
-            ema2 = process_ema(ema1.last, ema1, multiplier, period, ema2)
+            ema2_value = StockCalculation.ema(ema1_value, ema1, period, ema2.last)
+            ema2 << ema2_value
 
             if ema2.size == period
-              ema3 = process_ema(ema2.last, ema2, multiplier, period, ema3)
+              ema3_value = StockCalculation.ema(ema2_value, ema2, period, ema3.last)
+              ema3 << ema3_value
 
               if ema3.size == 2
                 prev_ema3, current_ema3 = ema3
@@ -53,17 +55,6 @@ module TechnicalAnalysis
       end
 
       output
-    end
-
-    def self.process_ema(current_value, data, multiplier, period, store)
-      if store.empty?
-        store << data.sum / period.to_f
-      else
-        prev_value = store.last
-        store << ((multiplier * (current_value - prev_value)) + prev_value)
-      end
-
-      store
     end
 
   end

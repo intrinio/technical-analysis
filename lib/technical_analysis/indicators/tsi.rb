@@ -54,8 +54,8 @@ module TechnicalAnalysis
 
     def self.process_ema(current_value, data, multiplier, period, store)
       if store.empty?
-        value = data.map { |d| d[:value] }.sum / period.to_f
-        abs_value = data.map { |d| d[:abs_value] }.sum / period.to_f
+        value = data.map { |d| d[:value] }.average
+        abs_value = data.map { |d| d[:abs_value] }.average
       else
         prev_value = store.last
         value = ((multiplier * (current_value[:value] - prev_value[:value])) + prev_value[:value])

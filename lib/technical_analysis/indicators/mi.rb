@@ -16,7 +16,6 @@ module TechnicalAnalysis
 
       double_emas = []
       high_low_diffs = []
-      multiplier = 2.0 / (ema_period + 1.0)
       output = []
       ratio_of_emas = []
       single_emas = []
@@ -26,12 +25,14 @@ module TechnicalAnalysis
         high_low_diffs << high_low_diff
 
         if high_low_diffs.size == ema_period
-          single_emas = process_ema(high_low_diff, high_low_diffs, multiplier, ema_period, single_emas)
+          single_ema = StockCalculation.ema(high_low_diff, high_low_diffs, ema_period, single_emas.last)
+          single_emas << single_ema
 
           if single_emas.size == ema_period
-            double_emas = process_ema(single_emas.last, single_emas, multiplier, ema_period, double_emas)
+            double_ema = StockCalculation.ema(single_emas.last, single_emas, ema_period, double_emas.last)
+            double_emas << double_ema
 
-            ratio_of_emas << (single_emas.last / double_emas.last)
+            ratio_of_emas << (single_ema / double_ema)
 
             if ratio_of_emas.size == sum_period
               output << { date: v[:date], value: ratio_of_emas.sum }
@@ -48,17 +49,6 @@ module TechnicalAnalysis
       end
 
       output
-    end
-
-    def self.process_ema(current_value, data, multiplier, period, store)
-      if store.empty?
-        store << data.sum / period.to_f
-      else
-        prev_value = store.last
-        store << ((multiplier * (current_value - prev_value)) + prev_value)
-      end
-
-      store
     end
 
   end
