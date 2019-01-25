@@ -39,7 +39,7 @@ module TechnicalAnalysis
 
           if dx_values.size == period
             if prev_adx.nil?
-              adx = dx_values.sum / period.to_f
+              adx = dx_values.average
             else
               adx = ((prev_adx * 13) + dx) / period.to_f
             end
