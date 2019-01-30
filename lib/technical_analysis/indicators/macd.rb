@@ -14,7 +14,7 @@ module TechnicalAnalysis
       Validation.validate_numeric_data(data, price_key)
       Validation.validate_length(data, slow_period + signal_period)
 
-      data = data.sort_by_hash_date_asc # Sort data by descending dates
+      data = data.sort_by_hash_date_asc
 
       macd_values = []
       output = []

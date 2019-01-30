@@ -12,7 +12,7 @@ module TechnicalAnalysis
       Validation.validate_numeric_data(data, :high, :low)
       Validation.validate_length(data, (ema_period * 2) + sum_period - 2)
 
-      data = data.sort_by_hash_date_asc # Sort data by descending dates
+      data = data.sort_by_hash_date_asc
 
       double_emas = []
       high_low_diffs = []

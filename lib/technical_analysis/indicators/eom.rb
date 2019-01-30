@@ -11,7 +11,7 @@ module TechnicalAnalysis
       Validation.validate_numeric_data(data, :high, :low, :volume)
       Validation.validate_length(data, period + 1)
 
-      data = data.sort_by_hash_date_asc # Sort data by descending dates
+      data = data.sort_by_hash_date_asc
 
       output = []
       period_values = []

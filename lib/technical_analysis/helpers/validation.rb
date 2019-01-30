@@ -2,7 +2,7 @@ class Validation
 
   def self.validate_numeric_data(data, *keys)
     keys.each do |key|
-      unless data.all? { |v| v[key].is_a? Numeric}
+      unless data.all? { |v| v[key].is_a? Numeric }
         raise ValidationError.new "Invalid Data. '#{key}' is not valid price data."
       end
     end
@@ -13,4 +13,5 @@ class Validation
   end
 
   class ValidationError < StandardError; end
+
 end

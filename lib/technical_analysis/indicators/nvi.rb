@@ -10,7 +10,7 @@ module TechnicalAnalysis
       Validation.validate_numeric_data(data, :close, :volume)
       Validation.validate_length(data, 1)
 
-      data = data.sort_by_hash_date_asc # Sort data by descending dates
+      data = data.sort_by_hash_date_asc
 
       nvi_cumulative = 1_000.00
       output = []

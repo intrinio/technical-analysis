@@ -12,7 +12,7 @@ module TechnicalAnalysis
       Validation.validate_numeric_data(data, price_key)
       Validation.validate_length(data, period + (period / 2))
 
-      data = data.sort_by_hash_date_asc # Sort data by descending dates
+      data = data.sort_by_hash_date_asc
 
       index = period + (period / 2) - 1
       midpoint_index = (period / 2) + 1
