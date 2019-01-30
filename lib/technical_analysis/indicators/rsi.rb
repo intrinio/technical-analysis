@@ -4,15 +4,15 @@ module TechnicalAnalysis
     # Calculates the relative strength index for the data over the given period
     # https://en.wikipedia.org/wiki/Relative_strength_index
     # 
-    # @param data [Array] Array of hashes with keys (:date, :value)
+    # @param data [Array] Array of hashes with keys (:date_time, :value)
     # @param period [Integer] The given period to calculate the RSI
     # @param price_key [Symbol] The hash key for the price data. Default :value
-    # @return [Hash] A hash of the results with keys (:date, :value)
+    # @return [Hash] A hash of the results with keys (:date_time, :value)
     def self.calculate(data, period: 14, price_key: :value)
       Validation.validate_numeric_data(data, price_key)
       Validation.validate_length(data, period + 1)
 
-      data = data.sort_by_hash_date_asc
+      data = data.sort_by_hash_date_time_asc
 
       output = []
       prev_price = data.shift[price_key]
@@ -51,7 +51,7 @@ module TechnicalAnalysis
             rsi = (100.00 - (100.00 / (1.00 + rs)))
           end
 
-          output << { date: v[:date], value: rsi }
+          output << { date_time: v[:date_time], value: rsi }
 
           prev_avg = { gain: avg_gain, loss: avg_loss }
           price_changes.shift

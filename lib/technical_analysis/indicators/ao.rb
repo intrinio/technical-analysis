@@ -4,15 +4,15 @@ module TechnicalAnalysis
     # Calculates the Awesome Oscillator for the data over the given period
     # https://www.tradingview.com/wiki/Awesome_Oscillator_(AO)
     # 
-    # @param data [Array] Array of hashes with keys (:date, :high, :low)
+    # @param data [Array] Array of hashes with keys (:date_time, :high, :low)
     # @param short_period [Integer] The given period to calculate the short period SMA
     # @param long_period [Integer] The given period to calculate the long period SMA
-    # @return [Hash] A hash of the results with keys (:date, :value)
+    # @return [Hash] A hash of the results with keys (:date_time, :value)
     def self.calculate(data, short_period: 5, long_period: 34)
       Validation.validate_numeric_data(data, :high, :low)
       Validation.validate_length(data, long_period)
 
-      data = data.sort_by_hash_date_asc
+      data = data.sort_by_hash_date_time_asc
 
       midpoint_values = []
       output = []
@@ -26,7 +26,7 @@ module TechnicalAnalysis
           long_period_sma = midpoint_values.average
           value = short_period_sma - long_period_sma
 
-          output << { date: v[:date], value: value }
+          output << { date_time: v[:date_time], value: value }
 
           midpoint_values.shift
         end

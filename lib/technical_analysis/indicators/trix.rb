@@ -4,15 +4,15 @@ module TechnicalAnalysis
     # Calculates the triple exponential average (Trix) for the data over the given period
     # https://en.wikipedia.org/wiki/Trix_(technical_analysis)
     # 
-    # @param data [Array] Array of hashes with keys (:date, :value)
+    # @param data [Array] Array of hashes with keys (:date_time, :value)
     # @param period [Integer] The given period to calculate the EMA for Trix
     # @param price_key [Symbol] The hash key for the price data. Default :value
-    # @return [Hash] A hash of the results with keys (:date, :value)
+    # @return [Hash] A hash of the results with keys (:date_time, :value)
     def self.calculate(data, period: 15, price_key: :value)
       Validation.validate_numeric_data(data, price_key)
       Validation.validate_length(data, ((period * 3) - 1))
 
-      data = data.sort_by_hash_date_asc
+      data = data.sort_by_hash_date_time_asc
 
       ema1 = []
       ema2 = []
@@ -39,7 +39,7 @@ module TechnicalAnalysis
               if ema3.size == 2
                 prev_ema3, current_ema3 = ema3
                 trix = ((current_ema3 - prev_ema3) / prev_ema3)
-                output << { date: v[:date], value: trix }
+                output << { date_time: v[:date_time], value: trix }
 
                 ema3.shift
               end

@@ -4,16 +4,16 @@ module TechnicalAnalysis
     # Calculates the true strenth index for the data over the given period
     # https://en.wikipedia.org/wiki/True_strength_index
     # 
-    # @param data [Array] Array of hashes with keys (:date, :value)
+    # @param data [Array] Array of hashes with keys (:date_time, :value)
     # @param high_period [Integer] The given high period to calculate the EMA
     # @param low_period [Integer] The given low period to calculate the EMA
     # @param price_key [Symbol] The hash key for the price data. Default :value
-    # @return [Hash] A hash of the results with keys (:date, :value)
+    # @return [Hash] A hash of the results with keys (:date_time, :value)
     def self.calculate(data, low_period: 13, high_period: 25, price_key: :value)
       Validation.validate_numeric_data(data, price_key)
       Validation.validate_length(data, low_period + high_period)
 
-      data = data.sort_by_hash_date_asc
+      data = data.sort_by_hash_date_time_asc
 
       high_emas = []
       high_multiplier = (2.0 / (high_period + 1.0))
@@ -37,7 +37,7 @@ module TechnicalAnalysis
             low_ema = process_ema(high_emas.last, high_emas, low_multiplier, low_period, low_emas)
             low_emas << low_ema
 
-            output << { date: v[:date], value: ((100 * (low_ema[:value] / low_ema[:abs_value]))) }
+            output << { date_time: v[:date_time], value: ((100 * (low_ema[:value] / low_ema[:abs_value]))) }
 
             low_emas.shift if low_emas.size > 1 # Only need to retain the last low_ema
             high_emas.shift

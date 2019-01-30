@@ -9,22 +9,22 @@ module TechnicalAnalysis
     #   5. chickou_span  (Lagging Span)
     # https://en.wikipedia.org/wiki/Ichimoku_Kink%C5%8D_Hy%C5%8D
     # 
-    # @param data [Array] Array of hashes with keys (:date, :high, :low, :close)
+    # @param data [Array] Array of hashes with keys (:date_time, :high, :low, :close)
     # @param low_period [Integer] The given period to calculate tenkan_sen (Conversion Line)
     # @param medium_period [Integer] The given period to calculate kijun_sen (Base Line), senkou_span_a (Leading Span A), and chikou_span (Lagging Span)
     # @param high_period [Integer] The given period to calculate senkou_span_b (Leadning Span B)
-    # @return [Hash] A hash of the results with keys (:date, :value)
+    # @return [Hash] A hash of the results with keys (:date_time, :value)
     def self.calculate(data, low_period: 9, medium_period: 26, high_period: 52)
       Validation.validate_numeric_data(data, :high, :low, :close)
       Validation.validate_length(data, high_period + medium_period - 2)
 
-      data = data.sort_by_hash_date_asc
+      data = data.sort_by_hash_date_time_asc
 
       index = high_period + medium_period - 2
       output = []
 
       while index < data.size
-        date = data[index][:date]
+        date_time = data[index][:date_time]
 
         tenkan_sen = calculate_midpoint(index, low_period, data)
         kinjun_sen = calculate_midpoint(index, medium_period, data)
@@ -33,7 +33,7 @@ module TechnicalAnalysis
         chikou_span = calculate_chikou_span(index, medium_period, data)
 
         output << {
-          date: date,
+          date_time: date_time,
           value: {
             tenkan_sen: tenkan_sen,
             kijun_sen: kinjun_sen,

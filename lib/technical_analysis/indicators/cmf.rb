@@ -4,14 +4,14 @@ module TechnicalAnalysis
     # Calculates the chaikin money flow (CMF) for the data over the given period
     # https://stockcharts.com/school/doku.php?id=chart_school:technical_indicators:chaikin_money_flow_cmf
     # 
-    # @param data [Array] Array of hashes with keys (:date, :high, :low, :close, :volume)
+    # @param data [Array] Array of hashes with keys (:date_time, :high, :low, :close, :volume)
     # @param period [Integer] The given period to calculate the CMF
-    # @return [Hash] A hash of the results with keys (:date, :value)
+    # @return [Hash] A hash of the results with keys (:date_time, :value)
     def self.calculate(data, period: 20)
       Validation.validate_numeric_data(data, :high, :low, :close, :volume)
       Validation.validate_length(data, period)
 
-      data = data.sort_by_hash_date_asc
+      data = data.sort_by_hash_date_time_asc
 
       output = []
       period_values = []
@@ -27,7 +27,7 @@ module TechnicalAnalysis
           mf_volume_sum = period_values.map { |pv| pv[:mf_volume] }.sum
           cmf = mf_volume_sum / volume_sum
 
-          output << { date: v[:date], value: cmf }
+          output << { date_time: v[:date_time], value: cmf }
           period_values.shift
         end
       end

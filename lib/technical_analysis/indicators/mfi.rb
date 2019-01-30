@@ -4,14 +4,14 @@ module TechnicalAnalysis
     # Calculates the money flow index (MFI) for the data over the given period
     # https://en.wikipedia.org/wiki/Money_flow_index
     # 
-    # @param data [Array] Array of hashes with keys (:date, :high, :low, :close, :volume)
+    # @param data [Array] Array of hashes with keys (:date_time, :high, :low, :close, :volume)
     # @param period [Integer] The given period to calculate the MFI
-    # @return [Hash] A hash of the results with keys (:date, :value)
+    # @return [Hash] A hash of the results with keys (:date_time, :value)
     def self.calculate(data, period: 14)
       Validation.validate_numeric_data(data, :high, :low, :close, :volume)
       Validation.validate_length(data, period + 1)
 
-      data = data.sort_by_hash_date_asc
+      data = data.sort_by_hash_date_time_asc
 
       output = []
       prev_typical_price = StockCalculation.typical_price(data.first)
@@ -39,7 +39,7 @@ module TechnicalAnalysis
           money_flow_ratio = (positive_period_flows / negative_period_flows)
           mfi = (100.00 - (100.00 / (1.0 + money_flow_ratio)))
 
-          output << { date: v[:date], value: mfi }
+          output << { date_time: v[:date_time], value: mfi }
 
           raw_money_flows.shift
         end

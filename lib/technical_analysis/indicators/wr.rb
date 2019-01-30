@@ -4,14 +4,14 @@ module TechnicalAnalysis
     # Calculates the Williams %R for the data over the given period
     # https://en.wikipedia.org/wiki/Williams_%25R
     # 
-    # @param data [Array] Array of hashes with keys (:date, :high, :low, :close)
+    # @param data [Array] Array of hashes with keys (:date_time, :high, :low, :close)
     # @param period [Integer] The given look-back period to calculate the Williams %R
-    # @return [Hash] A hash of the results with keys (:date, :value)
+    # @return [Hash] A hash of the results with keys (:date_time, :value)
     def self.calculate(data, period: 14)
       Validation.validate_numeric_data(data, :high, :low, :close)
       Validation.validate_length(data, period)
 
-      data = data.sort_by_hash_date_asc
+      data = data.sort_by_hash_date_time_asc
 
       output = []
       period_values = []
@@ -25,7 +25,7 @@ module TechnicalAnalysis
 
           wr = (highest_high - v[:close]) / (highest_high - lowest_low) * -100
 
-          output << { date: v[:date], value: wr }
+          output << { date_time: v[:date_time], value: wr }
 
           period_values.shift
         end

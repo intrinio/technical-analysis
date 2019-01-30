@@ -4,14 +4,14 @@ module TechnicalAnalysis
     # Calculates the stochastic oscillator (%K) for the data over the given period
     # https://en.wikipedia.org/wiki/Stochastic_oscillator
     # 
-    # @param data [Array] Array of hashes with keys (:date, :high, :low, :close)
+    # @param data [Array] Array of hashes with keys (:date_time, :high, :low, :close)
     # @param period [Integer] The given period to calculate the SR
-    # @return [Array] Array of hashes with keys(:date, :value)
+    # @return [Array] Array of hashes with keys(:date_time, :value)
     def self.calculate(data, period: 14, signal_period: 3)
       Validation.validate_numeric_data(data, :high, :low, :close)
       Validation.validate_length(data, period + signal_period - 1)
 
-      data = data.sort_by_hash_date_asc
+      data = data.sort_by_hash_date_time_asc
 
       high_low_values = []
       output = []
@@ -32,7 +32,7 @@ module TechnicalAnalysis
             signal = sr_values.average
 
             output << {
-              date: v[:date],
+              date_time: v[:date_time],
               value: {
                 sr: sr,
                 sr_signal: signal

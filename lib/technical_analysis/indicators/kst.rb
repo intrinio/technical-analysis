@@ -4,7 +4,7 @@ module TechnicalAnalysis
     # Calculates the know sure thing for the data over the given period
     # https://en.wikipedia.org/wiki/KST_oscillator
     # 
-    # @param data [Array] Array of hashes with keys (:date, :value)
+    # @param data [Array] Array of hashes with keys (:date_time, :value)
     # @param roc1 [Integer] The given period to calculate the rate-of-change for RCMA1
     # @param roc2 [Integer] The given period to calculate the rate-of-change for RCMA2
     # @param roc3 [Integer] The given period to calculate the rate-of-change for RCMA3
@@ -14,18 +14,18 @@ module TechnicalAnalysis
     # @param sma3 [Integer] The given period to calculate the SMA of the rate-of-change for RCMA3
     # @param sma4 [Integer] The given period to calculate the SMA of the rate-of-change for RCMA4
     # @param price_key [Symbol] The hash key for the price data. Default :value
-    # @return [Hash] A hash of the results with keys (:date, :value)
+    # @return [Hash] A hash of the results with keys (:date_time, :value)
     def self.calculate(data, roc1: 10, roc2: 15, roc3: 20, roc4: 30, sma1: 10, sma2: 10, sma3: 10, sma4: 15, price_key: :value)
       Validation.validate_numeric_data(data, price_key)
       Validation.validate_length(data, roc4 + sma4 - 1)
 
-      data = data.sort_by_hash_date_asc
+      data = data.sort_by_hash_date_time_asc
 
       index = roc4 + sma4 - 2
       output = []
 
       while index < data.size
-        date = data[index][:date] 
+        date_time = data[index][:date_time] 
         rcma1 = calculate_rcma(data, index, price_key, roc1, sma1)
         rcma2 = calculate_rcma(data, index, price_key, roc2, sma2)
         rcma3 = calculate_rcma(data, index, price_key, roc3, sma3)
@@ -33,7 +33,7 @@ module TechnicalAnalysis
 
         kst = (1 * rcma1) + (2 * rcma2) + (3 * rcma3) + (4 * rcma4)
 
-        output << { date: date, value: kst }
+        output << { date_time: date_time, value: kst }
         index += 1
       end
 

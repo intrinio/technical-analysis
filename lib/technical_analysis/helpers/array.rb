@@ -18,12 +18,12 @@ class Array
     Math.sqrt(self.sample_variance)
   end
 
-  def sort_by_hash_date_asc
-    self.sort_by { |row| row[:date] }
+  def sort_by_hash_date_time_asc
+    self.sort_by { |row| row[:date_time] }
   end
 
-  def sort_by_hash_date_desc
-    sort_by_hash_date_asc.reverse
+  def sort_by_hash_date_time_desc
+    sort_by_hash_date_time_asc.reverse
   end
 
   alias_method :average, :mean

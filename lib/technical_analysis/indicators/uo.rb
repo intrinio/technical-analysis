@@ -4,19 +4,19 @@ module TechnicalAnalysis
     # Calculates the ultimate oscillator for the data over the given period
     # https://en.wikipedia.org/wiki/Ultimate_oscillator
     # 
-    # @param data [Array] Array of hashes with keys (:date, :high, :low, :close)
+    # @param data [Array] Array of hashes with keys (:date_time, :high, :low, :close)
     # @param short_period [Integer] The given short period 
     # @param medium_period [Integer] The given medium period 
     # @param long_period [Integer] The given long period 
     # @param short_weight [Float] Weight of short Buying Pressure average for UO
     # @param medium_weight [Float] Weight of medium Buying Pressure average for UO
     # @param long_weight [Float] Weight of long Buying Pressure average for UO
-    # @return [Hash] A hash of the results with keys (:date, :value)
+    # @return [Hash] A hash of the results with keys (:date_time, :value)
     def self.calculate(data, short_period: 7, medium_period: 14, long_period: 28, short_weight: 4, medium_weight: 2, long_weight: 1)
       Validation.validate_numeric_data(data, :high, :low, :close)
       Validation.validate_length(data, long_period + 1)
 
-      data = data.sort_by_hash_date_asc
+      data = data.sort_by_hash_date_time_asc
 
       output = []
       period_values = []
@@ -38,7 +38,7 @@ module TechnicalAnalysis
           long_average = calculate_average(long_period, period_values)
           uo = 100 * (((short_weight * short_average) + (medium_weight * medium_average) + (long_weight * long_average)) / (sum_of_weights))
 
-          output << { date: v[:date], value: uo }
+          output << { date_time: v[:date_time], value: uo }
 
           period_values.shift
         end

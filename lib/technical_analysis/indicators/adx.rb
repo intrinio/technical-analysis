@@ -4,14 +4,14 @@ module TechnicalAnalysis
     # Calculates the average directional index (ADX) for the data over the given period
     # https://en.wikipedia.org/wiki/Average_directional_movement_index
     # 
-    # @param data [Array] Array of hashes with keys (:date, :value)
+    # @param data [Array] Array of hashes with keys (:date_time, :value)
     # @param period [Integer] The given period to calculate the ADX
-    # @return [Hash] A hash of the results with keys (:date, :value)
+    # @return [Hash] A hash of the results with keys (:date_time, :value)
     def self.calculate(data, period: 14)
       Validation.validate_numeric_data(data, :high, :low, :close)
       Validation.validate_length(data, period * 2)
 
-      data = data.sort_by_hash_date_asc
+      data = data.sort_by_hash_date_time_asc
   
       dx_values = []
       output = []
@@ -45,7 +45,7 @@ module TechnicalAnalysis
             end
 
             output << {
-              date: v[:date],
+              date_time: v[:date_time],
               value: {
                 adx: adx,
                 di_pos: di_pos,
