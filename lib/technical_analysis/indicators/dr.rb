@@ -1,9 +1,13 @@
 module TechnicalAnalysis
-  class Dr
+  class Dr < Indicator
+
+    def self.symbol
+      "dr"
+    end
 
     # Calculates the daily return (percent expressed as a decimal) for the data over the given period
     # https://en.wikipedia.org/wiki/Rate_of_return
-    # 
+    #
     # @param data [Array] Array of hashes with keys (:date_time, :value)
     # @param price_key [Symbol] The hash key for the price data. Default :value
     # @return [Hash] A hash of the results with keys (:date_time, :value)

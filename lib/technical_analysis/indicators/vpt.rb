@@ -1,9 +1,13 @@
 module TechnicalAnalysis
-  class Vpt
+  class Vpt < Indicator
+
+    def self.symbol
+      "vpt"
+    end
 
     # Calculates the volume-price trend (VPT) for the data
     # https://en.wikipedia.org/wiki/Volume%E2%80%93price_trend
-    # 
+    #
     # @param data [Array] Array of hashes with keys (:date_time, :close, :volume)
     # @return [Hash] A hash of the results with keys (:date_time, :value)
     def self.calculate(data)

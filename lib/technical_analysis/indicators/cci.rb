@@ -1,9 +1,13 @@
 module TechnicalAnalysis
-  class Cci
+  class Cci < Indicator
+
+    def self.symbol
+      "cci"
+    end
 
     # Calculates the commodity channel index for the data over the given period
     # https://en.wikipedia.org/wiki/Commodity_channel_index
-    # 
+    #
     # @param data [Array] Array of hashes with keys (:date_time, :high, :low, :close)
     # @param period [Integer] The given period to calculate the CCI
     # @param constant [Float] The given constant to ensure that approximately 70 to 80 percent of CCI values would fall between −100 and +100

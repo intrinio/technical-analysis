@@ -1,9 +1,13 @@
 module TechnicalAnalysis
-  class Wr
+  class Wr < Indicator
+
+    def self.symbol
+      "wr"
+    end
 
     # Calculates the Williams %R for the data over the given period
     # https://en.wikipedia.org/wiki/Williams_%25R
-    # 
+    #
     # @param data [Array] Array of hashes with keys (:date_time, :high, :low, :close)
     # @param period [Integer] The given look-back period to calculate the Williams %R
     # @return [Hash] A hash of the results with keys (:date_time, :value)

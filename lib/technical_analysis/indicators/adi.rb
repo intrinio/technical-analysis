@@ -1,9 +1,13 @@
 module TechnicalAnalysis
-  class Adi
+  class Adi < Indicator
+
+    def self.symbol
+      "adi"
+    end
 
     # Calculates the Accumulation/Distribution Index for the given data
     # https://en.wikipedia.org/wiki/Accumulation/distribution_index
-    # 
+    #
     # @param data [Array] Array of hashes with keys (:date_time, :high, :low, :close, :volume)
     # @return [Hash] A hash of the results with keys (:date_time, :value)
     def self.calculate(data)

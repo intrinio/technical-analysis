@@ -1,9 +1,13 @@
 module TechnicalAnalysis
-  class Adtv
+  class Adtv < Indicator
+
+    def self.symbol
+      "adtv"
+    end
 
     # Calculates the average daily trading volume (ADTV) for the data over the given period
     # https://www.investopedia.com/terms/a/averagedailytradingvolume.asp
-    # 
+    #
     # @param data [Array] Array of hashes with keys (:date_time, :value)
     # @param period [Integer] The given number of days used to calculate the ADTV
     # @param volume_key [Symbol] The hash key for the volume data. Default :value

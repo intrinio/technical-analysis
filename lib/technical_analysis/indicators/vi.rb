@@ -1,9 +1,13 @@
 module TechnicalAnalysis
-  class Vi
+  class Vi < Indicator
+
+    def self.symbol
+      "vi"
+    end
 
     # Calculates the vortex indicatorfor the data over the given period
     # https://en.wikipedia.org/wiki/Vortex_indicator
-    # 
+    #
     # @param data [Array] Array of hashes with keys (:date_time, :high, :low, :close)
     # @param period [Integer] The given period to calculate the VI
     # @return [Hash] A hash of the results with keys (:date_time, :value)

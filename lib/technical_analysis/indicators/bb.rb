@@ -1,9 +1,13 @@
 module TechnicalAnalysis
-  class Bb
+  class Bb < Indicator
+
+    def self.symbol
+      "bb"
+    end
 
     # Calculates the bollinger bands (BB) for the data over the given period
     # https://en.wikipedia.org/wiki/Bollinger_Bands
-    # 
+    #
     # @param data [Array] Array of hashes with keys (:date_time, :value)
     # @param period [Integer] The given period to calculate the BB
     # @param standard_deviations [Integer] The given standard deviations to calculate the upper and lower bands of the BB

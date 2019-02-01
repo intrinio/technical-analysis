@@ -1,9 +1,13 @@
 module TechnicalAnalysis
-  class Sr
+  class Sr < Indicator
+
+    def self.symbol
+      "sr"
+    end
 
     # Calculates the stochastic oscillator (%K) for the data over the given period
     # https://en.wikipedia.org/wiki/Stochastic_oscillator
-    # 
+    #
     # @param data [Array] Array of hashes with keys (:date_time, :high, :low, :close)
     # @param period [Integer] The given period to calculate the SR
     # @return [Array] Array of hashes with keys(:date_time, :value)

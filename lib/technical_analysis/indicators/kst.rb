@@ -1,9 +1,13 @@
 module TechnicalAnalysis
-  class Kst
+  class Kst < Indicator
+
+    def self.symbol
+      "kst"
+    end
 
     # Calculates the know sure thing for the data over the given period
     # https://en.wikipedia.org/wiki/KST_oscillator
-    # 
+    #
     # @param data [Array] Array of hashes with keys (:date_time, :value)
     # @param roc1 [Integer] The given period to calculate the rate-of-change for RCMA1
     # @param roc2 [Integer] The given period to calculate the rate-of-change for RCMA2

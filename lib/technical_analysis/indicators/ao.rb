@@ -1,9 +1,13 @@
 module TechnicalAnalysis
-  class Ao
+  class Ao < Indicator
+
+    def self.symbol
+      "ao"
+    end
 
     # Calculates the Awesome Oscillator for the data over the given period
     # https://www.tradingview.com/wiki/Awesome_Oscillator_(AO)
-    # 
+    #
     # @param data [Array] Array of hashes with keys (:date_time, :high, :low)
     # @param short_period [Integer] The given period to calculate the short period SMA
     # @param long_period [Integer] The given period to calculate the long period SMA

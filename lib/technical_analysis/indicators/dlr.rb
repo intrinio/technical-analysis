@@ -1,10 +1,14 @@
 module TechnicalAnalysis
-  class Dlr
+  class Dlr < Indicator
+
+    def self.symbol
+      "dlr"
+    end
 
     # Calculates the daily log return (percent expressed as a decimal) for the data over the given period
     # https://www.quora.com/What-are-daily-log-returns-of-an-equity
     # https://en.wikipedia.org/wiki/Rate_of_return#Logarithmic_or_continuously_compounded_return
-    # 
+    #
     # @param data [Array] Array of hashes with keys (:date_time, :value)
     # @param price_key [Symbol] The hash key for the price data. Default :value
     # @return [Hash] A hash of the results with keys (:date_time, :value)

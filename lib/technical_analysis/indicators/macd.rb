@@ -1,9 +1,13 @@
 module TechnicalAnalysis
-  class Macd
+  class Macd < Indicator
+
+    def self.symbol
+      "macd"
+    end
 
     # Calculates the moving average convergence divergence (MACD) for the data over the given period
     # https://en.wikipedia.org/wiki/MACD
-    # 
+    #
     # @param data [Array] Array of hashes with keys (:date_time, :value)
     # @param fast_period [Integer] The given period to calculate the fast moving EMA for MACD
     # @param slow_period [Integer] The given period to calculate the slow moving EMA for MACD

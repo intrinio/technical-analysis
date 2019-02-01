@@ -1,9 +1,13 @@
 module TechnicalAnalysis
-  class Nvi
+  class Nvi < Indicator
+
+    def self.symbol
+      "nvi"
+    end
 
     # Calculates the negative volume index (NVI) for the data
     # https://en.wikipedia.org/wiki/Negative_volume_index
-    # 
+    #
     # @param data [Array] Array of hashes with keys (:date_time, :close, :volume)
     # @return [Hash] A hash of the results with keys (:date_time, :value)
     def self.calculate(data)

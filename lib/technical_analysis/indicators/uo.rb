@@ -1,9 +1,13 @@
 module TechnicalAnalysis
-  class Uo
+  class Uo < Indicator
+
+    def self.symbol
+      "uo"
+    end
 
     # Calculates the ultimate oscillator for the data over the given period
     # https://en.wikipedia.org/wiki/Ultimate_oscillator
-    # 
+    #
     # @param data [Array] Array of hashes with keys (:date_time, :high, :low, :close)
     # @param short_period [Integer] The given short period 
     # @param medium_period [Integer] The given medium period 

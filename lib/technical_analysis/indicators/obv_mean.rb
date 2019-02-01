@@ -1,9 +1,13 @@
 module TechnicalAnalysis
-  class ObvMean
+  class ObvMean < Indicator
+
+    def self.symbol
+      "obv_mean"
+    end
 
     # Calculates the on-balance volume mean (OBV mean) for the data over the given period
     # https://en.wikipedia.org/wiki/On-balance_volume
-    # 
+    #
     # @param data [Array] Array of hashes with keys (:date_time, :close, :volume)
     # @param period [Integer] The given period to calculate the OBV mean
     # @return [Hash] A hash of the results with keys (:date_time, :value)

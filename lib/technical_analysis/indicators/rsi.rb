@@ -1,9 +1,13 @@
 module TechnicalAnalysis
-  class Rsi
+  class Rsi < Indicator
+
+    def self.symbol
+      "rsi"
+    end
 
     # Calculates the relative strength index for the data over the given period
     # https://en.wikipedia.org/wiki/Relative_strength_index
-    # 
+    #
     # @param data [Array] Array of hashes with keys (:date_time, :value)
     # @param period [Integer] The given period to calculate the RSI
     # @param price_key [Symbol] The hash key for the price data. Default :value

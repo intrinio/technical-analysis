@@ -1,5 +1,9 @@
 module TechnicalAnalysis
-  class Ichimoku
+  class Ichimoku < Indicator
+
+    def self.symbol
+      "ichimoku"
+    end
 
     # Calculates the 5 points of Ichimoku Kinko Hyo (Ichimooku) for the data over the given period
     #   1. tenkan_sen    (Conversion Line)
@@ -8,7 +12,7 @@ module TechnicalAnalysis
     #   4. senkou_span_b (Leading Span B)
     #   5. chickou_span  (Lagging Span)
     # https://en.wikipedia.org/wiki/Ichimoku_Kink%C5%8D_Hy%C5%8D
-    # 
+    #
     # @param data [Array] Array of hashes with keys (:date_time, :high, :low, :close)
     # @param low_period [Integer] The given period to calculate tenkan_sen (Conversion Line)
     # @param medium_period [Integer] The given period to calculate kijun_sen (Base Line), senkou_span_a (Leading Span A), and chikou_span (Lagging Span)

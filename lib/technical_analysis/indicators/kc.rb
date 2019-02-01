@@ -1,9 +1,13 @@
 module TechnicalAnalysis
-  class Kc
+  class Kc < Indicator
+
+    def self.symbol
+      "kc"
+    end
 
     # Calculates the keltner channel (KC) for the data over the given period
     # https://en.wikipedia.org/wiki/Keltner_channel
-    # 
+    #
     # @param data [Array] Array of hashes with keys (:date_time, :high, :low, :close)
     # @param period [Integer] The given period to calculate the KC
     # @return [Hash] A hash of the results with keys (:date_time, :value)

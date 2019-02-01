@@ -1,9 +1,13 @@
 module TechnicalAnalysis
-  class Cr
+  class Cr < Indicator
+
+    def self.symbol
+      "cr"
+    end
 
     # Calculates the cumulative return for the data over the given period
     # https://www.investopedia.com/terms/c/cumulativereturn.asp
-    # 
+    #
     # @param data [Array] Array of hashes with keys (:date_time, :value)
     # @param price_key [Symbol] The hash key for the price data. Default :value
     # @return [Hash] A hash of the results with keys (:date_time, :value)

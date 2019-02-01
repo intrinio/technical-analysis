@@ -1,9 +1,13 @@
 module TechnicalAnalysis
-  class Trix
+  class Trix < Indicator
+
+    def self.symbol
+      "trix"
+    end
 
     # Calculates the triple exponential average (Trix) for the data over the given period
     # https://en.wikipedia.org/wiki/Trix_(technical_analysis)
-    # 
+    #
     # @param data [Array] Array of hashes with keys (:date_time, :value)
     # @param period [Integer] The given period to calculate the EMA for Trix
     # @param price_key [Symbol] The hash key for the price data. Default :value

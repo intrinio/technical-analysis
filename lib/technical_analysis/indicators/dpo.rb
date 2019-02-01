@@ -1,9 +1,13 @@
 module TechnicalAnalysis
-  class Dpo
+  class Dpo < Indicator
+
+    def self.symbol
+      "dpo"
+    end
 
     # Calculates the detrended price oscillator for the data over the given period
     # https://en.wikipedia.org/wiki/Detrended_price_oscillator
-    # 
+    #
     # @param data [Array] Array of hashes with keys (:date_time, :value)
     # @param period [Integer] The given period to calculate the SMA
     # @param price_key [Symbol] The hash key for the price data. Default :value

@@ -1,9 +1,13 @@
 module TechnicalAnalysis
-  class Tsi
+  class Tsi < Indicator
+
+    def self.symbol
+      "tsi"
+    end
 
     # Calculates the true strenth index for the data over the given period
     # https://en.wikipedia.org/wiki/True_strength_index
-    # 
+    #
     # @param data [Array] Array of hashes with keys (:date_time, :value)
     # @param high_period [Integer] The given high period to calculate the EMA
     # @param low_period [Integer] The given low period to calculate the EMA

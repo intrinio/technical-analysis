@@ -1,9 +1,13 @@
 module TechnicalAnalysis
-  class Mi
+  class Mi < Indicator
+
+    def self.symbol
+      "mi"
+    end
 
     # Calculates the mass index (MI) for the data over the given period
     # https://en.wikipedia.org/wiki/Mass_index
-    # 
+    #
     # @param data [Array] Array of hashes with keys (:date_time, :high, :low)
     # @param ema_period [Integer] The given period to calculate the EMA and EMA of EMA
     # @param period [Integer] The given period to calculate the MI

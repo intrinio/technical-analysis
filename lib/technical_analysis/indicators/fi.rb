@@ -1,9 +1,13 @@
 module TechnicalAnalysis
-  class Fi
+  class Fi < Indicator
+
+    def self.symbol
+      "fi"
+    end
 
     # Calculates the force index (FI) for the data
     # https://en.wikipedia.org/wiki/Force_index
-    # 
+    #
     # @param data [Array] Array of hashes with keys (:date_time, :close, :volume)
     # @return [Hash] A hash of the results with keys (:date_time, :value)
     def self.calculate(data)

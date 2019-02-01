@@ -1,9 +1,13 @@
 module TechnicalAnalysis
-  class Atr
+  class Atr < Indicator
+
+    def self.symbol
+      "atr"
+    end
 
     # Calculates the average true range (ATR) for the data over the given period
     # https://en.wikipedia.org/wiki/Average_true_range
-    # 
+    #
     # @param data [Array] Array of hashes with keys (:date_time, :high, :low, :close)
     # @param period [Integer] The given period to calculate the ATR
     # @return [Hash] A hash of the results with keys (:date_time, :value)

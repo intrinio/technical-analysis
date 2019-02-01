@@ -1,9 +1,13 @@
 module TechnicalAnalysis
-  class Eom
+  class Eom < Indicator
+
+    def self.symbol
+      "eom"
+    end
 
     # Calculates the ease of movement (EoM and EVM) for the data over the given period
     # https://en.wikipedia.org/wiki/Ease_of_movement
-    # 
+    #
     # @param data [Array] Array of hashes with keys (:date_time, :high, :low, :volume)
     # @param period [Integer] The given period to calculate the Eom / EVM
     # @return [Hash] A hash of the results with keys (:date_time, :value)

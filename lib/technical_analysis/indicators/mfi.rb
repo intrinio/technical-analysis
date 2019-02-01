@@ -1,9 +1,13 @@
 module TechnicalAnalysis
-  class Mfi
+  class Mfi < Indicator
+
+    def self.symbol
+      "mfi"
+    end
 
     # Calculates the money flow index (MFI) for the data over the given period
     # https://en.wikipedia.org/wiki/Money_flow_index
-    # 
+    #
     # @param data [Array] Array of hashes with keys (:date_time, :high, :low, :close, :volume)
     # @param period [Integer] The given period to calculate the MFI
     # @return [Hash] A hash of the results with keys (:date_time, :value)

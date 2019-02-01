@@ -1,9 +1,13 @@
 module TechnicalAnalysis
-  class Cmf
+  class Cmf < Indicator
+
+    def self.symbol
+      "cmf"
+    end
 
     # Calculates the chaikin money flow (CMF) for the data over the given period
     # https://stockcharts.com/school/doku.php?id=chart_school:technical_indicators:chaikin_money_flow_cmf
-    # 
+    #
     # @param data [Array] Array of hashes with keys (:date_time, :high, :low, :close, :volume)
     # @param period [Integer] The given period to calculate the CMF
     # @return [Hash] A hash of the results with keys (:date_time, :value)
