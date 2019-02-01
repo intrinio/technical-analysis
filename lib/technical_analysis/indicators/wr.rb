@@ -1,19 +1,23 @@
 module TechnicalAnalysis
   class Wr < Indicator
 
-    def self.symbol
+    def self.indicator_symbol
       "wr"
+    end
+
+    def self.indicator_name
+      "Williams %R"
     end
 
     def self.min_data_size(period: 14)
       period
     end
 
-    # Calculates the Williams %R for the data over the given period
+    # Calculates the Williams %R (WR) for the data over the given period
     # https://en.wikipedia.org/wiki/Williams_%25R
     #
     # @param data [Array] Array of hashes with keys (:date_time, :high, :low, :close)
-    # @param period [Integer] The given look-back period to calculate the Williams %R
+    # @param period [Integer] The given look-back period to calculate the WR
     # @return [Hash] A hash of the results with keys (:date_time, :value)
     def self.calculate(data, period: 14)
       Validation.validate_numeric_data(data, :high, :low, :close)

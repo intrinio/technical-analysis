@@ -1,8 +1,12 @@
 module TechnicalAnalysis
   class Adi < Indicator
 
-    def self.symbol
+    def self.indicator_symbol
       "adi"
+    end
+
+    def self.indicator_name
+      "Accumulation/Distribution Index"
     end
 
     def self.min_data_size(**params)

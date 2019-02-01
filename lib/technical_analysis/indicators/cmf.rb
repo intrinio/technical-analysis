@@ -1,8 +1,12 @@
 module TechnicalAnalysis
   class Cmf < Indicator
 
-    def self.symbol
+    def self.indicator_symbol
       "cmf"
+    end
+
+    def self.indicator_name
+      "Chaikin Money Flow"
     end
 
     def self.min_data_size(period: 20)

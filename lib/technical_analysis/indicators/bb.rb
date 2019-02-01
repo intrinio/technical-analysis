@@ -1,8 +1,12 @@
 module TechnicalAnalysis
   class Bb < Indicator
 
-    def self.symbol
+    def self.indicator_symbol
       "bb"
+    end
+
+    def self.indicator_name
+      "Bollinger Bands"
     end
 
     def self.min_data_size(period: 20, **params)

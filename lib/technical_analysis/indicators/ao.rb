@@ -1,15 +1,19 @@
 module TechnicalAnalysis
   class Ao < Indicator
 
-    def self.symbol
+    def self.indicator_symbol
       "ao"
+    end
+
+    def self.indicator_name
+      "Awesome Oscillator"
     end
 
     def self.min_data_size(long_period: 34, **params)
       long_period
     end
 
-    # Calculates the Awesome Oscillator for the data over the given period
+    # Calculates the awesome oscillator for the data over the given period
     # https://www.tradingview.com/wiki/Awesome_Oscillator_(AO)
     #
     # @param data [Array] Array of hashes with keys (:date_time, :high, :low)

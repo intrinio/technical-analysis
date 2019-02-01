@@ -1,15 +1,19 @@
 module TechnicalAnalysis
   class Tsi < Indicator
 
-    def self.symbol
+    def self.indicator_symbol
       "tsi"
+    end
+
+    def self.indicator_name
+      "True Strength Index"
     end
 
     def self.min_data_size(low_period: 13, high_period: 25, **params)
       low_period + high_period
     end
 
-    # Calculates the true strenth index for the data over the given period
+    # Calculates the true strength index (TSI) for the data over the given period
     # https://en.wikipedia.org/wiki/True_strength_index
     #
     # @param data [Array] Array of hashes with keys (:date_time, :value)

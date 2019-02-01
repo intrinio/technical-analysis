@@ -1,8 +1,12 @@
 module TechnicalAnalysis
   class Mfi < Indicator
 
-    def self.symbol
+    def self.indicator_symbol
       "mfi"
+    end
+
+    def self.indicator_name
+      "Money Flow Index"
     end
 
     def self.min_data_size(period: 14)

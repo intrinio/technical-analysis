@@ -1,8 +1,12 @@
 module TechnicalAnalysis
   class Eom < Indicator
 
-    def self.symbol
+    def self.indicator_symbol
       "eom"
+    end
+
+    def self.indicator_name
+      "Ease of Movement"
     end
 
     def self.min_data_size(period: 14)

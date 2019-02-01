@@ -1,8 +1,12 @@
 module TechnicalAnalysis
   class Trix < Indicator
 
-    def self.symbol
+    def self.indicator_symbol
       "trix"
+    end
+
+    def self.indicator_name
+      "Triple Exponential Average"
     end
 
     def self.min_data_size(period: 15, **params)

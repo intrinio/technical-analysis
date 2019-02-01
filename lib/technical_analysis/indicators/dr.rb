@@ -1,8 +1,12 @@
 module TechnicalAnalysis
   class Dr < Indicator
 
-    def self.symbol
+    def self.indicator_symbol
       "dr"
+    end
+
+    def self.indicator_name
+      "Daily Return"
     end
 
     def self.min_data_size(**params)

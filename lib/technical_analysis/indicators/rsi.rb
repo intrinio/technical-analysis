@@ -1,8 +1,12 @@
 module TechnicalAnalysis
   class Rsi < Indicator
 
-    def self.symbol
+    def self.indicator_symbol
       "rsi"
+    end
+
+    def self.indicator_name
+      "Relative Strength Index"
     end
 
     def self.min_data_size(period: 14, **params)

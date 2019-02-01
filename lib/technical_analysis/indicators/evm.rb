@@ -1,7 +1,7 @@
 module TechnicalAnalysis
   Evm = Eom
 
-  def self.symbol
+  def self.indicator_symbol
     "evm"
   end
 end

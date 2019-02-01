@@ -1,8 +1,12 @@
 module TechnicalAnalysis
   class Dc < Indicator
 
-    def self.symbol
+    def self.indicator_symbol
       "dc"
+    end
+
+    def self.indicator_name
+      "Donchian Channel"
     end
 
     def self.min_data_size(period: 20, **params)

@@ -1,15 +1,19 @@
 module TechnicalAnalysis
   class Uo < Indicator
 
-    def self.symbol
+    def self.indicator_symbol
       "uo"
+    end
+
+    def self.indicator_name
+      "Ultimate Oscillator"
     end
 
     def self.min_data_size(long_period: 28, **params)
       long_period + 1
     end
 
-    # Calculates the ultimate oscillator for the data over the given period
+    # Calculates the ultimate oscillator (UO) for the data over the given period
     # https://en.wikipedia.org/wiki/Ultimate_oscillator
     #
     # @param data [Array] Array of hashes with keys (:date_time, :high, :low, :close)

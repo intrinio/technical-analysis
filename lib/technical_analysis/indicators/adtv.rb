@@ -1,8 +1,12 @@
 module TechnicalAnalysis
   class Adtv < Indicator
 
-    def self.symbol
+    def self.indicator_symbol
       "adtv"
+    end
+
+    def self.indicator_name
+      "Average Daily Trading Volume"
     end
 
     def self.min_data_size(period: 22, **params)

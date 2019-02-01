@@ -1,8 +1,12 @@
 module TechnicalAnalysis
   class Fi < Indicator
 
-    def self.symbol
+    def self.indicator_symbol
       "fi"
+    end
+
+    def self.indicator_name
+      "Force Index"
     end
 
     def self.min_data_size(**params)

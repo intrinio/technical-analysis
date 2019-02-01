@@ -1,8 +1,12 @@
 module TechnicalAnalysis
   class Dlr < Indicator
 
-    def self.symbol
+    def self.indicator_symbol
       "dlr"
+    end
+
+    def self.indicator_name
+      "Daily Log Return"
     end
 
     def self.min_data_size(**params)

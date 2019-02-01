@@ -1,8 +1,12 @@
 module TechnicalAnalysis
   class Nvi < Indicator
 
-    def self.symbol
+    def self.indicator_symbol
       "nvi"
+    end
+
+    def self.indicator_name
+      "Negative Volume Index"
     end
 
     def self.min_data_size(**params)

@@ -1,8 +1,12 @@
 module TechnicalAnalysis
   class Sma < Indicator
 
-    def self.symbol
+    def self.indicator_symbol
       "sma"
+    end
+
+    def self.indicator_name
+      "Simple Moving Average"
     end
 
     def self.min_data_size(period: 30, **params)

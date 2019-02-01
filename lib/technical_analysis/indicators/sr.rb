@@ -1,8 +1,12 @@
 module TechnicalAnalysis
   class Sr < Indicator
 
-    def self.symbol
+    def self.indicator_symbol
       "sr"
+    end
+
+    def self.indicator_name
+      "Stochastic Oscillator"
     end
 
     def self.min_data_size(period: 14, signal_period: 3)

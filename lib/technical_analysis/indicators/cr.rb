@@ -1,8 +1,12 @@
 module TechnicalAnalysis
   class Cr < Indicator
 
-    def self.symbol
+    def self.indicator_symbol
       "cr"
+    end
+
+    def self.indicator_name
+      "Cumulative Return"
     end
 
     def min_data_size(**params)

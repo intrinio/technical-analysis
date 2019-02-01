@@ -1,8 +1,12 @@
 module TechnicalAnalysis
   class Macd < Indicator
 
-    def self.symbol
+    def self.indicator_symbol
       "macd"
+    end
+
+    def self.indicator_name
+      "Moving Average Convergence Divergence"
     end
 
     def self.min_data_size(slow_period: 26, signal_period: 9, **params)

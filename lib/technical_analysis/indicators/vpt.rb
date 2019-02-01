@@ -1,8 +1,12 @@
 module TechnicalAnalysis
   class Vpt < Indicator
 
-    def self.symbol
+    def self.indicator_symbol
       "vpt"
+    end
+
+    def self.indicator_name
+      "Volume-price Trend"
     end
 
     def self.min_data_size(**params)

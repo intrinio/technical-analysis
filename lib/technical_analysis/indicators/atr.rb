@@ -1,8 +1,12 @@
 module TechnicalAnalysis
   class Atr < Indicator
 
-    def self.symbol
+    def self.indicator_symbol
       "atr"
+    end
+
+    def self.indicator_name
+      "Average True Range"
     end
 
     def self.min_data_size(period: 14)

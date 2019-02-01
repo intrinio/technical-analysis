@@ -1,8 +1,12 @@
 module TechnicalAnalysis
   class Adx < Indicator
 
-    def self.symbol
+    def self.indicator_symbol
       "adx"
+    end
+
+    def self.indicator_name
+      "Average Directional Index"
     end
 
     def self.min_data_size(period: 14)

@@ -1,8 +1,12 @@
 module TechnicalAnalysis
   class Cci < Indicator
 
-    def self.symbol
+    def self.indicator_symbol
       "cci"
+    end
+
+    def self.indicator_name
+      "Commodity Channel Index"
     end
 
     def self.min_data_size(period: 20, **params)

@@ -1,8 +1,12 @@
 module TechnicalAnalysis
   class Dpo < Indicator
 
-    def self.symbol
+    def self.indicator_symbol
       "dpo"
+    end
+
+    def self.indicator_name
+      "Detrended Price Oscillator"
     end
 
     def self.min_data_size(period: 20, **params)

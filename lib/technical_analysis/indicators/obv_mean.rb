@@ -1,8 +1,12 @@
 module TechnicalAnalysis
   class ObvMean < Indicator
 
-    def self.symbol
+    def self.indicator_symbol
       "obv_mean"
+    end
+
+    def self.indicator_name
+      "On-balance Volume Mean"
     end
 
     def self.min_data_size(period: 10)

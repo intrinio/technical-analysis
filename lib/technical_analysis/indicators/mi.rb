@@ -1,8 +1,12 @@
 module TechnicalAnalysis
   class Mi < Indicator
 
-    def self.symbol
+    def self.indicator_symbol
       "mi"
+    end
+
+    def self.indicator_name
+      "Mass Index"
     end
 
     def self.min_data_size(ema_period: 9, sum_period: 25)

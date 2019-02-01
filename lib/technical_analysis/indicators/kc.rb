@@ -1,8 +1,12 @@
 module TechnicalAnalysis
   class Kc < Indicator
 
-    def self.symbol
+    def self.indicator_symbol
       "kc"
+    end
+
+    def self.indicator_name
+      "Keltner Channel"
     end
 
     def self.min_data_size(period: 10)

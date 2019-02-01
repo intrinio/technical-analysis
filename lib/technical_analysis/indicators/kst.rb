@@ -1,8 +1,12 @@
 module TechnicalAnalysis
   class Kst < Indicator
 
-    def self.symbol
+    def self.indicator_symbol
       "kst"
+    end
+
+    def self.indicator_name
+      "Know Sure Thing"
     end
 
     def self.min_data_size(roc4: 30, sma4: 15, **params)
