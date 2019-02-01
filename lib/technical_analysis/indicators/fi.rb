@@ -5,6 +5,10 @@ module TechnicalAnalysis
       "fi"
     end
 
+    def self.min_data_size(**params)
+      2
+    end
+
     # Calculates the force index (FI) for the data
     # https://en.wikipedia.org/wiki/Force_index
     #

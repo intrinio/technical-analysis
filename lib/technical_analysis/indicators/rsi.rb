@@ -5,6 +5,10 @@ module TechnicalAnalysis
       "rsi"
     end
 
+    def self.min_data_size(period: 14, **params)
+      period + 1
+    end
+
     # Calculates the relative strength index for the data over the given period
     # https://en.wikipedia.org/wiki/Relative_strength_index
     #

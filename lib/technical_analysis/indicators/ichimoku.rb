@@ -5,6 +5,10 @@ module TechnicalAnalysis
       "ichimoku"
     end
 
+    def self.min_data_size(medium_period: 26, high_period: 52, **params)
+      high_period + medium_period - 2
+    end
+
     # Calculates the 5 points of Ichimoku Kinko Hyo (Ichimooku) for the data over the given period
     #   1. tenkan_sen    (Conversion Line)
     #   2. kijun_sen     (Base Line)

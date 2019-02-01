@@ -5,6 +5,10 @@ module TechnicalAnalysis
       "kc"
     end
 
+    def self.min_data_size(period: 10)
+      period
+    end
+
     # Calculates the keltner channel (KC) for the data over the given period
     # https://en.wikipedia.org/wiki/Keltner_channel
     #

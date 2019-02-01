@@ -5,6 +5,10 @@ module TechnicalAnalysis
       "mi"
     end
 
+    def self.min_data_size(ema_period: 9, sum_period: 25)
+      (ema_period * 2) + sum_period - 2
+    end
+
     # Calculates the mass index (MI) for the data over the given period
     # https://en.wikipedia.org/wiki/Mass_index
     #

@@ -5,6 +5,10 @@ module TechnicalAnalysis
       "mfi"
     end
 
+    def self.min_data_size(period: 14)
+      period + 1
+    end
+
     # Calculates the money flow index (MFI) for the data over the given period
     # https://en.wikipedia.org/wiki/Money_flow_index
     #

@@ -5,6 +5,10 @@ module TechnicalAnalysis
       "trix"
     end
 
+    def self.min_data_size(period: 15, **params)
+      (period * 3) - 1
+    end
+
     # Calculates the triple exponential average (Trix) for the data over the given period
     # https://en.wikipedia.org/wiki/Trix_(technical_analysis)
     #

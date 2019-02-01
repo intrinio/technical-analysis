@@ -5,6 +5,10 @@ module TechnicalAnalysis
       "ao"
     end
 
+    def self.min_data_size(long_period: 34, **params)
+      long_period
+    end
+
     # Calculates the Awesome Oscillator for the data over the given period
     # https://www.tradingview.com/wiki/Awesome_Oscillator_(AO)
     #

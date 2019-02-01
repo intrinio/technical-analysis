@@ -5,8 +5,8 @@ module TechnicalAnalysis
       "sma"
     end
 
-    def self.min_data_size(options)
-      options[:period]
+    def self.min_data_size(period: 30, **params)
+      period
     end
 
     def self.validate_options(options)

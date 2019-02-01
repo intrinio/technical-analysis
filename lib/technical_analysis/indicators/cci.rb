@@ -5,6 +5,10 @@ module TechnicalAnalysis
       "cci"
     end
 
+    def self.min_data_size(period: 20, **params)
+      period
+    end
+
     # Calculates the commodity channel index for the data over the given period
     # https://en.wikipedia.org/wiki/Commodity_channel_index
     #

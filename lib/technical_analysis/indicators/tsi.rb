@@ -5,6 +5,10 @@ module TechnicalAnalysis
       "tsi"
     end
 
+    def self.min_data_size(low_period: 13, high_period: 25, **params)
+      low_period + high_period
+    end
+
     # Calculates the true strenth index for the data over the given period
     # https://en.wikipedia.org/wiki/True_strength_index
     #

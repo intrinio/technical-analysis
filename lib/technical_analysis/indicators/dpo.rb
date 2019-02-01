@@ -5,6 +5,10 @@ module TechnicalAnalysis
       "dpo"
     end
 
+    def self.min_data_size(period: 20, **params)
+      period + (period / 2)
+    end
+
     # Calculates the detrended price oscillator for the data over the given period
     # https://en.wikipedia.org/wiki/Detrended_price_oscillator
     #

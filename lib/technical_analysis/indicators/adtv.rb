@@ -5,6 +5,10 @@ module TechnicalAnalysis
       "adtv"
     end
 
+    def self.min_data_size(period: 22, **params)
+      period
+    end
+
     # Calculates the average daily trading volume (ADTV) for the data over the given period
     # https://www.investopedia.com/terms/a/averagedailytradingvolume.asp
     #

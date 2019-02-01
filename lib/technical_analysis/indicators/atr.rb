@@ -5,6 +5,10 @@ module TechnicalAnalysis
       "atr"
     end
 
+    def self.min_data_size(period: 14)
+      period + 1
+    end
+
     # Calculates the average true range (ATR) for the data over the given period
     # https://en.wikipedia.org/wiki/Average_true_range
     #

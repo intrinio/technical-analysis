@@ -5,6 +5,10 @@ module TechnicalAnalysis
       "vi"
     end
 
+    def self.min_data_size(period: 14)
+      period + 1
+    end
+
     # Calculates the vortex indicatorfor the data over the given period
     # https://en.wikipedia.org/wiki/Vortex_indicator
     #

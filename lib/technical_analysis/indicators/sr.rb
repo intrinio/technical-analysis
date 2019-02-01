@@ -5,6 +5,10 @@ module TechnicalAnalysis
       "sr"
     end
 
+    def self.min_data_size(period: 14, signal_period: 3)
+      period + signal_period - 1
+    end
+
     # Calculates the stochastic oscillator (%K) for the data over the given period
     # https://en.wikipedia.org/wiki/Stochastic_oscillator
     #

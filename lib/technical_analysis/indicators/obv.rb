@@ -5,6 +5,10 @@ module TechnicalAnalysis
       "obv"
     end
 
+    def self.min_data_size(**params)
+      1
+    end
+
     # Calculates the on-balance volume (OBV) for the data over the given period
     # https://en.wikipedia.org/wiki/On-balance_volume
     #

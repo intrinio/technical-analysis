@@ -5,6 +5,10 @@ module TechnicalAnalysis
       "adi"
     end
 
+    def self.min_data_size(**params)
+      1
+    end
+
     # Calculates the Accumulation/Distribution Index for the given data
     # https://en.wikipedia.org/wiki/Accumulation/distribution_index
     #

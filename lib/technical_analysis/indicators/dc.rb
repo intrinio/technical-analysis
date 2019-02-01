@@ -5,6 +5,10 @@ module TechnicalAnalysis
       "dc"
     end
 
+    def self.min_data_size(period: 20, **params)
+      period
+    end
+
     # Calculates the donchian channel (DC) for the data over the given period
     # https://en.wikipedia.org/wiki/Donchian_channel
     #

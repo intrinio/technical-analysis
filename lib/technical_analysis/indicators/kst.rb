@@ -5,6 +5,10 @@ module TechnicalAnalysis
       "kst"
     end
 
+    def self.min_data_size(roc4: 30, sma4: 15, **params)
+      roc4 + sma4 - 1
+    end
+
     # Calculates the know sure thing for the data over the given period
     # https://en.wikipedia.org/wiki/KST_oscillator
     #

@@ -5,6 +5,10 @@ module TechnicalAnalysis
       "macd"
     end
 
+    def self.min_data_size(slow_period: 26, signal_period: 9, **params)
+      slow_period + signal_period
+    end
+
     # Calculates the moving average convergence divergence (MACD) for the data over the given period
     # https://en.wikipedia.org/wiki/MACD
     #

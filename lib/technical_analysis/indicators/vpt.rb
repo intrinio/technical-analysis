@@ -5,6 +5,10 @@ module TechnicalAnalysis
       "vpt"
     end
 
+    def self.min_data_size(**params)
+      2
+    end
+
     # Calculates the volume-price trend (VPT) for the data
     # https://en.wikipedia.org/wiki/Volume%E2%80%93price_trend
     #

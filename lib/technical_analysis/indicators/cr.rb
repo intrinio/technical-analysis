@@ -5,6 +5,10 @@ module TechnicalAnalysis
       "cr"
     end
 
+    def min_data_size(**params)
+      1
+    end
+
     # Calculates the cumulative return for the data over the given period
     # https://www.investopedia.com/terms/c/cumulativereturn.asp
     #

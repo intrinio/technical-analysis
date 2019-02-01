@@ -5,6 +5,10 @@ module TechnicalAnalysis
       "adx"
     end
 
+    def self.min_data_size(period: 14)
+      period * 2
+    end
+
     # Calculates the average directional index (ADX) for the data over the given period
     # https://en.wikipedia.org/wiki/Average_directional_movement_index
     #

@@ -5,6 +5,10 @@ module TechnicalAnalysis
       "dr"
     end
 
+    def self.min_data_size(**params)
+      1
+    end
+
     # Calculates the daily return (percent expressed as a decimal) for the data over the given period
     # https://en.wikipedia.org/wiki/Rate_of_return
     #

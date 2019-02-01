@@ -5,6 +5,10 @@ module TechnicalAnalysis
       "bb"
     end
 
+    def self.min_data_size(period: 20, **params)
+      period
+    end
+
     # Calculates the bollinger bands (BB) for the data over the given period
     # https://en.wikipedia.org/wiki/Bollinger_Bands
     #

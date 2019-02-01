@@ -5,6 +5,10 @@ module TechnicalAnalysis
       "wr"
     end
 
+    def self.min_data_size(period: 14)
+      period
+    end
+
     # Calculates the Williams %R for the data over the given period
     # https://en.wikipedia.org/wiki/Williams_%25R
     #

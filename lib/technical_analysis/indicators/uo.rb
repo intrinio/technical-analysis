@@ -5,6 +5,10 @@ module TechnicalAnalysis
       "uo"
     end
 
+    def self.min_data_size(long_period: 28, **params)
+      long_period + 1
+    end
+
     # Calculates the ultimate oscillator for the data over the given period
     # https://en.wikipedia.org/wiki/Ultimate_oscillator
     #

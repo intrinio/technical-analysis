@@ -5,6 +5,10 @@ module TechnicalAnalysis
       "nvi"
     end
 
+    def self.min_data_size(**params)
+      1
+    end
+
     # Calculates the negative volume index (NVI) for the data
     # https://en.wikipedia.org/wiki/Negative_volume_index
     #

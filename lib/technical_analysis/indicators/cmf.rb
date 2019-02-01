@@ -5,6 +5,10 @@ module TechnicalAnalysis
       "cmf"
     end
 
+    def self.min_data_size(period: 20)
+      period
+    end
+
     # Calculates the chaikin money flow (CMF) for the data over the given period
     # https://stockcharts.com/school/doku.php?id=chart_school:technical_indicators:chaikin_money_flow_cmf
     #
