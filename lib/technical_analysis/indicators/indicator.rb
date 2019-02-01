@@ -68,8 +68,8 @@ module TechnicalAnalysis
       indicator.validate_options(options)
 
       case calculation
-      when :technicals; librarian.calculate(data, options)
-      when :min_data_size; librarian.min_data_size(options)
+      when :technicals; indicator.calculate(data, options)
+      when :min_data_size; indicator.min_data_size(options)
       else nil
       end
     end
