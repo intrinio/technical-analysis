@@ -4,6 +4,8 @@ require 'technical_analysis/helpers/stock_calculation'
 require 'technical_analysis/helpers/validation'
 
 # Indicators
+require 'technical_analysis/indicators/indicator'
+
 require 'technical_analysis/indicators/adi'
 require 'technical_analysis/indicators/adtv'
 require 'technical_analysis/indicators/adx'
