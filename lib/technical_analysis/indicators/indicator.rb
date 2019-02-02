@@ -2,13 +2,13 @@ module TechnicalAnalysis
   class Indicator
 
     CALCULATIONS = [
+      :indicator_name,
+      :indicator_symbol,
       :min_data_size,
       :technicals,
+      :valid_options,
+      :validate_options,
     ].freeze
-
-    def self.symbol
-      raise "#{self.name} did not implement symbol"
-    end
 
     def self.roster
       [
@@ -52,7 +52,7 @@ module TechnicalAnalysis
     # Finds the applicable indicator and returns an instance
     def self.find(indicator_symbol)
       self.roster.each do |indicator|
-        return indicator if indicator.symbol == indicator_symbol
+        return indicator if indicator.indicator_symbol == indicator_symbol
       end
 
       nil
@@ -65,11 +65,13 @@ module TechnicalAnalysis
       indicator = find(indicator_symbol)
       raise "Indicator not found!" if indicator.nil?
 
-      indicator.validate_options(options)
-
       case calculation
+      when :indicator_name; indicator.indicator_name
+      when :indicator_symbol; indicator.indicator_symbol
       when :technicals; indicator.calculate(data, options)
       when :min_data_size; indicator.min_data_size(options)
+      when :valid_options; indicator.valid_options
+      when :validate_options; indicator.validate_options(options)
       else nil
       end
     end
@@ -84,6 +86,16 @@ module TechnicalAnalysis
     def self.validate_options(options)
       raise "#{self.name} did not implement validate_options"
       false
+    end
+
+    # Get the symbol string of the indicator
+    def self.indicator_symbol
+      raise "#{self.name} did not implement indicator_symbol"
+    end
+
+    # Get the name string of the indicator
+    def self.indicator_name
+      raise "#{self.name} did not implement indicator_name"
     end
 
   end
