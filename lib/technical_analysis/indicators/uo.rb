@@ -9,6 +9,14 @@ module TechnicalAnalysis
       "Ultimate Oscillator"
     end
 
+    def self.valid_options
+      %i(short_period medium_period long_period short_weight medium_weight long_weight)
+    end
+
+    def self.validate_options(options)
+      Validation.validate_options(options, valid_options)
+    end
+
     def self.min_data_size(long_period: 28, **params)
       long_period + 1
     end

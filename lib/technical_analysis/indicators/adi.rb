@@ -1,6 +1,8 @@
 module TechnicalAnalysis
   class Adi < Indicator
 
+    VALID_OPTIONS = [].freeze
+
     def self.indicator_symbol
       "adi"
     end
@@ -9,11 +11,20 @@ module TechnicalAnalysis
       "Accumulation/Distribution Index"
     end
 
+    def self.valid_options
+      []
+    end
+
+    def self.validate_options(options)
+      return true if options == {}
+      raise ValidationError.new "This indicator doesn't accept any options."
+    end
+
     def self.min_data_size(**params)
       1
     end
 
-    # Calculates the Accumulation/Distribution Index for the given data
+    # Calculates the Accumulation/Distribution Index (ADI) for the given data
     # https://en.wikipedia.org/wiki/Accumulation/distribution_index
     #
     # @param data [Array] Array of hashes with keys (:date_time, :high, :low, :close, :volume)

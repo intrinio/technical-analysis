@@ -9,11 +9,19 @@ module TechnicalAnalysis
       "Know Sure Thing"
     end
 
+    def self.valid_options
+      %i(period roc1 roc2 roc3 roc4 sma1 sma2 sma3 sma4 price_key)
+    end
+
+    def self.validate_options(options)
+      Validation.validate_options(options, valid_options)
+    end
+
     def self.min_data_size(roc4: 30, sma4: 15, **params)
       roc4 + sma4 - 1
     end
 
-    # Calculates the know sure thing for the data over the given period
+    # Calculates the know sure thing (KST) for the data over the given period
     # https://en.wikipedia.org/wiki/KST_oscillator
     #
     # @param data [Array] Array of hashes with keys (:date_time, :value)

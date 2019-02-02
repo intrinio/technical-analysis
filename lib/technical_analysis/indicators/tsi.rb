@@ -9,6 +9,14 @@ module TechnicalAnalysis
       "True Strength Index"
     end
 
+    def self.valid_options
+      %i(low_period high_period price_key)
+    end
+
+    def self.validate_options(options)
+      Validation.validate_options(options, valid_options)
+    end
+
     def self.min_data_size(low_period: 13, high_period: 25, **params)
       low_period + high_period
     end

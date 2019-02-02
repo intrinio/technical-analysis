@@ -9,6 +9,14 @@ module TechnicalAnalysis
       "Ichimoku Kinko Hyo"
     end
 
+    def self.valid_options
+      %i(low_period medium_period high_period)
+    end
+
+    def self.validate_options(options)
+      Validation.validate_options(options, valid_options)
+    end
+
     def self.min_data_size(medium_period: 26, high_period: 52, **params)
       high_period + medium_period - 2
     end

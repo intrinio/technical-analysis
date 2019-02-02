@@ -13,12 +13,15 @@ module TechnicalAnalysis
       period
     end
 
-    def self.validate_options(options)
-      return true if (options.keys - [:period, :price_key]).empty?
-      raise "Invalid options!" 
+    def self.valid_options
+      %i(period price_key)
     end
 
-    # Calculates the simple moving average for the data over the given period
+    def self.validate_options(options)
+      Validation.validate_options(options, valid_options)
+    end
+
+    # Calculates the simple moving average (SMA) for the data over the given period
     # https://en.wikipedia.org/wiki/Moving_average#Simple_moving_average
     #
     # @param data [Array] Array of hashes with keys (:date_time, :value)

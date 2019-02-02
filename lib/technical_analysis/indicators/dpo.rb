@@ -9,6 +9,14 @@ module TechnicalAnalysis
       "Detrended Price Oscillator"
     end
 
+    def self.valid_options
+      %i(period price_key)
+    end
+
+    def self.validate_options(options)
+      Validation.validate_options(options, valid_options)
+    end
+
     def self.min_data_size(period: 20, **params)
       period + (period / 2)
     end

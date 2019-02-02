@@ -9,11 +9,19 @@ module TechnicalAnalysis
       "Cumulative Return"
     end
 
+    def self.valid_options
+      %i(price_key)
+    end
+
+    def self.validate_options(options)
+      Validation.validate_options(options, valid_options)
+    end
+
     def min_data_size(**params)
       1
     end
 
-    # Calculates the cumulative return for the data over the given period
+    # Calculates the cumulative return (CR) for the data over the given period
     # https://www.investopedia.com/terms/c/cumulativereturn.asp
     #
     # @param data [Array] Array of hashes with keys (:date_time, :value)

@@ -9,6 +9,14 @@ module TechnicalAnalysis
       "Chaikin Money Flow"
     end
 
+    def self.valid_options
+      %i(period)
+    end
+
+    def self.validate_options(options)
+      Validation.validate_options(options, valid_options)
+    end
+
     def self.min_data_size(period: 20)
       period
     end

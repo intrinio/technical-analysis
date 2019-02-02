@@ -9,6 +9,14 @@ module TechnicalAnalysis
       "Force Index"
     end
 
+    def self.valid_options
+      []
+    end
+
+    def self.validate_options(options)
+      true
+    end
+
     def self.min_data_size(**params)
       2
     end

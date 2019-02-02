@@ -9,6 +9,14 @@ module TechnicalAnalysis
       "Mass Index"
     end
 
+    def self.valid_options
+      %i(ema_period sum_period)
+    end
+
+    def self.validate_options(options)
+      Validation.validate_options(options, valid_options)
+    end
+
     def self.min_data_size(ema_period: 9, sum_period: 25)
       (ema_period * 2) + sum_period - 2
     end

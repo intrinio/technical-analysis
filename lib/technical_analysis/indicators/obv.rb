@@ -9,6 +9,15 @@ module TechnicalAnalysis
       "On-balance Volume"
     end
 
+    def self.valid_options
+      []
+    end
+
+    def self.validate_options(options)
+      return true if options == {}
+      raise ValidationError.new "This indicator doesn't accept any options."
+    end
+
     def self.min_data_size(**params)
       1
     end

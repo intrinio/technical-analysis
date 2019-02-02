@@ -9,6 +9,14 @@ module TechnicalAnalysis
       "Awesome Oscillator"
     end
 
+    def self.valid_options
+      %i(short_period long_period)
+    end
+
+    def self.validate_options(options)
+      Validation.validate_options(options, valid_options)
+    end
+
     def self.min_data_size(long_period: 34, **params)
       long_period
     end

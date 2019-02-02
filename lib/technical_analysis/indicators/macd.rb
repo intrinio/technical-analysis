@@ -9,6 +9,14 @@ module TechnicalAnalysis
       "Moving Average Convergence Divergence"
     end
 
+    def self.valid_options
+      %i(slow_period signal_period)
+    end
+
+    def self.validate_options(options)
+      Validation.validate_options(options, valid_options)
+    end
+
     def self.min_data_size(slow_period: 26, signal_period: 9, **params)
       slow_period + signal_period
     end

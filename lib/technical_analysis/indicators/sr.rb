@@ -9,6 +9,14 @@ module TechnicalAnalysis
       "Stochastic Oscillator"
     end
 
+    def self.valid_options
+      %i(period signal_period)
+    end
+
+    def self.validate_options(options)
+      Validation.validate_options(options, valid_options)
+    end
+
     def self.min_data_size(period: 14, signal_period: 3)
       period + signal_period - 1
     end

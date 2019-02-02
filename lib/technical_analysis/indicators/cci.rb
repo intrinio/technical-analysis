@@ -9,11 +9,19 @@ module TechnicalAnalysis
       "Commodity Channel Index"
     end
 
+    def self.valid_options
+      %i(period constant)
+    end
+
+    def self.validate_options(options)
+      Validation.validate_options(options, valid_options)
+    end
+
     def self.min_data_size(period: 20, **params)
       period
     end
 
-    # Calculates the commodity channel index for the data over the given period
+    # Calculates the commodity channel index (CCI) for the data over the given period
     # https://en.wikipedia.org/wiki/Commodity_channel_index
     #
     # @param data [Array] Array of hashes with keys (:date_time, :high, :low, :close)

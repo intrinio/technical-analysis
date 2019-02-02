@@ -9,6 +9,14 @@ module TechnicalAnalysis
       "Daily Return"
     end
 
+    def self.valid_options
+      %i(price_key)
+    end
+
+    def self.validate_options(options)
+      Validation.validate_options(options, valid_options)
+    end
+
     def self.min_data_size(**params)
       1
     end
