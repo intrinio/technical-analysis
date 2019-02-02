@@ -66,7 +66,7 @@ module TechnicalAnalysis
         prior_close = v[:close]
       end
 
-      output
+      output.sort_by_hash_date_time_desc
     end
 
     def self.calculate_average(period, data)

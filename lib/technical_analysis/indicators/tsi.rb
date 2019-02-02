@@ -69,7 +69,7 @@ module TechnicalAnalysis
         prev_price = current_price
       end
       
-      output
+      output.sort_by_hash_date_time_desc
     end
 
     def self.process_ema(current_value, data, multiplier, period, store)

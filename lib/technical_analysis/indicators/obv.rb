@@ -53,7 +53,7 @@ module TechnicalAnalysis
         prior_close = close
       end
 
-      output
+      output.sort_by_hash_date_time_desc
     end
 
   end

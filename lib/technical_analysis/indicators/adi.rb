@@ -51,7 +51,7 @@ module TechnicalAnalysis
 
         ads << { date_time: values[:date_time], value: ad }
       end
-      ads
+      ads.sort_by_hash_date_time_desc
     end
 
   end

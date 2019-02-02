@@ -40,7 +40,7 @@ module TechnicalAnalysis
         output << { date_time: v[:date_time], value: ((v[price_key] - start_price) / start_price) }
       end
 
-      output
+      output.sort_by_hash_date_time_desc
     end
 
   end

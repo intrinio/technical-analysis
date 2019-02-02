@@ -51,7 +51,7 @@ module TechnicalAnalysis
         prev_price = v
       end
 
-      output
+      output.sort_by_hash_date_time_desc
     end
 
   end

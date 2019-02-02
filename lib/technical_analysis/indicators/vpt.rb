@@ -44,7 +44,7 @@ module TechnicalAnalysis
         prev_pvt = pvt
       end
 
-      output
+      output.sort_by_hash_date_time_desc
     end
 
   end

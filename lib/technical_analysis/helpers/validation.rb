@@ -12,7 +12,7 @@ class Validation
     raise ValidationError.new "Not enough data for that period" if data.size < size
   end
 
-  def self.Validation.validate_options(options, valid_options)
+  def self.validate_options(options, valid_options)
     raise ValidationError.new "Options must be a hash." unless options.respond_to? :keys
     raise ValidationError.new "No valid options provided." unless valid_options
 

@@ -57,7 +57,7 @@ module TechnicalAnalysis
         index += 1
       end
 
-      output
+      output.sort_by_hash_date_time_desc
     end
 
     def self.calculate_rcma(data, index, price_key, roc, sma)
