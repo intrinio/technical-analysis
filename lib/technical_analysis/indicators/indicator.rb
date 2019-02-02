@@ -88,12 +88,18 @@ module TechnicalAnalysis
       false
     end
 
-    # Get the symbol string of the indicator
+    # Returns the valid options for the indicator
+    def self.valid_options
+      raise "#{self.name} did not implement valid_options"
+      []
+    end
+
+    # Returns the symbol string of the indicator
     def self.indicator_symbol
       raise "#{self.name} did not implement indicator_symbol"
     end
 
-    # Get the name string of the indicator
+    # Returns the name string of the indicator
     def self.indicator_name
       raise "#{self.name} did not implement indicator_name"
     end
