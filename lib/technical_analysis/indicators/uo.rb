@@ -18,7 +18,7 @@ module TechnicalAnalysis
     end
 
     def self.min_data_size(long_period: 28, **params)
-      long_period + 1
+      long_period.to_i + 1
     end
 
     # Calculates the ultimate oscillator (UO) for the data over the given period
@@ -33,6 +33,12 @@ module TechnicalAnalysis
     # @param long_weight [Float] Weight of long Buying Pressure average for UO
     # @return [Hash] A hash of the results with keys (:date_time, :value)
     def self.calculate(data, short_period: 7, medium_period: 14, long_period: 28, short_weight: 4, medium_weight: 2, long_weight: 1)
+      short_period = short_period.to_i
+      medium_period = medium_period.to_i
+      long_period = long_period.to_i
+      short_weight = short_weight.to_f
+      medium_weight = medium_weight.to_f
+      long_weight = long_weight.to_f
       Validation.validate_numeric_data(data, :high, :low, :close)
       Validation.validate_length(data, long_period + 1)
 

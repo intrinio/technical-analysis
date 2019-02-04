@@ -18,7 +18,7 @@ module TechnicalAnalysis
     end
 
     def self.min_data_size(period: 15, **params)
-      (period * 3) - 1
+      (period.to_i * 3) - 1
     end
 
     # Calculates the triple exponential average (Trix) for the data over the given period
@@ -29,6 +29,7 @@ module TechnicalAnalysis
     # @param price_key [Symbol] The hash key for the price data. Default :value
     # @return [Hash] A hash of the results with keys (:date_time, :value)
     def self.calculate(data, period: 15, price_key: :value)
+      period = period.to_i
       Validation.validate_numeric_data(data, price_key)
       Validation.validate_length(data, ((period * 3) - 1))
 

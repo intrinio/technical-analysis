@@ -18,7 +18,7 @@ module TechnicalAnalysis
     end
 
     def self.min_data_size(period: 14)
-      period + 1
+      period.to_i + 1
     end
 
     # Calculates the average true range (ATR) for the data over the given period
@@ -28,6 +28,7 @@ module TechnicalAnalysis
     # @param period [Integer] The given period to calculate the ATR
     # @return [Hash] A hash of the results with keys (:date_time, :value)
     def self.calculate(data, period: 14)
+      period = period.to_i
       Validation.validate_numeric_data(data, :high, :low, :close)
       Validation.validate_length(data, period + 1)
 

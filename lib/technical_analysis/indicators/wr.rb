@@ -18,7 +18,7 @@ module TechnicalAnalysis
     end
 
     def self.min_data_size(period: 14)
-      period
+      period.to_i
     end
 
     # Calculates the Williams %R (WR) for the data over the given period
@@ -28,6 +28,7 @@ module TechnicalAnalysis
     # @param period [Integer] The given look-back period to calculate the WR
     # @return [Hash] A hash of the results with keys (:date_time, :value)
     def self.calculate(data, period: 14)
+      period = period.to_i
       Validation.validate_numeric_data(data, :high, :low, :close)
       Validation.validate_length(data, period)
 

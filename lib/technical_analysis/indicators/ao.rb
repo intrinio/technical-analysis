@@ -18,7 +18,7 @@ module TechnicalAnalysis
     end
 
     def self.min_data_size(long_period: 34, **params)
-      long_period
+      long_period.to_i
     end
 
     # Calculates the awesome oscillator for the data over the given period
@@ -29,6 +29,8 @@ module TechnicalAnalysis
     # @param long_period [Integer] The given period to calculate the long period SMA
     # @return [Hash] A hash of the results with keys (:date_time, :value)
     def self.calculate(data, short_period: 5, long_period: 34)
+      short_period = short_period.to_i
+      long_period = long_period.to_i
       Validation.validate_numeric_data(data, :high, :low)
       Validation.validate_length(data, long_period)
 

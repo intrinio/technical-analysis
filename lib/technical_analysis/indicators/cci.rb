@@ -18,7 +18,7 @@ module TechnicalAnalysis
     end
 
     def self.min_data_size(period: 20, **params)
-      period
+      period.to_i
     end
 
     # Calculates the commodity channel index (CCI) for the data over the given period
@@ -29,6 +29,8 @@ module TechnicalAnalysis
     # @param constant [Float] The given constant to ensure that approximately 70 to 80 percent of CCI values would fall between −100 and +100
     # @return [Hash] A hash of the results with keys (:date_time, :value)
     def self.calculate(data, period: 20, constant: 0.015)
+      period = period.to_i
+      constant = constant.to_f
       Validation.validate_numeric_data(data, :high, :low, :close)
       Validation.validate_length(data, period)
 

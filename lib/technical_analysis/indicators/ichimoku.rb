@@ -18,7 +18,7 @@ module TechnicalAnalysis
     end
 
     def self.min_data_size(medium_period: 26, high_period: 52, **params)
-      high_period + medium_period - 2
+      high_period.to_i + medium_period.to_i - 2
     end
 
     # Calculates the 5 points of Ichimoku Kinko Hyo (Ichimoku) for the data over the given period
@@ -35,6 +35,9 @@ module TechnicalAnalysis
     # @param high_period [Integer] The given period to calculate senkou_span_b (Leadning Span B)
     # @return [Hash] A hash of the results with keys (:date_time, :value)
     def self.calculate(data, low_period: 9, medium_period: 26, high_period: 52)
+      low_period = low_period.to_i
+      medium_period = medium_period.to_i
+      high_period = high_period.to_i
       Validation.validate_numeric_data(data, :high, :low, :close)
       Validation.validate_length(data, high_period + medium_period - 2)
 

@@ -18,7 +18,7 @@ module TechnicalAnalysis
     end
 
     def self.min_data_size(period: 22, **params)
-      period
+      period.to_i
     end
 
     # Calculates the average daily trading volume (ADTV) for the data over the given period
@@ -29,6 +29,7 @@ module TechnicalAnalysis
     # @param volume_key [Symbol] The hash key for the volume data. Default :value
     # @return [Hash] A hash of the results with keys (:date_time, :value)
     def self.calculate(data, period: 22, volume_key: :value)
+      period = period.to_i
       Validation.validate_numeric_data(data, volume_key)
       Validation.validate_length(data, period)
 

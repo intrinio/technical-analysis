@@ -18,7 +18,7 @@ module TechnicalAnalysis
     end
 
     def self.min_data_size(period: 10)
-      period
+      period.to_i
     end
 
     # Calculates the on-balance volume mean (OBV mean) for the data over the given period
@@ -28,6 +28,7 @@ module TechnicalAnalysis
     # @param period [Integer] The given period to calculate the OBV mean
     # @return [Hash] A hash of the results with keys (:date_time, :value)
     def self.calculate(data, period: 10)
+      period = period.to_i
       Validation.validate_numeric_data(data, :close, :volume)
       Validation.validate_length(data, period)
 

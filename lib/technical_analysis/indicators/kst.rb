@@ -18,7 +18,7 @@ module TechnicalAnalysis
     end
 
     def self.min_data_size(roc4: 30, sma4: 15, **params)
-      roc4 + sma4 - 1
+      roc4.to_i + sma4.to_i - 1
     end
 
     # Calculates the know sure thing (KST) for the data over the given period
@@ -36,6 +36,14 @@ module TechnicalAnalysis
     # @param price_key [Symbol] The hash key for the price data. Default :value
     # @return [Hash] A hash of the results with keys (:date_time, :value)
     def self.calculate(data, roc1: 10, roc2: 15, roc3: 20, roc4: 30, sma1: 10, sma2: 10, sma3: 10, sma4: 15, price_key: :value)
+      roc1 = roc1.to_i
+      roc2 = roc2.to_i
+      roc3 = roc3.to_i
+      roc4 = roc4.to_i
+      sma1 = sma1.to_i
+      sma2 = sma2.to_i
+      sma3 = sma3.to_i
+      sma4 = sma4.to_i
       Validation.validate_numeric_data(data, price_key)
       Validation.validate_length(data, roc4 + sma4 - 1)
 

@@ -18,7 +18,7 @@ module TechnicalAnalysis
     end
 
     def self.min_data_size(period: 30, **params)
-      period
+      period.to_i
     end
 
     # Calculates the simple moving average (SMA) for the data over the given period
@@ -29,6 +29,7 @@ module TechnicalAnalysis
     # @param price_key [Symbol] The hash key for the price data. Default :value
     # @return [Hash] A hash of the results with keys (:date_time, :value)
     def self.calculate(data, period: 30, price_key: :value)
+      period = period.to_i
       Validation.validate_numeric_data(data, price_key)
       Validation.validate_length(data, period)
 

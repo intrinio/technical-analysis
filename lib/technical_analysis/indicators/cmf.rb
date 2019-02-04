@@ -18,7 +18,7 @@ module TechnicalAnalysis
     end
 
     def self.min_data_size(period: 20)
-      period
+      period.to_i
     end
 
     # Calculates the chaikin money flow (CMF) for the data over the given period
@@ -28,6 +28,7 @@ module TechnicalAnalysis
     # @param period [Integer] The given period to calculate the CMF
     # @return [Hash] A hash of the results with keys (:date_time, :value)
     def self.calculate(data, period: 20)
+      period = period.to_i
       Validation.validate_numeric_data(data, :high, :low, :close, :volume)
       Validation.validate_length(data, period)
 

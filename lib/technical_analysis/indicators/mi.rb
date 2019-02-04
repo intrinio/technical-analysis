@@ -18,7 +18,7 @@ module TechnicalAnalysis
     end
 
     def self.min_data_size(ema_period: 9, sum_period: 25)
-      (ema_period * 2) + sum_period - 2
+      (ema_period.to_i * 2) + sum_period.to_i - 2
     end
 
     # Calculates the mass index (MI) for the data over the given period
@@ -29,6 +29,8 @@ module TechnicalAnalysis
     # @param period [Integer] The given period to calculate the MI
     # @return [Hash] A hash of the results with keys (:date_time, :value)
     def self.calculate(data, ema_period: 9, sum_period: 25)
+      ema_period = ema_period.to_i
+      sum_period = sum_period.to_i
       Validation.validate_numeric_data(data, :high, :low)
       Validation.validate_length(data, (ema_period * 2) + sum_period - 2)
 
