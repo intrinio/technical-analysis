@@ -4,10 +4,11 @@ require 'spec_helper'
 describe 'Indicators' do
   describe "FI" do
     input_data = SpecHelper.get_test_data(:close, :volume)
+    indicator = TechnicalAnalysis::Fi
 
     describe 'Forced Index' do
       it 'Calculates FI' do
-        output = TechnicalAnalysis::Fi.calculate(input_data)
+        output = indicator.calculate(input_data)
 
         expected_output = [
           {:date_time=>"2019-01-09T00:00:00.000Z", :value=>115287987.2000001},
@@ -78,7 +79,38 @@ describe 'Indicators' do
       end
 
       it "Throws exception if not enough data" do
-        expect {TechnicalAnalysis::Fi.calculate([])}.to raise_exception(Validation::ValidationError)
+        expect {indicator.calculate([])}.to raise_exception(Validation::ValidationError)
+      end
+
+      it 'Returns the symbol' do
+        indicator_symbol = indicator.indicator_symbol
+        expect(indicator_symbol).to eq('fi')
+      end
+
+      it 'Returns the name' do
+        indicator_name = indicator.indicator_name
+        expect(indicator_name).to eq('Force Index')
+      end
+
+      it 'Returns the valid options' do
+        valid_options = indicator.valid_options
+        expect(valid_options).to eq([])
+      end
+
+      it 'Validates options' do
+        valid_options = {}
+        options_validated = indicator.validate_options(valid_options)
+        expect(options_validated).to eq(true)
+      end
+
+      it 'Throws exception for invalid options' do
+        invalid_options = { test: 10 }
+        expect { indicator.validate_options(invalid_options) }.to raise_exception(Validation::ValidationError)
+      end
+
+      it 'Calculates minimum data size' do
+        options = {}
+        expect(indicator.min_data_size(options)).to eq(2)
       end
     end
   end

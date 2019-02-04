@@ -4,10 +4,11 @@ require 'spec_helper'
 describe 'Indicators' do
   describe "KST" do
     input_data = SpecHelper.get_test_data(:close)
+    indicator = TechnicalAnalysis::Kst
 
     describe 'Know Sure Thing' do
       it 'Calculates KST' do
-        output = TechnicalAnalysis::Kst.calculate(input_data, roc1: 10, roc2: 15, roc3: 20, roc4: 30, sma1: 10, sma2: 10, sma3: 10, sma4: 15, price_key: :close)
+        output = indicator.calculate(input_data, roc1: 10, roc2: 15, roc3: 20, roc4: 30, sma1: 10, sma2: 10, sma3: 10, sma4: 15, price_key: :close)
 
         expected_output = [
           {:date_time=>"2019-01-09T00:00:00.000Z", :value=>-140.9140022298261},
@@ -38,7 +39,38 @@ describe 'Indicators' do
       it "Throws exception if not enough data" do
         roc4 = 60
         sma4 = 30
-        expect {TechnicalAnalysis::Kst.calculate(input_data, roc4: roc4, sma4: sma4, price_key: :close)}.to raise_exception(Validation::ValidationError)
+        expect {indicator.calculate(input_data, roc4: roc4, sma4: sma4, price_key: :close)}.to raise_exception(Validation::ValidationError)
+      end
+
+      it 'Returns the symbol' do
+        indicator_symbol = indicator.indicator_symbol
+        expect(indicator_symbol).to eq('kst')
+      end
+
+      it 'Returns the name' do
+        indicator_name = indicator.indicator_name
+        expect(indicator_name).to eq('Know Sure Thing')
+      end
+
+      it 'Returns the valid options' do
+        valid_options = indicator.valid_options
+        expect(valid_options).to eq(%i(period roc1 roc2 roc3 roc4 sma1 sma2 sma3 sma4 price_key))
+      end
+
+      it 'Validates options' do
+        valid_options = { roc1: 10, roc2: 15, roc3: 20, roc4: 30, sma1: 10, sma2: 10, sma3: 10, sma4: 15, price_key: :value }
+        options_validated = indicator.validate_options(valid_options)
+        expect(options_validated).to eq(true)
+      end
+
+      it 'Throws exception for invalid options' do
+        invalid_options = { test: 10 }
+        expect { indicator.validate_options(invalid_options) }.to raise_exception(Validation::ValidationError)
+      end
+
+      it 'Calculates minimum data size' do
+        options = { roc4: 30, sma4: 15 }
+        expect(indicator.min_data_size(options)).to eq(44)
       end
     end
   end

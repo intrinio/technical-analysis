@@ -4,10 +4,11 @@ require 'spec_helper'
 describe 'Indicators' do
   describe "Ichimoku" do
     input_data = SpecHelper.get_test_data(:high, :low, :close)
+    indicator = TechnicalAnalysis::Ichimoku
 
     describe 'Ichimoku' do
       it 'Calculates Ichimoku' do
-        output = TechnicalAnalysis::Ichimoku.calculate(input_data, low_period: 3, medium_period: 10, high_period: 20)
+        output = indicator.calculate(input_data, low_period: 3, medium_period: 10, high_period: 20)
 
         expected_output = [
           {:date_time=>"2019-01-09T00:00:00.000Z", :value=> {:chikou_span=>157.17, :kijun_sen=>150.68, :senkou_span_a=>155.9775, :senkou_span_b=>165.765, :tenkan_sen=>150.215}},
@@ -55,7 +56,38 @@ describe 'Indicators' do
         high_period = 40
         size_limit = (medium_period + high_period + 1)
         
-        expect {TechnicalAnalysis::Ichimoku.calculate(input_data, high_period: size_limit)}.to raise_exception(Validation::ValidationError)
+        expect {indicator.calculate(input_data, high_period: size_limit)}.to raise_exception(Validation::ValidationError)
+      end
+
+      it 'Returns the symbol' do
+        indicator_symbol = indicator.indicator_symbol
+        expect(indicator_symbol).to eq('ichimoku')
+      end
+
+      it 'Returns the name' do
+        indicator_name = indicator.indicator_name
+        expect(indicator_name).to eq('Ichimoku Kinko Hyo')
+      end
+
+      it 'Returns the valid options' do
+        valid_options = indicator.valid_options
+        expect(valid_options).to eq(%i(low_period medium_period high_period))
+      end
+
+      it 'Validates options' do
+        valid_options = { low_period: 9, medium_period: 26, high_period: 52 }
+        options_validated = indicator.validate_options(valid_options)
+        expect(options_validated).to eq(true)
+      end
+
+      it 'Throws exception for invalid options' do
+        invalid_options = { test: 10 }
+        expect { indicator.validate_options(invalid_options) }.to raise_exception(Validation::ValidationError)
+      end
+
+      it 'Calculates minimum data size' do
+        options = { medium_period: 4, high_period: 10 }
+        expect(indicator.min_data_size(options)).to eq(12)
       end
     end
   end

@@ -4,10 +4,11 @@ require 'spec_helper'
 describe 'Indicators' do
   describe "CR" do
     input_data = SpecHelper.get_test_data(:close)
+    indicator = TechnicalAnalysis::Cr
 
     describe 'Cumulative Return' do
       it 'Calculates CR' do
-        output = TechnicalAnalysis::Cr.calculate(input_data, price_key: :close)
+        output = indicator.calculate(input_data, price_key: :close)
 
         expected_output = [
           {:date_time=>"2019-01-09T00:00:00.000Z", :value=>-0.3242385507118614},
@@ -79,7 +80,38 @@ describe 'Indicators' do
       end
 
       it "Throws exception if not enough data" do
-        expect {TechnicalAnalysis::Cr.calculate([], price_key: :close)}.to raise_exception(Validation::ValidationError)
+        expect {indicator.calculate([], price_key: :close)}.to raise_exception(Validation::ValidationError)
+      end
+
+      it 'Returns the symbol' do
+        indicator_symbol = indicator.indicator_symbol
+        expect(indicator_symbol).to eq('cr')
+      end
+
+      it 'Returns the name' do
+        indicator_name = indicator.indicator_name
+        expect(indicator_name).to eq('Cumulative Return')
+      end
+
+      it 'Returns the valid options' do
+        valid_options = indicator.valid_options
+        expect(valid_options).to eq(%i(price_key))
+      end
+
+      it 'Validates options' do
+        valid_options = { price_key: :close }
+        options_validated = indicator.validate_options(valid_options)
+        expect(options_validated).to eq(true)
+      end
+
+      it 'Throws exception for invalid options' do
+        invalid_options = { test: 10 }
+        expect { indicator.validate_options(invalid_options) }.to raise_exception(Validation::ValidationError)
+      end
+
+      it 'Calculates minimum data size' do
+        options = {}
+        expect(indicator.min_data_size(options)).to eq(1)
       end
     end
   end

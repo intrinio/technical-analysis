@@ -3,12 +3,13 @@ require 'spec_helper'
 
 describe 'Indicators' do
   describe "ADI" do
+    indicator = TechnicalAnalysis::Adi
 
     describe 'Accumulation/Distribution Index' do
       it 'Calculates ADI' do
 
         input_data = SpecHelper.get_test_data(:volume, :high, :low, :close)
-        output = TechnicalAnalysis::Adi.calculate(input_data)
+        output = indicator.calculate(input_data)
 
         expected_output = [
           {:date_time=>"2019-01-09T00:00:00.000Z", :value=>-112451134.66006838},
@@ -77,6 +78,37 @@ describe 'Indicators' do
         ]
 
         expect(output).to eq(expected_output)
+      end
+
+      it 'Returns the symbol' do
+        indicator_symbol = indicator.indicator_symbol
+        expect(indicator_symbol).to eq('adi')
+      end
+
+      it 'Returns the name' do
+        indicator_name = indicator.indicator_name
+        expect(indicator_name).to eq('Accumulation/Distribution Index')
+      end
+
+      it 'Returns the valid options' do
+        valid_options = indicator.valid_options
+        expect(valid_options).to eq([])
+      end
+
+      it 'Validates options' do
+        valid_options = {}
+        options_validated = indicator.validate_options(valid_options)
+        expect(options_validated).to eq(true)
+      end
+
+      it 'Throws exception for invalid options' do
+        invalid_options = { test: 10 }
+        expect { indicator.validate_options(invalid_options) }.to raise_exception(Validation::ValidationError)
+      end
+
+      it 'Calculates minimum data size' do
+        options = {}
+        expect(indicator.min_data_size(options)).to eq(1)
       end
     end
   end

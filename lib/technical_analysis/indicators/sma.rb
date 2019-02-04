@@ -9,16 +9,16 @@ module TechnicalAnalysis
       "Simple Moving Average"
     end
 
-    def self.min_data_size(period: 30, **params)
-      period
-    end
-
     def self.valid_options
       %i(period price_key)
     end
 
     def self.validate_options(options)
       Validation.validate_options(options, valid_options)
+    end
+
+    def self.min_data_size(period: 30, **params)
+      period
     end
 
     # Calculates the simple moving average (SMA) for the data over the given period

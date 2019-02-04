@@ -17,7 +17,7 @@ class Validation
     raise ValidationError.new "No valid options provided." unless valid_options
 
     return true if (options.keys - valid_options).empty?
-    raise ValidationError.new "Invalid options provided. Valid options are #{VALID_OPTIONS.join(", ")}"
+    raise ValidationError.new "Invalid options provided. Valid options are #{valid_options.join(", ")}"
   end
 
   class ValidationError < StandardError; end

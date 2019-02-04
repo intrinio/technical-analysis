@@ -4,10 +4,11 @@ require 'spec_helper'
 describe 'Indicators' do
   describe "BB" do
     input_data = SpecHelper.get_test_data(:close)
+    indicator = TechnicalAnalysis::Bb
 
     describe 'Bollinger Bands' do
       it 'Calculates BB (20, 2)' do
-        output = TechnicalAnalysis::Bb.calculate(input_data, period: 20, standard_deviations: 2, price_key: :close)
+        output = indicator.calculate(input_data, period: 20, standard_deviations: 2, price_key: :close)
 
         expected_output = [
           {:date_time=>"2019-01-09T00:00:00.000Z", :value=> {:lower_band=>141.02036711220762, :middle_band=>157.35499999999996, :upper_band=>173.6896328877923}},
@@ -60,7 +61,38 @@ describe 'Indicators' do
       end
 
       it "Throws exception if not enough data" do
-        expect {TechnicalAnalysis::Bb.calculate(input_data, period: input_data.size+1, price_key: :close)}.to raise_exception(Validation::ValidationError)
+        expect {indicator.calculate(input_data, period: input_data.size+1, price_key: :close)}.to raise_exception(Validation::ValidationError)
+      end
+
+      it 'Returns the symbol' do
+        indicator_symbol = indicator.indicator_symbol
+        expect(indicator_symbol).to eq('bb')
+      end
+
+      it 'Returns the name' do
+        indicator_name = indicator.indicator_name
+        expect(indicator_name).to eq('Bollinger Bands')
+      end
+
+      it 'Returns the valid options' do
+        valid_options = indicator.valid_options
+        expect(valid_options).to eq(%i(period standard_deviations price_key))
+      end
+
+      it 'Validates options' do
+        valid_options = { period: 22 }
+        options_validated = indicator.validate_options(valid_options)
+        expect(options_validated).to eq(true)
+      end
+
+      it 'Throws exception for invalid options' do
+        invalid_options = { test: 10 }
+        expect { indicator.validate_options(invalid_options) }.to raise_exception(Validation::ValidationError)
+      end
+
+      it 'Calculates minimum data size' do
+        options = { period: 4 }
+        expect(indicator.min_data_size(options)).to eq(4)
       end
     end
   end

@@ -14,7 +14,8 @@ module TechnicalAnalysis
     end
 
     def self.validate_options(options)
-      true
+      return true if options == {}
+      raise Validation::ValidationError.new "This indicator doesn't accept any options."
     end
 
     def self.min_data_size(**params)

@@ -4,10 +4,11 @@ require 'spec_helper'
 describe 'Indicators' do
   describe "MI" do
     input_data = SpecHelper.get_test_data(:high, :low)
+    indicator = TechnicalAnalysis::Mi
 
     describe 'Simple Mass Index' do
       it 'Calculates MI' do
-        output = TechnicalAnalysis::Mi.calculate(input_data, ema_period: 9, sum_period: 25)
+        output = indicator.calculate(input_data, ema_period: 9, sum_period: 25)
 
         expected_output = [
           {:date_time=>"2019-01-09T00:00:00.000Z", :value=>24.77520633216394},
@@ -39,7 +40,38 @@ describe 'Indicators' do
       end
 
       it "Throws exception if not enough data" do
-        expect {TechnicalAnalysis::Mi.calculate(input_data, ema_period: input_data.size+1)}.to raise_exception(Validation::ValidationError)
+        expect {indicator.calculate(input_data, ema_period: input_data.size+1)}.to raise_exception(Validation::ValidationError)
+      end
+
+      it 'Returns the symbol' do
+        indicator_symbol = indicator.indicator_symbol
+        expect(indicator_symbol).to eq('mi')
+      end
+
+      it 'Returns the name' do
+        indicator_name = indicator.indicator_name
+        expect(indicator_name).to eq('Mass Index')
+      end
+
+      it 'Returns the valid options' do
+        valid_options = indicator.valid_options
+        expect(valid_options).to eq(%i(ema_period sum_period))
+      end
+
+      it 'Validates options' do
+        valid_options = { ema_period: 9, sum_period: 25 }
+        options_validated = indicator.validate_options(valid_options)
+        expect(options_validated).to eq(true)
+      end
+
+      it 'Throws exception for invalid options' do
+        invalid_options = { test: 10 }
+        expect { indicator.validate_options(invalid_options) }.to raise_exception(Validation::ValidationError)
+      end
+
+      it 'Calculates minimum data size' do
+        options = { ema_period: 10, sum_period: 20 }
+        expect(indicator.min_data_size(options)).to eq(38)
       end
     end
   end

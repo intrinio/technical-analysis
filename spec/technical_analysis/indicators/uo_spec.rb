@@ -4,10 +4,11 @@ require 'spec_helper'
 describe 'Indicators' do
   describe "UO" do
     input_data = SpecHelper.get_test_data(:high, :low, :close)
+    indicator = TechnicalAnalysis::Uo
 
     describe 'Ultimate Oscillator' do
       it 'Calculates UO (5 day)' do
-        output = TechnicalAnalysis::Uo.calculate(input_data, short_period: 7, medium_period: 14, long_period: 28, short_weight: 4, medium_weight: 2, long_weight: 1)
+        output = indicator.calculate(input_data, short_period: 7, medium_period: 14, long_period: 28, short_weight: 4, medium_weight: 2, long_weight: 1)
 
         expected_output = [
           {:date_time=>"2019-01-09T00:00:00.000Z", :value=>47.28872762629681},
@@ -51,7 +52,38 @@ describe 'Indicators' do
       end
 
       it "Throws exception if not enough data" do
-        expect {TechnicalAnalysis::Uo.calculate(input_data, long_period: input_data.size+2)}.to raise_exception(Validation::ValidationError)
+        expect {indicator.calculate(input_data, long_period: input_data.size+2)}.to raise_exception(Validation::ValidationError)
+      end
+
+      it 'Returns the symbol' do
+        indicator_symbol = indicator.indicator_symbol
+        expect(indicator_symbol).to eq('uo')
+      end
+
+      it 'Returns the name' do
+        indicator_name = indicator.indicator_name
+        expect(indicator_name).to eq('Ultimate Oscillator')
+      end
+
+      it 'Returns the valid options' do
+        valid_options = indicator.valid_options
+        expect(valid_options).to eq(%i(short_period medium_period long_period short_weight medium_weight long_weight))
+      end
+
+      it 'Validates options' do
+        valid_options = { short_period: 7, medium_period: 14, long_period: 28, short_weight: 4, medium_weight: 2, long_weight: 1 }
+        options_validated = indicator.validate_options(valid_options)
+        expect(options_validated).to eq(true)
+      end
+
+      it 'Throws exception for invalid options' do
+        invalid_options = { test: 10 }
+        expect { indicator.validate_options(invalid_options) }.to raise_exception(Validation::ValidationError)
+      end
+
+      it 'Calculates minimum data size' do
+        options = { short_period: 7, medium_period: 14, long_period: 20, short_weight: 4, medium_weight: 2, long_weight: 1 }
+        expect(indicator.min_data_size(options)).to eq(21)
       end
     end
   end

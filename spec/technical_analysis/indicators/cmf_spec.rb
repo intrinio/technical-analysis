@@ -4,10 +4,11 @@ require 'spec_helper'
 describe 'Indicators' do
   describe "CMF" do
     input_data = SpecHelper.get_test_data(:high, :low, :close, :volume)
+    indicator = TechnicalAnalysis::Cmf
 
     describe 'Chaikin Money Flow' do
       it 'Calculates CMF (20 day)' do
-        output = TechnicalAnalysis::Cmf.calculate(input_data, period: 20)
+        output = indicator.calculate(input_data, period: 20)
 
         expected_output = [
           {:date_time=>"2019-01-09T00:00:00.000Z", :value=>-0.14148236474171028},
@@ -60,7 +61,38 @@ describe 'Indicators' do
       end
 
       it "Throws exception if not enough data" do
-        expect {TechnicalAnalysis::Cmf.calculate(input_data, period: input_data.size+1)}.to raise_exception(Validation::ValidationError)
+        expect {indicator.calculate(input_data, period: input_data.size+1)}.to raise_exception(Validation::ValidationError)
+      end
+
+      it 'Returns the symbol' do
+        indicator_symbol = indicator.indicator_symbol
+        expect(indicator_symbol).to eq('cmf')
+      end
+
+      it 'Returns the name' do
+        indicator_name = indicator.indicator_name
+        expect(indicator_name).to eq('Chaikin Money Flow')
+      end
+
+      it 'Returns the valid options' do
+        valid_options = indicator.valid_options
+        expect(valid_options).to eq(%i(period))
+      end
+
+      it 'Validates options' do
+        valid_options = { period: 22 }
+        options_validated = indicator.validate_options(valid_options)
+        expect(options_validated).to eq(true)
+      end
+
+      it 'Throws exception for invalid options' do
+        invalid_options = { test: 10 }
+        expect { indicator.validate_options(invalid_options) }.to raise_exception(Validation::ValidationError)
+      end
+
+      it 'Calculates minimum data size' do
+        options = { period: 4 }
+        expect(indicator.min_data_size(options)).to eq(4)
       end
     end
   end

@@ -17,7 +17,7 @@ module TechnicalAnalysis
       Validation.validate_options(options, valid_options)
     end
 
-    def min_data_size(**params)
+    def self.min_data_size(**params)
       1
     end
 

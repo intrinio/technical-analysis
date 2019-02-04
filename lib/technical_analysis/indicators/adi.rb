@@ -1,8 +1,6 @@
 module TechnicalAnalysis
   class Adi < Indicator
 
-    VALID_OPTIONS = [].freeze
-
     def self.indicator_symbol
       "adi"
     end
@@ -17,7 +15,7 @@ module TechnicalAnalysis
 
     def self.validate_options(options)
       return true if options == {}
-      raise ValidationError.new "This indicator doesn't accept any options."
+      raise Validation::ValidationError.new "This indicator doesn't accept any options."
     end
 
     def self.min_data_size(**params)

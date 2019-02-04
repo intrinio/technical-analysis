@@ -4,10 +4,11 @@ require 'spec_helper'
 describe 'Indicators' do
   describe "SR" do
     input_data = SpecHelper.get_test_data(:high, :low, :close)
+    indicator = TechnicalAnalysis::Sr
 
     describe 'Stochastic Oscillator' do
       it 'Calculates SR (14 day)' do
-        output = TechnicalAnalysis::Sr.calculate(input_data, period: 14, signal_period: 3)
+        output = indicator.calculate(input_data, period: 14, signal_period: 3)
 
         expected_output = [
           {:date_time=>"2019-01-09T00:00:00.000Z", :value=>{:sr=>44.44007858546172, :sr_signal=>33.739408752366685}},
@@ -64,7 +65,38 @@ describe 'Indicators' do
       end
 
       it "Throws exception if not enough data" do
-        expect {TechnicalAnalysis::Sr.calculate(input_data, period: input_data.size+1)}.to raise_exception(Validation::ValidationError)
+        expect {indicator.calculate(input_data, period: input_data.size+1)}.to raise_exception(Validation::ValidationError)
+      end
+
+      it 'Returns the symbol' do
+        indicator_symbol = indicator.indicator_symbol
+        expect(indicator_symbol).to eq('sr')
+      end
+
+      it 'Returns the name' do
+        indicator_name = indicator.indicator_name
+        expect(indicator_name).to eq('Stochastic Oscillator')
+      end
+
+      it 'Returns the valid options' do
+        valid_options = indicator.valid_options
+        expect(valid_options).to eq(%i(period signal_period))
+      end
+
+      it 'Validates options' do
+        valid_options = { period: 22, signal_period: 4 }
+        options_validated = indicator.validate_options(valid_options)
+        expect(options_validated).to eq(true)
+      end
+
+      it 'Throws exception for invalid options' do
+        invalid_options = { test: 10 }
+        expect { indicator.validate_options(invalid_options) }.to raise_exception(Validation::ValidationError)
+      end
+
+      it 'Calculates minimum data size' do
+        options = { period: 4, signal_period: 2 }
+        expect(indicator.min_data_size(options)).to eq(5)
       end
     end
   end

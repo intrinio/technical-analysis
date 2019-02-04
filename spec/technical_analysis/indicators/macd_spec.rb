@@ -4,10 +4,11 @@ require 'spec_helper'
 describe 'Indicators' do
   describe "MACD" do
     input_data = SpecHelper.get_test_data(:close)
+    indicator = TechnicalAnalysis::Macd
 
     describe 'Moving Average Convergence Divergence' do
       it 'Calculates MACD (12, 26, 9)' do
-        output = TechnicalAnalysis::Macd.calculate(input_data, fast_period: 12, slow_period: 26, signal_period: 9, price_key: :close)
+        output = indicator.calculate(input_data, fast_period: 12, slow_period: 26, signal_period: 9, price_key: :close)
 
         expected_output = [
           {:date_time=>"2019-01-09T00:00:00.000Z", :value=> {:macd_histogram=>0.8762597178840466, :macd_line=>-8.126908458242355, :signal_line=>-9.003168176126401}},
@@ -46,7 +47,38 @@ describe 'Indicators' do
       end
 
       it "Throws exception if not enough data" do
-        expect {TechnicalAnalysis::Macd.calculate(input_data, slow_period: input_data.size+1, signal_period: input_data.size+1, price_key: :close)}.to raise_exception(Validation::ValidationError)
+        expect {indicator.calculate(input_data, slow_period: input_data.size+1, signal_period: input_data.size+1, price_key: :close)}.to raise_exception(Validation::ValidationError)
+      end
+
+      it 'Returns the symbol' do
+        indicator_symbol = indicator.indicator_symbol
+        expect(indicator_symbol).to eq('macd')
+      end
+
+      it 'Returns the name' do
+        indicator_name = indicator.indicator_name
+        expect(indicator_name).to eq('Moving Average Convergence Divergence')
+      end
+
+      it 'Returns the valid options' do
+        valid_options = indicator.valid_options
+        expect(valid_options).to eq(%i(fast_period slow_period signal_period price_key))
+      end
+
+      it 'Validates options' do
+        valid_options = { fast_period: 12, slow_period: 26, signal_period: 9, price_key: :close }
+        options_validated = indicator.validate_options(valid_options)
+        expect(options_validated).to eq(true)
+      end
+
+      it 'Throws exception for invalid options' do
+        invalid_options = { test: 10 }
+        expect { indicator.validate_options(invalid_options) }.to raise_exception(Validation::ValidationError)
+      end
+
+      it 'Calculates minimum data size' do
+        options = { fast_period: 12, slow_period: 24, signal_period: 10, price_key: :close }
+        expect(indicator.min_data_size(options)).to eq(34)
       end
     end
   end

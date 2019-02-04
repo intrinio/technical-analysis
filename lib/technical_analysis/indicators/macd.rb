@@ -10,7 +10,7 @@ module TechnicalAnalysis
     end
 
     def self.valid_options
-      %i(slow_period signal_period)
+      %i(fast_period slow_period signal_period price_key)
     end
 
     def self.validate_options(options)
