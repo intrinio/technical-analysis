@@ -28,6 +28,7 @@ module TechnicalAnalysis
     # @param price_key [Symbol] The hash key for the price data. Default :value
     # @return [Hash] A hash of the results with keys (:date_time, :value)
     def self.calculate(data, price_key: :value)
+      price_key = price_key.to_sym
       Validation.validate_numeric_data(data, price_key)
       Validation.validate_length(data, 1)
 

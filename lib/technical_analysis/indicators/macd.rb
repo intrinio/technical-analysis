@@ -34,6 +34,7 @@ module TechnicalAnalysis
       fast_period = fast_period.to_i
       slow_period = slow_period.to_i
       signal_period = signal_period.to_i
+      price_key = price_key.to_sym
       Validation.validate_numeric_data(data, price_key)
       Validation.validate_length(data, slow_period + signal_period)
 

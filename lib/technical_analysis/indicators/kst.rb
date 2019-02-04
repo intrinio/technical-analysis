@@ -44,6 +44,7 @@ module TechnicalAnalysis
       sma2 = sma2.to_i
       sma3 = sma3.to_i
       sma4 = sma4.to_i
+      price_key = price_key.to_sym
       Validation.validate_numeric_data(data, price_key)
       Validation.validate_length(data, roc4 + sma4 - 1)
 

@@ -32,6 +32,7 @@ module TechnicalAnalysis
     def self.calculate(data, period: 20, standard_deviations: 2, price_key: :value)
       period = period.to_i
       standard_deviations = standard_deviations.to_i
+      price_key = price_key.to_sym
       Validation.validate_numeric_data(data, price_key)
       Validation.validate_length(data, period)
 

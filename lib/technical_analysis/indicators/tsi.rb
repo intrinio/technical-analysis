@@ -32,6 +32,7 @@ module TechnicalAnalysis
     def self.calculate(data, low_period: 13, high_period: 25, price_key: :value)
       low_period = low_period.to_i
       high_period = high_period.to_i
+      price_key = price_key.to_sym
       Validation.validate_numeric_data(data, price_key)
       Validation.validate_length(data, low_period + high_period)
 

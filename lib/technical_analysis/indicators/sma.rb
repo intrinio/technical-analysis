@@ -30,6 +30,7 @@ module TechnicalAnalysis
     # @return [Hash] A hash of the results with keys (:date_time, :value)
     def self.calculate(data, period: 30, price_key: :value)
       period = period.to_i
+      price_key = price_key.to_sym
       Validation.validate_numeric_data(data, price_key)
       Validation.validate_length(data, period)
 
