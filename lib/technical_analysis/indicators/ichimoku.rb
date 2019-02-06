@@ -32,7 +32,7 @@ module TechnicalAnalysis
     # @param data [Array] Array of hashes with keys (:date_time, :high, :low, :close)
     # @param low_period [Integer] The given period to calculate tenkan_sen (Conversion Line)
     # @param medium_period [Integer] The given period to calculate kijun_sen (Base Line), senkou_span_a (Leading Span A), and chikou_span (Lagging Span)
-    # @param high_period [Integer] The given period to calculate senkou_span_b (Leadning Span B)
+    # @param high_period [Integer] The given period to calculate senkou_span_b (Leading Span B)
     # @return [Hash] A hash of the results with keys (:date_time, :value)
     def self.calculate(data, low_period: 9, medium_period: 26, high_period: 52)
       low_period = low_period.to_i

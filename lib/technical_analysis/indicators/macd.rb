@@ -27,7 +27,7 @@ module TechnicalAnalysis
     # @param data [Array] Array of hashes with keys (:date_time, :value)
     # @param fast_period [Integer] The given period to calculate the fast moving EMA for MACD
     # @param slow_period [Integer] The given period to calculate the slow moving EMA for MACD
-    # @param signal_period [Integer] The given period to calculate the singal line for MACD
+    # @param signal_period [Integer] The given period to calculate the signal line for MACD
     # @param price_key [Symbol] The hash key for the price data. Default :value
     # @return [Hash] A hash of the results with keys (:date_time, :value)
     def self.calculate(data, fast_period: 12, slow_period: 26, signal_period: 9, price_key: :value)

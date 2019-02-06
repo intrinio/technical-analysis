@@ -26,7 +26,7 @@ module TechnicalAnalysis
     #
     # @param data [Array] Array of hashes with keys (:date_time, :high, :low)
     # @param ema_period [Integer] The given period to calculate the EMA and EMA of EMA
-    # @param period [Integer] The given period to calculate the MI
+    # @param sum_period [Integer] The given period to calculate the sum of EMA ratios
     # @return [Hash] A hash of the results with keys (:date_time, :value)
     def self.calculate(data, ema_period: 9, sum_period: 25)
       ema_period = ema_period.to_i

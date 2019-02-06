@@ -26,12 +26,12 @@ module TechnicalAnalysis
     #
     # @param data [Array] Array of hashes with keys (:date_time, :value)
     # @param period [Integer] The given period to calculate the BB
-    # @param standard_deviations [Integer] The given standard deviations to calculate the upper and lower bands of the BB
+    # @param standard_deviations [Float] The given standard deviations to calculate the upper and lower bands of the BB
     # @param price_key [Symbol] The hash key for the price data. Default :value
     # @return [Hash] A hash of the results with keys (:date_time, :value)
     def self.calculate(data, period: 20, standard_deviations: 2, price_key: :value)
       period = period.to_i
-      standard_deviations = standard_deviations.to_i
+      standard_deviations = standard_deviations.to_f
       price_key = price_key.to_sym
       Validation.validate_numeric_data(data, price_key)
       Validation.validate_length(data, period)

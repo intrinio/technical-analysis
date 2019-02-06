@@ -26,6 +26,7 @@ module TechnicalAnalysis
     #
     # @param data [Array] Array of hashes with keys (:date_time, :high, :low, :close)
     # @param period [Integer] The given period to calculate the SR
+    # @param signal_period [Integer] The given period to calculate the SMA as a signal line for SR
     # @return [Array] Array of hashes with keys(:date_time, :value)
     def self.calculate(data, period: 14, signal_period: 3)
       period = period.to_i
