@@ -78,7 +78,7 @@ describe 'Indicators' do
 
       it 'Calculates minimum data size' do
         options = { fast_period: 12, slow_period: 24, signal_period: 10, price_key: :close }
-        expect(indicator.min_data_size(options)).to eq(34)
+        expect(indicator.min_data_size(options)).to eq(33)
       end
     end
   end

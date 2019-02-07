@@ -18,7 +18,7 @@ module TechnicalAnalysis
     end
 
     def self.min_data_size(slow_period: 26, signal_period: 9, **params)
-      slow_period.to_i + signal_period.to_i
+      slow_period.to_i + signal_period.to_i - 1
     end
 
     # Calculates the moving average convergence divergence (MACD) for the data over the given period
@@ -36,7 +36,7 @@ module TechnicalAnalysis
       signal_period = signal_period.to_i
       price_key = price_key.to_sym
       Validation.validate_numeric_data(data, price_key)
-      Validation.validate_length(data, slow_period + signal_period)
+      Validation.validate_length(data, slow_period + signal_period - 1)
 
       data = data.sort_by_hash_date_time_asc
 
