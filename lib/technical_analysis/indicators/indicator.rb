@@ -10,6 +10,9 @@ module TechnicalAnalysis
       :validate_options,
     ].freeze
 
+    # Returns an array of TechnicalAnalsyis modules
+    #
+    # @return [Array] A list of TechnicalAnalysis::Class
     def self.roster
       [
         TechnicalAnalysis::Adi,
@@ -50,6 +53,10 @@ module TechnicalAnalysis
     end
 
     # Finds the applicable indicator and returns an instance
+    #
+    # @param indicator_symbol [String] Downcased string of the indicator symbol
+    #
+    # @return TechnicalAnalysis::ClassName
     def self.find(indicator_symbol)
       self.roster.each do |indicator|
         return indicator if indicator.indicator_symbol == indicator_symbol
@@ -59,6 +66,13 @@ module TechnicalAnalysis
     end
 
     # Find the applicable indicator and looks up the value
+    #
+    # @param indicator_symbol [String] Downcased string of the indicator symbol
+    # @param data [Array] Array of hashes of price data to perform calcualtion on
+    # @param calculation [Symbol] The calculation to be performed on the requested indicator and params
+    # @param options [Hash] A hash containing options for the requested calculation
+    #
+    # @return Returns the requested calculation
     def self.calculate(indicator_symbol, data, calculation, options={})
       return nil unless CALCULATIONS.include? calculation
 
@@ -76,30 +90,45 @@ module TechnicalAnalysis
       end
     end
 
-    # Calculates the minimum data size for an indicator
+    # Calculates the minimum number of observations needed to calculate the technical indicator
+    #
+    # @param options [Hash] The options for the technical indicator
+    #
+    # @return [Integer] Returns the minimum number of observations needed to calculate the technical
+    #    indicator based on the options provided
     def self.min_data_size(indicator_symbol, options)
       raise "#{self.name} did not implement min_data_size"
       nil
     end
 
-    # Validates the options for the indicator
+    # Validates the provided options for this technical indicator
+    #
+    # @param options [Hash] The options for the technical indicator to be validated
+    #
+    # @return [Boolean] Returns true if options vare valid or raises an error if they're not
     def self.validate_options(options)
       raise "#{self.name} did not implement validate_options"
       false
     end
 
-    # Returns the valid options for the indicator
+    # Returns an array of valid keys for options for this technical indicator
+    #
+    # @return [Array] An array of keys as symbols for valid options for this technical indicator
     def self.valid_options
       raise "#{self.name} did not implement valid_options"
       []
     end
 
-    # Returns the symbol string of the indicator
+    # Returns the symbol of the technical indicator
+    #
+    # @return [String] A string of the symbol of the technical indicator
     def self.indicator_symbol
       raise "#{self.name} did not implement indicator_symbol"
     end
 
-    # Returns the name string of the indicator
+    # Returns the name of the technical indicator
+    #
+    # @return [String] A string of the name of the technical indicator
     def self.indicator_name
       raise "#{self.name} did not implement indicator_name"
     end

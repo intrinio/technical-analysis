@@ -1,22 +1,42 @@
 module TechnicalAnalysis
   class Ichimoku < Indicator
 
+    # Returns the symbol of the technical indicator
+    #
+    # @return [String] A string of the symbol of the technical indicator
     def self.indicator_symbol
       "ichimoku"
     end
 
+    # Returns the name of the technical indicator
+    #
+    # @return [String] A string of the name of the technical indicator
     def self.indicator_name
       "Ichimoku Kinko Hyo"
     end
 
+    # Returns an array of valid keys for options for this technical indicator
+    #
+    # @return [Array] An array of keys as symbols for valid options for this technical indicator
     def self.valid_options
       %i(low_period medium_period high_period)
     end
 
+    # Validates the provided options for this technical indicator
+    #
+    # @param options [Hash] The options for the technical indicator to be validated
+    #
+    # @return [Boolean] Returns true if options vare valid or raises an error if they're not
     def self.validate_options(options)
       Validation.validate_options(options, valid_options)
     end
 
+    # Calculates the minimum number of observations needed to calculate the technical indicator
+    #
+    # @param options [Hash] The options for the technical indicator
+    #
+    # @return [Integer] Returns the minimum number of observations needed to calculate the technical
+    #    indicator based on the options provided
     def self.min_data_size(medium_period: 26, high_period: 52, **params)
       high_period.to_i + medium_period.to_i - 2
     end
@@ -33,7 +53,33 @@ module TechnicalAnalysis
     # @param low_period [Integer] The given period to calculate tenkan_sen (Conversion Line)
     # @param medium_period [Integer] The given period to calculate kijun_sen (Base Line), senkou_span_a (Leading Span A), and chikou_span (Lagging Span)
     # @param high_period [Integer] The given period to calculate senkou_span_b (Leading Span B)
-    # @return [Hash] A hash of the results with keys (:date_time, :value)
+    #
+    # @return [Array<Hash>]
+    #
+    #   An array of hashes with keys (:date_time, :value). Example output:
+    #
+    #     [
+    #       {
+    #         :date_time => "2019-01-09T00:00:00.000Z",
+    #         :value => {
+    #           :chikou_span => 157.17,
+    #           :kijun_sen => 150.68,
+    #           :senkou_span_a => 155.9775,
+    #           :senkou_span_b => 165.765,
+    #           :tenkan_sen => 150.215
+    #         }
+    #       },
+    #       {
+    #         :date_time => "2019-01-08T00:00:00.000Z",
+    #         :value => {
+    #           :chikou_span => 146.83,
+    #           :kijun_sen => 150.68,
+    #           :senkou_span_a => 156.965,
+    #           :senkou_span_b => 165.765,
+    #           :tenkan_sen => 147.81
+    #         }
+    #       },
+    #     ]
     def self.calculate(data, low_period: 9, medium_period: 26, high_period: 52)
       low_period = low_period.to_i
       medium_period = medium_period.to_i

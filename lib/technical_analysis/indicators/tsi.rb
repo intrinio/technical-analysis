@@ -1,22 +1,42 @@
 module TechnicalAnalysis
   class Tsi < Indicator
 
+    # Returns the symbol of the technical indicator
+    #
+    # @return [String] A string of the symbol of the technical indicator
     def self.indicator_symbol
       "tsi"
     end
 
+    # Returns the name of the technical indicator
+    #
+    # @return [String] A string of the name of the technical indicator
     def self.indicator_name
       "True Strength Index"
     end
 
+    # Returns an array of valid keys for options for this technical indicator
+    #
+    # @return [Array] An array of keys as symbols for valid options for this technical indicator
     def self.valid_options
       %i(low_period high_period price_key)
     end
 
+    # Validates the provided options for this technical indicator
+    #
+    # @param options [Hash] The options for the technical indicator to be validated
+    #
+    # @return [Boolean] Returns true if options vare valid or raises an error if they're not
     def self.validate_options(options)
       Validation.validate_options(options, valid_options)
     end
 
+    # Calculates the minimum number of observations needed to calculate the technical indicator
+    #
+    # @param options [Hash] The options for the technical indicator
+    #
+    # @return [Integer] Returns the minimum number of observations needed to calculate the technical
+    #    indicator based on the options provided
     def self.min_data_size(low_period: 13, high_period: 25, **params)
       low_period.to_i + high_period.to_i
     end
@@ -28,7 +48,15 @@ module TechnicalAnalysis
     # @param high_period [Integer] The given high period to calculate the EMA
     # @param low_period [Integer] The given low period to calculate the EMA
     # @param price_key [Symbol] The hash key for the price data. Default :value
-    # @return [Hash] A hash of the results with keys (:date_time, :value)
+    #
+    # @return [Array<Hash>]
+    #
+    #   An array of hashes with keys (:date_time, :value). Example output:
+    #
+    #     [
+    #       {:date_time => "2019-01-09T00:00:00.000Z", :value => -28.91017661103889},
+    #       {:date_time => "2019-01-08T00:00:00.000Z", :value => -30.97413963420104},
+    #     ]
     def self.calculate(data, low_period: 13, high_period: 25, price_key: :value)
       low_period = low_period.to_i
       high_period = high_period.to_i
@@ -75,7 +103,7 @@ module TechnicalAnalysis
       output.sort_by_hash_date_time_desc
     end
 
-    def self.process_ema(current_value, data, multiplier, period, store)
+    private_class_method def self.process_ema(current_value, data, multiplier, period, store)
       if store.empty?
         value = data.map { |d| d[:value] }.average
         abs_value = data.map { |d| d[:abs_value] }.average

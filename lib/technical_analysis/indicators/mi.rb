@@ -1,22 +1,42 @@
 module TechnicalAnalysis
   class Mi < Indicator
 
+    # Returns the symbol of the technical indicator
+    #
+    # @return [String] A string of the symbol of the technical indicator
     def self.indicator_symbol
       "mi"
     end
 
+    # Returns the name of the technical indicator
+    #
+    # @return [String] A string of the name of the technical indicator
     def self.indicator_name
       "Mass Index"
     end
 
+    # Returns an array of valid keys for options for this technical indicator
+    #
+    # @return [Array] An array of keys as symbols for valid options for this technical indicator
     def self.valid_options
       %i(ema_period sum_period)
     end
 
+    # Validates the provided options for this technical indicator
+    #
+    # @param options [Hash] The options for the technical indicator to be validated
+    #
+    # @return [Boolean] Returns true if options vare valid or raises an error if they're not
     def self.validate_options(options)
       Validation.validate_options(options, valid_options)
     end
 
+    # Calculates the minimum number of observations needed to calculate the technical indicator
+    #
+    # @param options [Hash] The options for the technical indicator
+    #
+    # @return [Integer] Returns the minimum number of observations needed to calculate the technical
+    #    indicator based on the options provided
     def self.min_data_size(ema_period: 9, sum_period: 25)
       (ema_period.to_i * 2) + sum_period.to_i - 2
     end
@@ -27,7 +47,15 @@ module TechnicalAnalysis
     # @param data [Array] Array of hashes with keys (:date_time, :high, :low)
     # @param ema_period [Integer] The given period to calculate the EMA and EMA of EMA
     # @param sum_period [Integer] The given period to calculate the sum of EMA ratios
-    # @return [Hash] A hash of the results with keys (:date_time, :value)
+    #
+    # @return [Array<Hash>]
+    #
+    #   An array of hashes with keys (:date_time, :value). Example output:
+    #
+    #     [
+    #       {:date_time => "2019-01-09T00:00:00.000Z", :value => 24.77520633216394},
+    #       {:date_time => "2019-01-08T00:00:00.000Z", :value => 24.80084030980544},
+    #     ]
     def self.calculate(data, ema_period: 9, sum_period: 25)
       ema_period = ema_period.to_i
       sum_period = sum_period.to_i

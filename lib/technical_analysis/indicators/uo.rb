@@ -1,22 +1,42 @@
 module TechnicalAnalysis
   class Uo < Indicator
 
+    # Returns the symbol of the technical indicator
+    #
+    # @return [String] A string of the symbol of the technical indicator
     def self.indicator_symbol
       "uo"
     end
 
+    # Returns the name of the technical indicator
+    #
+    # @return [String] A string of the name of the technical indicator
     def self.indicator_name
       "Ultimate Oscillator"
     end
 
+    # Returns an array of valid keys for options for this technical indicator
+    #
+    # @return [Array] An array of keys as symbols for valid options for this technical indicator
     def self.valid_options
       %i(short_period medium_period long_period short_weight medium_weight long_weight)
     end
 
+    # Validates the provided options for this technical indicator
+    #
+    # @param options [Hash] The options for the technical indicator to be validated
+    #
+    # @return [Boolean] Returns true if options vare valid or raises an error if they're not
     def self.validate_options(options)
       Validation.validate_options(options, valid_options)
     end
 
+    # Calculates the minimum number of observations needed to calculate the technical indicator
+    #
+    # @param options [Hash] The options for the technical indicator
+    #
+    # @return [Integer] Returns the minimum number of observations needed to calculate the technical
+    #    indicator based on the options provided
     def self.min_data_size(long_period: 28, **params)
       long_period.to_i + 1
     end
@@ -31,7 +51,15 @@ module TechnicalAnalysis
     # @param short_weight [Float] Weight of short Buying Pressure average for UO
     # @param medium_weight [Float] Weight of medium Buying Pressure average for UO
     # @param long_weight [Float] Weight of long Buying Pressure average for UO
-    # @return [Hash] A hash of the results with keys (:date_time, :value)
+    #
+    # @return [Array<Hash>]
+    #
+    #   An array of hashes with keys (:date_time, :value). Example output:
+    #
+    #     [
+    #       {:date_time => "2019-01-09T00:00:00.000Z", :value => 47.28872762629681},
+    #       {:date_time => "2019-01-08T00:00:00.000Z", :value => 44.828908983561035},
+    #     ]
     def self.calculate(data, short_period: 7, medium_period: 14, long_period: 28, short_weight: 4, medium_weight: 2, long_weight: 1)
       short_period = short_period.to_i
       medium_period = medium_period.to_i
@@ -75,7 +103,7 @@ module TechnicalAnalysis
       output.sort_by_hash_date_time_desc
     end
 
-    def self.calculate_average(period, data)
+    private_class_method def self.calculate_average(period, data)
       buying_pressures_sum = data.last(period).map { |d| d[:buying_pressure] }.sum
       true_ranges_sum = data.last(period).map { |d| d[:true_range] }.sum
 

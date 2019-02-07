@@ -1,22 +1,42 @@
 module TechnicalAnalysis
   class Macd < Indicator
 
+    # Returns the symbol of the technical indicator
+    #
+    # @return [String] A string of the symbol of the technical indicator
     def self.indicator_symbol
       "macd"
     end
 
+    # Returns the name of the technical indicator
+    #
+    # @return [String] A string of the name of the technical indicator
     def self.indicator_name
       "Moving Average Convergence Divergence"
     end
 
+    # Returns an array of valid keys for options for this technical indicator
+    #
+    # @return [Array] An array of keys as symbols for valid options for this technical indicator
     def self.valid_options
       %i(fast_period slow_period signal_period price_key)
     end
 
+    # Validates the provided options for this technical indicator
+    #
+    # @param options [Hash] The options for the technical indicator to be validated
+    #
+    # @return [Boolean] Returns true if options vare valid or raises an error if they're not
     def self.validate_options(options)
       Validation.validate_options(options, valid_options)
     end
 
+    # Calculates the minimum number of observations needed to calculate the technical indicator
+    #
+    # @param options [Hash] The options for the technical indicator
+    #
+    # @return [Integer] Returns the minimum number of observations needed to calculate the technical
+    #    indicator based on the options provided
     def self.min_data_size(slow_period: 26, signal_period: 9, **params)
       slow_period.to_i + signal_period.to_i - 1
     end
@@ -29,7 +49,29 @@ module TechnicalAnalysis
     # @param slow_period [Integer] The given period to calculate the slow moving EMA for MACD
     # @param signal_period [Integer] The given period to calculate the signal line for MACD
     # @param price_key [Symbol] The hash key for the price data. Default :value
-    # @return [Hash] A hash of the results with keys (:date_time, :value)
+    #
+    # @return [Array<Hash>]
+    #
+    #   An array of hashes with keys (:date_time, :value). Example output:
+    #
+    #     [
+    #       {
+    #         :date_time => "2019-01-09T00:00:00.000Z",
+    #         :value => {
+    #           :macd_histogram => 0.8762597178840466,
+    #           :macd_line => -8.126908458242355,
+    #           :signal_line => -9.003168176126401
+    #         }
+    #       },
+    #       {
+    #         :date_time => "2019-01-08T00:00:00.000Z",
+    #         :value => {
+    #           :macd_histogram => 0.4770591535283888,
+    #           :macd_line => -8.745173952069024,
+    #           :signal_line => -9.222233105597413
+    #         }
+    #       }
+    #     ]
     def self.calculate(data, fast_period: 12, slow_period: 26, signal_period: 9, price_key: :value)
       fast_period = fast_period.to_i
       slow_period = slow_period.to_i
