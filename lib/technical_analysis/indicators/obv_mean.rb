@@ -38,7 +38,7 @@ module TechnicalAnalysis
     # @return [Integer] Returns the minimum number of observations needed to calculate the technical
     #    indicator based on the options provided
     def self.min_data_size(period: 10)
-      period.to_i
+      period.to_i + 1
     end
 
     # Calculates the on-balance volume mean (OBV mean) for the data over the given period
@@ -58,7 +58,7 @@ module TechnicalAnalysis
     def self.calculate(data, period: 10)
       period = period.to_i
       Validation.validate_numeric_data(data, :close, :volume)
-      Validation.validate_length(data, period)
+      Validation.validate_length(data, period + 1)
 
       data = data.sort_by_hash_date_time_asc
 

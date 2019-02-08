@@ -87,7 +87,7 @@ describe 'Indicators' do
 
       it 'Calculates minimum data size' do
         options = { medium_period: 4, high_period: 10 }
-        expect(indicator.min_data_size(options)).to eq(12)
+        expect(indicator.min_data_size(options)).to eq(13)
       end
     end
   end

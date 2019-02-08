@@ -38,7 +38,7 @@ module TechnicalAnalysis
     # @return [Integer] Returns the minimum number of observations needed to calculate the technical
     #    indicator based on the options provided
     def self.min_data_size(medium_period: 26, high_period: 52, **params)
-      high_period.to_i + medium_period.to_i - 2
+      high_period.to_i + medium_period.to_i - 1
     end
 
     # Calculates the 5 points of Ichimoku Kinko Hyo (Ichimoku) for the data over the given period
@@ -85,7 +85,7 @@ module TechnicalAnalysis
       medium_period = medium_period.to_i
       high_period = high_period.to_i
       Validation.validate_numeric_data(data, :high, :low, :close)
-      Validation.validate_length(data, high_period + medium_period - 2)
+      Validation.validate_length(data, high_period + medium_period - 1)
 
       data = data.sort_by_hash_date_time_asc
 

@@ -101,7 +101,7 @@ describe 'Indicators' do
 
       it 'Calculates minimum data size' do
         options = { period: 4 }
-        expect(indicator.min_data_size(options)).to eq(4)
+        expect(indicator.min_data_size(options)).to eq(5)
       end
     end
   end
