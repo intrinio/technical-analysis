@@ -49,7 +49,7 @@ module TechnicalAnalysis
     # @param roc2 [Integer] The given period to calculate the rate-of-change for RCMA2
     # @param roc3 [Integer] The given period to calculate the rate-of-change for RCMA3
     # @param roc4 [Integer] The given period to calculate the rate-of-change for RCMA4
-    # @param sma1 [Integer] The given period to calculate the SMA of the rate-of-change for  RCMA1
+    # @param sma1 [Integer] The given period to calculate the SMA of the rate-of-change for RCMA1
     # @param sma2 [Integer] The given period to calculate the SMA of the rate-of-change for RCMA2
     # @param sma3 [Integer] The given period to calculate the SMA of the rate-of-change for RCMA3
     # @param sma4 [Integer] The given period to calculate the SMA of the rate-of-change for RCMA4

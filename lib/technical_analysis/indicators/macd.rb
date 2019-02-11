@@ -59,16 +59,16 @@ module TechnicalAnalysis
     #         :date_time => "2019-01-09T00:00:00.000Z",
     #         :value => {
     #           :macd_histogram => 0.8762597178840466,
-    #           :macd_line => -8.126908458242355,
-    #           :signal_line => -9.003168176126401
+    #           :macd_line      => -8.126908458242355,
+    #           :signal_line    => -9.003168176126401
     #         }
     #       },
     #       {
     #         :date_time => "2019-01-08T00:00:00.000Z",
     #         :value => {
     #           :macd_histogram => 0.4770591535283888,
-    #           :macd_line => -8.745173952069024,
-    #           :signal_line => -9.222233105597413
+    #           :macd_line      => -8.745173952069024,
+    #           :signal_line    => -9.222233105597413
     #         }
     #       }
     #     ]

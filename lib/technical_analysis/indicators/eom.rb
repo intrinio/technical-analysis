@@ -45,7 +45,7 @@ module TechnicalAnalysis
     # https://en.wikipedia.org/wiki/Ease_of_movement
     #
     # @param data [Array] Array of hashes with keys (:date_time, :high, :low, :volume)
-    # @param period [Integer] The given period to calculate the Eom / EVM
+    # @param period [Integer] The given period to calculate the EoM / EVM
     #
     # @return [Array<Hash>]
     #

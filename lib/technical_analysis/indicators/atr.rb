@@ -31,7 +31,8 @@ module TechnicalAnalysis
       Validation.validate_options(options, valid_options)
     end
 
-    # Calculates the minimum number of observations needed to calculate the technical indicator #
+    # Calculates the minimum number of observations needed to calculate the technical indicator
+    #
     # @param options [Hash] The options for the technical indicator
     #
     # @return [Integer] Returns the minimum number of observations needed to calculate the technical

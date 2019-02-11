@@ -57,17 +57,17 @@ module TechnicalAnalysis
     #       {
     #         :date_time => "2019-01-09T00:00:00.000Z",
     #         :value => {
-    #           :lower_band => 141.02036711220762,
+    #           :lower_band  => 141.02036711220762,
     #           :middle_band => 157.35499999999996,
-    #           :upper_band => 173.6896328877923
+    #           :upper_band  => 173.6896328877923
     #         }
     #       },
     #       {
     #         :date_time => "2019-01-08T00:00:00.000Z",
     #         :value=> {
-    #           :lower_band => 141.07714470666247,
+    #           :lower_band  => 141.07714470666247,
     #           :middle_band => 158.1695,
-    #           :upper_band => 175.26185529333753
+    #           :upper_band  => 175.26185529333753
     #         }
     #       },
     #     ]

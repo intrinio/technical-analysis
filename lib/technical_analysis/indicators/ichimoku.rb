@@ -62,21 +62,21 @@ module TechnicalAnalysis
     #       {
     #         :date_time => "2019-01-09T00:00:00.000Z",
     #         :value => {
-    #           :chikou_span => 157.17,
-    #           :kijun_sen => 150.68,
+    #           :chikou_span   => 157.17,
+    #           :kijun_sen     => 150.68,
     #           :senkou_span_a => 155.9775,
     #           :senkou_span_b => 165.765,
-    #           :tenkan_sen => 150.215
+    #           :tenkan_sen    => 150.215
     #         }
     #       },
     #       {
     #         :date_time => "2019-01-08T00:00:00.000Z",
     #         :value => {
-    #           :chikou_span => 146.83,
-    #           :kijun_sen => 150.68,
+    #           :chikou_span   => 146.83,
+    #           :kijun_sen     => 150.68,
     #           :senkou_span_a => 156.965,
     #           :senkou_span_b => 165.765,
-    #           :tenkan_sen => 147.81
+    #           :tenkan_sen    => 147.81
     #         }
     #       },
     #     ]
