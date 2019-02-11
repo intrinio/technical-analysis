@@ -68,7 +68,7 @@ module TechnicalAnalysis
       medium_weight = medium_weight.to_f
       long_weight = long_weight.to_f
       Validation.validate_numeric_data(data, :high, :low, :close)
-      Validation.validate_length(data, long_period + 1)
+      Validation.validate_length(data, min_data_size(long_period: long_period))
 
       data = data.sort_by_hash_date_time_asc
 

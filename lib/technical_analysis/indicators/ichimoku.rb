@@ -85,7 +85,7 @@ module TechnicalAnalysis
       medium_period = medium_period.to_i
       high_period = high_period.to_i
       Validation.validate_numeric_data(data, :high, :low, :close)
-      Validation.validate_length(data, high_period + medium_period - 1)
+      Validation.validate_length(data, min_data_size(high_period: high_period, medium_period: medium_period))
 
       data = data.sort_by_hash_date_time_asc
 

@@ -62,7 +62,7 @@ module TechnicalAnalysis
       high_period = high_period.to_i
       price_key = price_key.to_sym
       Validation.validate_numeric_data(data, price_key)
-      Validation.validate_length(data, low_period + high_period)
+      Validation.validate_length(data, min_data_size(low_period: low_period, high_period: high_period))
 
       data = data.sort_by_hash_date_time_asc
 

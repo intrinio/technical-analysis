@@ -60,7 +60,7 @@ module TechnicalAnalysis
       short_period = short_period.to_i
       long_period = long_period.to_i
       Validation.validate_numeric_data(data, :high, :low)
-      Validation.validate_length(data, long_period)
+      Validation.validate_length(data, min_data_size(long_period: long_period))
 
       data = data.sort_by_hash_date_time_asc
 

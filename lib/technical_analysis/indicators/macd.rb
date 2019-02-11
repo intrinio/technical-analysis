@@ -78,7 +78,7 @@ module TechnicalAnalysis
       signal_period = signal_period.to_i
       price_key = price_key.to_sym
       Validation.validate_numeric_data(data, price_key)
-      Validation.validate_length(data, slow_period + signal_period - 1)
+      Validation.validate_length(data, min_data_size(slow_period: slow_period, signal_period: signal_period))
 
       data = data.sort_by_hash_date_time_asc
 

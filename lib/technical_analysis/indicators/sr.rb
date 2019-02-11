@@ -72,7 +72,7 @@ module TechnicalAnalysis
       period = period.to_i
       signal_period = signal_period.to_i
       Validation.validate_numeric_data(data, :high, :low, :close)
-      Validation.validate_length(data, period + signal_period - 1)
+      Validation.validate_length(data, min_data_size(period: period, signal_period: signal_period))
 
       data = data.sort_by_hash_date_time_asc
 

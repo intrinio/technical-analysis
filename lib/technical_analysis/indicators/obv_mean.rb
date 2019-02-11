@@ -58,7 +58,7 @@ module TechnicalAnalysis
     def self.calculate(data, period: 10)
       period = period.to_i
       Validation.validate_numeric_data(data, :close, :volume)
-      Validation.validate_length(data, period + 1)
+      Validation.validate_length(data, min_data_size(period: period))
 
       data = data.sort_by_hash_date_time_asc
 

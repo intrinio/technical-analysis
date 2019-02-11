@@ -60,7 +60,7 @@ module TechnicalAnalysis
       period = period.to_i
       volume_key = volume_key.to_sym
       Validation.validate_numeric_data(data, volume_key)
-      Validation.validate_length(data, period)
+      Validation.validate_length(data, min_data_size(period: period))
 
       data = data.sort_by_hash_date_time_asc
 

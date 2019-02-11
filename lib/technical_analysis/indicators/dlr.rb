@@ -59,7 +59,7 @@ module TechnicalAnalysis
     def self.calculate(data, price_key: :value)
       price_key = price_key.to_sym
       Validation.validate_numeric_data(data, price_key)
-      Validation.validate_length(data, 1)
+      Validation.validate_length(data, min_data_size({}))
 
       data = data.sort_by_hash_date_time_asc
 

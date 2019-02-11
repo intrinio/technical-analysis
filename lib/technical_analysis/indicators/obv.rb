@@ -57,7 +57,7 @@ module TechnicalAnalysis
     #     ]
     def self.calculate(data)
       Validation.validate_numeric_data(data, :close, :volume)
-      Validation.validate_length(data, 1)
+      Validation.validate_length(data, min_data_size({}))
 
       data = data.sort_by_hash_date_time_asc
 
