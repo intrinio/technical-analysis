@@ -26,7 +26,7 @@ module TechnicalAnalysis
     #
     # @param options [Hash] The options for the technical indicator to be validated
     #
-    # @return [Boolean] Returns true if options vare valid or raises an error if they're not
+    # @return [Boolean] Returns true if options are valid or raises a ValidationError if they're not
     def self.validate_options(options)
       Validation.validate_options(options, valid_options)
     end
@@ -44,7 +44,7 @@ module TechnicalAnalysis
     # Calculates the average directional index (ADX) for the data over the given period
     # https://en.wikipedia.org/wiki/Average_directional_movement_index
     #
-    # @param data [Array] Array of hashes with keys (:date_time, :value)
+    # @param data [Array] Array of hashes with keys (:date_time, :high, :low, :close)
     # @param period [Integer] The given period to calculate the ADX
     #
     # @return [Array<Hash>]

@@ -26,7 +26,7 @@ module TechnicalAnalysis
     #
     # @param options [Hash] The options for the technical indicator to be validated
     #
-    # @return [Boolean] Returns true if options vare valid or raises an error if they're not
+    # @return [Boolean] Returns true if options are valid or raises a ValidationError if they're not
     def self.validate_options(options)
       Validation.validate_options(options, valid_options)
     end
