@@ -1,4 +1,5 @@
 module TechnicalAnalysis
+  # Average True Range
   class Atr < Indicator
 
     # Returns the symbol of the technical indicator
@@ -47,14 +48,7 @@ module TechnicalAnalysis
     # @param data [Array] Array of hashes with keys (:date_time, :high, :low, :close)
     # @param period [Integer] The given period to calculate the ATR
     #
-    # @return [Array<Hash>]
-    #
-    #   An array of hashes with keys (:date_time, :value). Example output:
-    #
-    #     [
-    #       {:date_time => "2019-01-09T00:00:00.000Z", :value => 6.103013600253306},
-    #       {:date_time => "2019-01-08T00:00:00.000Z", :value => 6.195553107965099},
-    #     ]
+    # @return [Array<AtrValue>] An array of AtrValue instances
     def self.calculate(data, period: 14)
       period = period.to_i
       Validation.validate_numeric_data(data, :high, :low, :close)
@@ -75,10 +69,10 @@ module TechnicalAnalysis
           if output.empty?
             atr = period_values.average
           else
-            atr = (output.last[:value] * (period - 1.0) + tr) / period.to_f
+            atr = (output.last.atr * (period - 1.0) + tr) / period.to_f
           end
 
-          output << { date_time: v[:date_time], value: atr }
+          output << AtrValue.new(date_time: v[:date_time], atr: atr)
 
           period_values.shift
         end
@@ -87,6 +81,27 @@ module TechnicalAnalysis
       end
 
       output.sort_by_date_time_desc
+    end
+
+  end
+
+  # The value class to be returned by calculations
+  class AtrValue
+
+    # @return [String] the date_time of the obversation as it was provided
+    attr_accessor :date_time
+
+    # @return [Float] the atr calculation value
+    attr_accessor :atr
+
+    def initialize(date_time: nil, atr: nil)
+      @date_time = date_time
+      @atr = atr
+    end
+
+    # @return [Hash] the attributes as a hash
+    def to_hash
+      { date_time: @date_time, atr: @atr }
     end
 
   end
