@@ -1,4 +1,5 @@
 module TechnicalAnalysis
+  # Awesome Oscillator
   class Ao < Indicator
 
     # Returns the symbol of the technical indicator
@@ -48,14 +49,7 @@ module TechnicalAnalysis
     # @param short_period [Integer] The given period to calculate the short period SMA
     # @param long_period [Integer] The given period to calculate the long period SMA
     #
-    # @return [Array<Hash>]
-    #
-    #   An array of hashes with keys (:date_time, :value). Example output:
-    #
-    #     [
-    #       {:date_time => "2019-01-09T00:00:00.000Z", :value => -17.518757058823525},
-    #       {:date_time => "2019-01-08T00:00:00.000Z", :value => -17.8071908823529},
-    #     ]
+    # @return [Array<AoValue>] An array of AoValue instances
     def self.calculate(data, short_period: 5, long_period: 34)
       short_period = short_period.to_i
       long_period = long_period.to_i
@@ -76,13 +70,34 @@ module TechnicalAnalysis
           long_period_sma = midpoint_values.average
           value = short_period_sma - long_period_sma
 
-          output << { date_time: v[:date_time], value: value }
+          output << AoValue.new(date_time: v[:date_time], ao: value)
 
           midpoint_values.shift
         end
       end
 
       output.sort_by_date_time_desc
+    end
+
+  end
+
+  # The value class to be returned by calculations
+  class AoValue
+
+    # @return [String] the date_time of the obversation as it was provided
+    attr_accessor :date_time
+
+    # @return [Float] the ao calculation value
+    attr_accessor :ao
+
+    def initialize(date_time: nil, ao: nil)
+      @date_time = date_time
+      @ao = ao
+    end
+
+    # @return [Hash] the attributes as a hash
+    def to_hash
+      { date_time: @date_time, ao: @ao }
     end
 
   end
