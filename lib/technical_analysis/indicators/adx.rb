@@ -1,4 +1,5 @@
 module TechnicalAnalysis
+  # Average Direcitonal Index
   class Adx < Indicator
 
     # Returns the symbol of the technical indicator
@@ -47,28 +48,7 @@ module TechnicalAnalysis
     # @param data [Array] Array of hashes with keys (:date_time, :high, :low, :close)
     # @param period [Integer] The given period to calculate the ADX
     #
-    # @return [Array<Hash>]
-    #
-    #   An array of hashes with keys (:date_time, :value). Example output:
-    #
-    #     [
-    #       {
-    #         :date_time => "2019-01-09T00:00:00.000Z",
-    #         :value => {
-    #           :adx    => 46.70506819299097,
-    #           :di_neg => 33.86727845364526,
-    #           :di_pos => 18.75156069669946
-    #         }
-    #       },
-    #       {
-    #         :date_time => "2019-01-08T00:00:00.000Z",
-    #         :value => {
-    #           :adx    => 48.08801057392937,
-    #           :di_neg => 35.92768510004254,
-    #           :di_pos => 16.527665969119678
-    #         }
-    #       },
-    #     ]
+    # @return [Array<AdxValue>] An array of AdxValue instances
     def self.calculate(data, period: 14)
       period = period.to_i
       Validation.validate_numeric_data(data, :high, :low, :close)
@@ -107,14 +87,7 @@ module TechnicalAnalysis
               adx = ((prev_adx * 13) + dx) / period.to_f
             end
 
-            output << {
-              date_time: v[:date_time],
-              value: {
-                adx: adx,
-                di_pos: di_pos,
-                di_neg: di_neg
-              }
-            }
+            output << AdxValue.new(date_time: v[:date_time], adx: adx, di_pos: di_pos, di_neg: di_neg)
 
             prev_adx = adx
             dx_values.shift
@@ -143,7 +116,7 @@ module TechnicalAnalysis
 
       [dm_pos, dm_neg]
     end
-  
+
     private_class_method def self.smooth_periodic_values(period, periodic_values, smoothed_values)
       if smoothed_values.empty?
         tr_period = periodic_values.map { |pv| pv[:tr] }.sum
@@ -159,6 +132,35 @@ module TechnicalAnalysis
       end
 
       [tr_period, dm_pos_period, dm_neg_period]
+    end
+
+    # The value class to be returned by calculations
+    class AdxValue
+
+      # @return [String] the date_time of the obversation as it was provided
+      attr_accessor :date_time
+
+      # @return [Float] the adx calculation value
+      attr_accessor :adx
+
+      # @return [Float] the positive directional indicator calculation value
+      attr_accessor :di_pos
+
+      # @return [Float] the negative directional indicator calculation value
+      attr_accessor :di_neg
+
+      def initialize(date_time: nil, adx: nil, di_pos: nil, di_neg: nil)
+        @date_time = date_time
+        @adx = adx
+        @di_pos = di_pos
+        @di_neg = di_neg
+      end
+
+      # @return [Hash] the attributes as a hash
+      def to_hash
+        { date_time: @date_time, adx: @adx, di_pos: @di_pos, di_neg: @di_neg }
+      end
+
     end
 
   end
