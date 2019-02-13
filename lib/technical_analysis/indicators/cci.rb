@@ -49,14 +49,7 @@ module TechnicalAnalysis
     # @param constant [Float] The given constant to ensure that approximately 70 to 80 percent of
     #   CCI values would fall between −100 and +100
     #
-    # @return [Array<Hash>]
-    #
-    #   An array of hashes with keys (:date_time, :value). Example output:
-    #
-    #     [
-    #       {:date_time => "2019-01-09T00:00:00.000Z", :value => -48.14847062019609},
-    #       {:date_time => "2019-01-08T00:00:00.000Z", :value => -72.7408611895969},
-    #     ]
+    # @return [Array<CciValue>] An array of CciValue instances
     def self.calculate(data, period: 20, constant: 0.015)
       period = period.to_i
       constant = constant.to_f
@@ -77,12 +70,34 @@ module TechnicalAnalysis
           mean_deviation = typical_prices.map { |tp| (tp - period_sma).abs }.mean
           cci = (typical_price - period_sma) / (constant * mean_deviation)
 
-          output << { date_time: v[:date_time], value: cci }
+          output << CciValue.new(date_time: v[:date_time], cci: cci)
+
           typical_prices.shift
         end
       end
 
       output.sort_by_date_time_desc
+    end
+
+  end
+
+  # The value class to be returned by calculations
+  class CciValue
+
+    # @return [String] the date_time of the obversation as it was provided
+    attr_accessor :date_time
+
+    # @return [Float] the cci calculation value
+    attr_accessor :cci
+
+    def initialize(date_time: nil, cci: nil)
+      @date_time = date_time
+      @cci = cci
+    end
+
+    # @return [Hash] the attributes as a hash
+    def to_hash
+      { date_time: @date_time, cci: @cci }
     end
 
   end

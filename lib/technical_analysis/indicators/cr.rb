@@ -1,4 +1,5 @@
 module TechnicalAnalysis
+  # Cumulative Return
   class Cr < Indicator
 
     # Returns the symbol of the technical indicator
@@ -47,14 +48,7 @@ module TechnicalAnalysis
     # @param data [Array] Array of hashes with keys (:date_time, :value)
     # @param price_key [Symbol] The hash key for the price data. Default :value
     #
-    # @return [Array<Hash>]
-    #
-    #   An array of hashes with keys (:date_time, :value). Example output:
-    #
-    #     [
-    #       {:date_time => "2019-01-09T00:00:00.000Z", :value => -0.3242385507118614},
-    #       {:date_time => "2019-01-08T00:00:00.000Z", :value => -0.33552254595142594},
-    #     ]
+    # @return [Array<CrValue>] An array of CrValue instances
     def self.calculate(data, price_key: :value)
       price_key = price_key.to_sym
       Validation.validate_numeric_data(data, price_key)
@@ -66,10 +60,34 @@ module TechnicalAnalysis
       start_price = data.first[price_key] 
 
       data.each do |v|
-        output << { date_time: v[:date_time], value: ((v[price_key] - start_price) / start_price) }
+        output << CrValue.new(
+          date_time: v[:date_time],
+          cr: ((v[price_key] - start_price) / start_price)
+        )
       end
 
       output.sort_by_date_time_desc
+    end
+
+  end
+
+  # The value class to be returned by calculations
+  class CrValue
+
+    # @return [String] the date_time of the obversation as it was provided
+    attr_accessor :date_time
+
+    # @return [Float] the cr calculation value
+    attr_accessor :cr
+
+    def initialize(date_time: nil, cr: nil)
+      @date_time = date_time
+      @cr = cr
+    end
+
+    # @return [Hash] the attributes as a hash
+    def to_hash
+      { date_time: @date_time, cr: @cr }
     end
 
   end

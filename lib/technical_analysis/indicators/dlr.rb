@@ -1,4 +1,5 @@
 module TechnicalAnalysis
+  # Daily Log Return
   class Dlr < Indicator
 
     # Returns the symbol of the technical indicator
@@ -48,14 +49,7 @@ module TechnicalAnalysis
     # @param data [Array] Array of hashes with keys (:date_time, :value)
     # @param price_key [Symbol] The hash key for the price data. Default :value
     #
-    # @return [Array<Hash>]
-    #
-    #   An array of hashes with keys (:date_time, :value). Example output:
-    #
-    #     [
-    #       {:date_time => "2019-01-09T00:00:00.000Z", :value => 0.01683917971506794},
-    #       {:date_time => "2019-01-08T00:00:00.000Z", :value => 0.01888364670315034},
-    #     ]
+    # @return [Array<DlrValue>] An array of DlrValue instances
     def self.calculate(data, price_key: :value)
       price_key = price_key.to_sym
       Validation.validate_numeric_data(data, price_key)
@@ -69,12 +63,33 @@ module TechnicalAnalysis
       data.each do |v|
         current_price = v[:close].to_f
 
-        output << { date_time: v[:date_time], value: Math.log(current_price / prev_price) }
+        output << DlrValue.new(date_time: v[:date_time], dlr: Math.log(current_price / prev_price))
 
         prev_price = current_price
       end
 
       output.sort_by_date_time_desc
+    end
+
+  end
+
+  # The value class to be returned by calculations
+  class DlrValue
+
+    # @return [String] the date_time of the obversation as it was provided
+    attr_accessor :date_time
+
+    # @return [Float] the dlr calculation value
+    attr_accessor :dlr
+
+    def initialize(date_time: nil, dlr: nil)
+      @date_time = date_time
+      @dlr = dlr
+    end
+
+    # @return [Hash] the attributes as a hash
+    def to_hash
+      { date_time: @date_time, dlr: @dlr }
     end
 
   end

@@ -1,4 +1,5 @@
 module TechnicalAnalysis
+  # Chaikin Money Flow
   class Cmf < Indicator
 
     # Returns the symbol of the technical indicator
@@ -47,14 +48,7 @@ module TechnicalAnalysis
     # @param data [Array] Array of hashes with keys (:date_time, :high, :low, :close, :volume)
     # @param period [Integer] The given period to calculate the CMF
     #
-    # @return [Array<Hash>]
-    #
-    #   An array of hashes with keys (:date_time, :value). Example output:
-    #
-    #     [
-    #       {:date_time => "2019-01-09T00:00:00.000Z", :value => -0.14148236474171028},
-    #       {:date_time => "2019-01-08T00:00:00.000Z", :value => -0.10900349402409147},
-    #     ]
+    # @return [Array<CmfValue>] An array of CmfValue instances
     def self.calculate(data, period: 20)
       period = period.to_i
       Validation.validate_numeric_data(data, :high, :low, :close, :volume)
@@ -76,12 +70,34 @@ module TechnicalAnalysis
           mf_volume_sum = period_values.map { |pv| pv[:mf_volume] }.sum
           cmf = mf_volume_sum / volume_sum
 
-          output << { date_time: v[:date_time], value: cmf }
+          output << CmfValue.new(date_time: v[:date_time], cmf: cmf)
+
           period_values.shift
         end
       end
 
       output.sort_by_date_time_desc
+    end
+
+  end
+
+  # The value class to be returned by calculations
+  class CmfValue
+
+    # @return [String] the date_time of the obversation as it was provided
+    attr_accessor :date_time
+
+    # @return [Float] the cmf calculation value
+    attr_accessor :cmf
+
+    def initialize(date_time: nil, cmf: nil)
+      @date_time = date_time
+      @cmf = cmf
+    end
+
+    # @return [Hash] the attributes as a hash
+    def to_hash
+      { date_time: @date_time, cmf: @cmf }
     end
 
   end
