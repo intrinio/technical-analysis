@@ -10,10 +10,12 @@ module TechnicalAnalysis
       :validate_options,
     ].freeze
 
-    # Returns an array of TechnicalAnalsyis modules
+    private_constant :CALCULATIONS
+
+    # Returns an array of TechnicalAnalysis modules
     #
     # @return [Array] A list of TechnicalAnalysis::Class
-    def self.roster
+    private_class_method def self.roster
       [
         TechnicalAnalysis::Adi,
         TechnicalAnalysis::Adtv,
@@ -58,7 +60,7 @@ module TechnicalAnalysis
     #
     # @return TechnicalAnalysis::ClassName
     def self.find(indicator_symbol)
-      self.roster.each do |indicator|
+      roster.each do |indicator|
         return indicator if indicator.indicator_symbol == indicator_symbol
       end
 
