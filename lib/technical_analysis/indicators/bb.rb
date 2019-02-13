@@ -1,4 +1,5 @@
 module TechnicalAnalysis
+  # Bollinger Bands
   class Bb < Indicator
 
     # Returns the symbol of the technical indicator
@@ -46,31 +47,11 @@ module TechnicalAnalysis
     #
     # @param data [Array] Array of hashes with keys (:date_time, :value)
     # @param period [Integer] The given period to calculate the BB
-    # @param standard_deviations [Float] The given standard deviations to calculate the upper and lower bands of the BB
+    # @param standard_deviations [Float] The given standard deviations to calculate the upper and
+    #   lower bands of the BB
     # @param price_key [Symbol] The hash key for the price data. Default :value
     #
-    # @return [Array<Hash>]
-    #
-    #   An array of hashes with keys (:date_time, :value). Example output:
-    #
-    #     [
-    #       {
-    #         :date_time => "2019-01-09T00:00:00.000Z",
-    #         :value => {
-    #           :lower_band  => 141.02036711220762,
-    #           :middle_band => 157.35499999999996,
-    #           :upper_band  => 173.6896328877923
-    #         }
-    #       },
-    #       {
-    #         :date_time => "2019-01-08T00:00:00.000Z",
-    #         :value=> {
-    #           :lower_band  => 141.07714470666247,
-    #           :middle_band => 158.1695,
-    #           :upper_band  => 175.26185529333753
-    #         }
-    #       },
-    #     ]
+    # @return [Array<BbValue>] An array of BbValue instances
     def self.calculate(data, period: 20, standard_deviations: 2, price_key: :value)
       period = period.to_i
       standard_deviations = standard_deviations.to_f
@@ -92,20 +73,52 @@ module TechnicalAnalysis
           ub = mb + standard_deviations * sd
           lb = mb - standard_deviations * sd
 
-          output << {
+          output << BbValue.new(
             date_time: v[:date_time],
-            value: {
-              middle_band: mb,
-              upper_band: ub,
-              lower_band: lb
-            }
-          }
+            lower_band: lb,
+            middle_band: mb,
+            upper_band: ub
+          )
 
           period_values.shift
         end
       end
 
       output.sort_by_date_time_desc
+    end
+
+  end
+
+  # The value class to be returned by calculations
+  class BbValue
+
+    # @return [String] the date_time of the obversation as it was provided
+    attr_accessor :date_time
+
+    # @return [Float] the lower_band calculation value
+    attr_accessor :lower_band
+
+    # @return [Float] the middle_band calculation value
+    attr_accessor :middle_band
+
+    # @return [Float] the upper_band calculation value
+    attr_accessor :upper_band
+
+    def initialize(date_time: nil, lower_band: nil, middle_band: nil, upper_band: nil)
+      @date_time = date_time
+      @lower_band = lower_band
+      @middle_band = middle_band
+      @upper_band = upper_band
+    end
+
+    # @return [Hash] the attributes as a hash
+    def to_hash
+      {
+        date_time: @date_time,
+        lower_band: @lower_band,
+        middle_band: @middle_band,
+        upper_band: @upper_band
+      }
     end
 
   end
