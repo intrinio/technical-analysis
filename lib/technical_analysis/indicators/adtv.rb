@@ -1,4 +1,5 @@
 module TechnicalAnalysis
+  # Average Daily Trading Volume
   class Adtv < Indicator
 
     # Returns the symbol of the technical indicator
@@ -48,21 +49,14 @@ module TechnicalAnalysis
     # @param period [Integer] The given number of days used to calculate the ADTV
     # @param volume_key [Symbol] The hash key for the volume data. Default :value
     #
-    # @return [Array<Hash>]
-    #
-    #   An array of hashes with keys (:date_time, :value). Example output:
-    #
-    #     [
-    #       {:date_time => "2019-01-09T00:00:00.000Z", :value => 49513676.36363637},
-    #       {:date_time => "2019-01-08T00:00:00.000Z", :value => 49407791.81818182},
-    #     ]
+    # @return [Array<AdtvValue>] An array of AdtvValue instances
     def self.calculate(data, period: 22, volume_key: :value)
       period = period.to_i
       volume_key = volume_key.to_sym
       Validation.validate_numeric_data(data, volume_key)
       Validation.validate_length(data, min_data_size(period: period))
 
-      data = data.sort_by_hash_date_time_asc
+      data = data.sort_by_date_time_asc
 
       output = []
       period_values = []
@@ -70,12 +64,33 @@ module TechnicalAnalysis
       data.each do |v|
         period_values << v[volume_key]
         if period_values.size == period
-          output << { date_time: v[:date_time], value: period_values.average }
+          output << AdtvValue.new(date_time: v[:date_time], adtv: period_values.average)
           period_values.shift
         end
       end
 
-      output.sort_by_hash_date_time_desc
+      output.sort_by_date_time_desc
+    end
+
+  end
+
+  # The value class to be returned by calculations
+  class AdtvValue
+
+    # @return [String] the date_time of the obversation as it was provided
+    attr_accessor :date_time
+
+    # @return [Float] the adtv calculation value
+    attr_accessor :adtv
+
+    def initialize(date_time: nil, adtv: nil)
+      @date_time = date_time
+      @adtv = adtv
+    end
+
+    # @return [Hash] the attributes as a hash
+    def to_hash
+      { date_time: @date_time, adtv: @adtv }
     end
 
   end

@@ -74,7 +74,7 @@ module TechnicalAnalysis
       Validation.validate_numeric_data(data, :high, :low, :close)
       Validation.validate_length(data, min_data_size(period: period))
 
-      data = data.sort_by_hash_date_time_asc
+      data = data.sort_by_date_time_asc
 
       output = []
       period_values = []
@@ -104,7 +104,7 @@ module TechnicalAnalysis
         end
       end
 
-      output.sort_by_hash_date_time_desc
+      output.sort_by_date_time_desc
     end
 
   end

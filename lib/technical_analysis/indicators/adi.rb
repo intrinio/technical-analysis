@@ -1,4 +1,5 @@
 module TechnicalAnalysis
+  # Accumulation/Distribution Index
   class Adi < Indicator
 
     # Returns the symbol of the technical indicator
@@ -46,18 +47,11 @@ module TechnicalAnalysis
     # https://en.wikipedia.org/wiki/Accumulation/distribution_index
     #
     # @param data [Array] Array of hashes with keys (:date_time, :high, :low, :close, :volume)
-    # @return [Array<Hash>]
-    #
-    #   An array of hashes with keys (:date_time, :value). Example output:
-    #
-    #     [
-    #      {:date_time => "2019-01-09T00:00:00.000Z", :value => -112451134.66006838},
-    #      {:date_time => "2019-01-08T00:00:00.000Z", :value => -135060226.53761944},
-    #     ]
+    # @return [Array<AdiValue>] An array of AdiValue instances
     def self.calculate(data)
       Validation.validate_numeric_data(data, :high, :low, :close, :volume)
 
-      data = data.sort_by_hash_date_time_asc
+      data = data.sort_by_date_time_asc
 
       ad = 0
       ads = []
@@ -73,10 +67,32 @@ module TechnicalAnalysis
 
         ad = prev_ad + (clv * values[:volume])
         prev_ad = ad
+        date_time = values[:date_time]
 
-        ads << { date_time: values[:date_time], value: ad }
+        ads << AdiValue.new(date_time: date_time, adi: ad)
       end
-      ads.sort_by_hash_date_time_desc
+      ads.sort_by_date_time_desc
+    end
+
+  end
+
+  # The value class to be returned by calculations
+  class AdiValue
+
+    # @return [String] the date_time of the obversation as it was provided
+    attr_accessor :date_time
+
+    # @return [Float] the adi calculation value
+    attr_accessor :adi
+
+    def initialize(date_time: nil, adi: nil)
+      @date_time = date_time
+      @adi = adi
+    end
+
+    # @return [Hash] the attributes as a hash
+    def to_hash
+      { date_time: @date_time, adi: @adi }
     end
 
   end

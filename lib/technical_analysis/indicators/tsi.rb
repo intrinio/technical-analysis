@@ -64,7 +64,7 @@ module TechnicalAnalysis
       Validation.validate_numeric_data(data, price_key)
       Validation.validate_length(data, min_data_size(low_period: low_period, high_period: high_period))
 
-      data = data.sort_by_hash_date_time_asc
+      data = data.sort_by_date_time_asc
 
       high_emas = []
       high_multiplier = (2.0 / (high_period + 1.0))
@@ -100,7 +100,7 @@ module TechnicalAnalysis
         prev_price = current_price
       end
       
-      output.sort_by_hash_date_time_desc
+      output.sort_by_date_time_desc
     end
 
     private_class_method def self.process_ema(current_value, data, multiplier, period, store)

@@ -60,7 +60,7 @@ module TechnicalAnalysis
       Validation.validate_numeric_data(data, price_key)
       Validation.validate_length(data, min_data_size({}))
 
-      data = data.sort_by_hash_date_time_asc
+      data = data.sort_by_date_time_asc
 
       output = []
       start_price = data.first[price_key] 
@@ -69,7 +69,7 @@ module TechnicalAnalysis
         output << { date_time: v[:date_time], value: ((v[price_key] - start_price) / start_price) }
       end
 
-      output.sort_by_hash_date_time_desc
+      output.sort_by_date_time_desc
     end
 
   end

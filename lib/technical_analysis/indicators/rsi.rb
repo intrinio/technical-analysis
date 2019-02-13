@@ -62,7 +62,7 @@ module TechnicalAnalysis
       Validation.validate_numeric_data(data, price_key)
       Validation.validate_length(data, min_data_size(period: period))
 
-      data = data.sort_by_hash_date_time_asc
+      data = data.sort_by_date_time_asc
 
       output = []
       prev_price = data.shift[price_key]
@@ -110,7 +110,7 @@ module TechnicalAnalysis
         prev_price = v[price_key]
       end
 
-      output.sort_by_hash_date_time_desc
+      output.sort_by_date_time_desc
     end
 
   end

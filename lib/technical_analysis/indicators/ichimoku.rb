@@ -87,7 +87,7 @@ module TechnicalAnalysis
       Validation.validate_numeric_data(data, :high, :low, :close)
       Validation.validate_length(data, min_data_size(high_period: high_period, medium_period: medium_period))
 
-      data = data.sort_by_hash_date_time_asc
+      data = data.sort_by_date_time_asc
 
       index = high_period + medium_period - 2
       output = []
@@ -115,7 +115,7 @@ module TechnicalAnalysis
         index += 1
       end
 
-      output.sort_by_hash_date_time_desc
+      output.sort_by_date_time_desc
     end
 
     private_class_method def self.lowest_low(prices)
