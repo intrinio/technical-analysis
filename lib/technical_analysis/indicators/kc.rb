@@ -1,4 +1,5 @@
 module TechnicalAnalysis
+  # Keltner Channel
   class Kc < Indicator
 
     # Returns the symbol of the technical indicator
@@ -47,28 +48,7 @@ module TechnicalAnalysis
     # @param data [Array] Array of hashes with keys (:date_time, :high, :low, :close)
     # @param period [Integer] The given period to calculate the KC
     #
-    # @return [Array<Hash>]
-    #
-    #   An array of hashes with keys (:date_time, :value). Example output:
-    #
-    #     [
-    #       {
-    #         :date_time => "2019-01-09T00:00:00.000Z",
-    #         :value => {
-    #           :lower_band  => 147.1630066666667,
-    #           :middle_band => 151.9909966666667,
-    #           :upper_band  => 156.8189866666667
-    #         }
-    #       },
-    #       {
-    #         :date_time => "2019-01-08T00:00:00.000Z",
-    #         :value => {
-    #           :lower_band  => 146.74034,
-    #           :middle_band => 151.57433,
-    #           :upper_band  => 156.40832
-    #         }
-    #       }
-    #     ]
+    # @return [Array<KcValue>] An array of KcValue instances
     def self.calculate(data, period: 10)
       period = period.to_i
       Validation.validate_numeric_data(data, :high, :low, :close)
@@ -91,20 +71,52 @@ module TechnicalAnalysis
           ub = mb + trading_range_average
           lb = mb - trading_range_average
 
-          output << {
+          output << KcValue.new(
             date_time: v[:date_time],
-            value: {
-              middle_band: mb,
-              upper_band: ub,
-              lower_band: lb
-            }
-          }
+            lower_band: lb,
+            middle_band: mb,
+            upper_band: ub
+          )
 
           period_values.shift
         end
       end
 
       output.sort_by_date_time_desc
+    end
+
+  end
+
+  # The value class to be returned by calculations
+  class KcValue
+
+    # @return [String] the date_time of the obversation as it was provided
+    attr_accessor :date_time
+
+    # @return [Float] the lower_band calculation value
+    attr_accessor :lower_band
+
+    # @return [Float] the middle_band calculation value
+    attr_accessor :middle_band
+
+    # @return [Float] the upper_band calculation value
+    attr_accessor :upper_band
+
+    def initialize(date_time: nil, lower_band: nil, middle_band: nil, upper_band: nil)
+      @date_time = date_time
+      @lower_band = lower_band
+      @middle_band = middle_band
+      @upper_band = upper_band
+    end
+
+    # @return [Hash] the attributes as a hash
+    def to_hash
+      {
+        date_time: @date_time,
+        lower_band: @lower_band,
+        middle_band: @middle_band,
+        upper_band: @upper_band
+      }
     end
 
   end

@@ -1,4 +1,5 @@
 module TechnicalAnalysis
+  # Ichimoku Kinko Hyo
   class Ichimoku < Indicator
 
     # Returns the symbol of the technical indicator
@@ -54,32 +55,7 @@ module TechnicalAnalysis
     # @param medium_period [Integer] The given period to calculate kijun_sen (Base Line), senkou_span_a (Leading Span A), and chikou_span (Lagging Span)
     # @param high_period [Integer] The given period to calculate senkou_span_b (Leading Span B)
     #
-    # @return [Array<Hash>]
-    #
-    #   An array of hashes with keys (:date_time, :value). Example output:
-    #
-    #     [
-    #       {
-    #         :date_time => "2019-01-09T00:00:00.000Z",
-    #         :value => {
-    #           :chikou_span   => 157.17,
-    #           :kijun_sen     => 150.68,
-    #           :senkou_span_a => 155.9775,
-    #           :senkou_span_b => 165.765,
-    #           :tenkan_sen    => 150.215
-    #         }
-    #       },
-    #       {
-    #         :date_time => "2019-01-08T00:00:00.000Z",
-    #         :value => {
-    #           :chikou_span   => 146.83,
-    #           :kijun_sen     => 150.68,
-    #           :senkou_span_a => 156.965,
-    #           :senkou_span_b => 165.765,
-    #           :tenkan_sen    => 147.81
-    #         }
-    #       },
-    #     ]
+    # @return [Array<IchimokuValue>] An array of IchimokuValue instances
     def self.calculate(data, low_period: 9, medium_period: 26, high_period: 52)
       low_period = low_period.to_i
       medium_period = medium_period.to_i
@@ -101,16 +77,14 @@ module TechnicalAnalysis
         senkou_span_b = calculate_senkou_span_b(index, medium_period, high_period, data)
         chikou_span = calculate_chikou_span(index, medium_period, data)
 
-        output << {
+        output << IchimokuValue.new(
           date_time: date_time,
-          value: {
-            tenkan_sen: tenkan_sen,
-            kijun_sen: kinjun_sen,
-            senkou_span_a: senkou_span_a,
-            senkou_span_b: senkou_span_b,
-            chikou_span: chikou_span
-          }
-        }
+          tenkan_sen: tenkan_sen,
+          kijun_sen: kinjun_sen,
+          senkou_span_a: senkou_span_a,
+          senkou_span_b: senkou_span_b,
+          chikou_span: chikou_span
+        )
 
         index += 1
       end
@@ -154,6 +128,50 @@ module TechnicalAnalysis
       mp_ago_index = (index - (medium_period - 1))
 
       data[mp_ago_index][:close]
+    end
+
+  end
+
+  # The value class to be returned by calculations
+  class IchimokuValue
+
+    # @return [String] the date_time of the obversation as it was provided
+    attr_accessor :date_time
+
+    # @return [Float] the tenkan_sen calculation value
+    attr_accessor :tenkan_sen
+
+    # @return [Float] the kijun_sen calculation value
+    attr_accessor :kijun_sen
+
+    # @return [Float] the senkou_span_a calculation value
+    attr_accessor :senkou_span_a
+
+    # @return [Float] the senkou_span_b calculation value
+    attr_accessor :senkou_span_b
+
+    # @return [Float] the chikou_span calculation value
+    attr_accessor :chikou_span
+
+    def initialize(date_time: nil, tenkan_sen: nil, kijun_sen: nil, senkou_span_a: nil, senkou_span_b: nil, chikou_span: nil)
+      @date_time = date_time
+      @tenkan_sen = tenkan_sen
+      @kijun_sen = kijun_sen
+      @senkou_span_a = senkou_span_a
+      @senkou_span_b = senkou_span_b
+      @chikou_span = chikou_span
+    end
+
+    # @return [Hash] the attributes as a hash
+    def to_hash
+      {
+        date_time: @date_time,
+        tenkan_sen: @tenkan_sen,
+        kijun_sen: @kijun_sen,
+        senkou_span_a: @senkou_span_a,
+        senkou_span_b: @senkou_span_b,
+        chikou_span: @chikou_span
+      }
     end
 
   end

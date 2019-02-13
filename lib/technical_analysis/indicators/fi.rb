@@ -1,4 +1,5 @@
 module TechnicalAnalysis
+  # Force Index
   class Fi < Indicator
 
     # Returns the symbol of the technical indicator
@@ -47,14 +48,7 @@ module TechnicalAnalysis
     #
     # @param data [Array] Array of hashes with keys (:date_time, :close, :volume)
     #
-    # @return [Array<Hash>]
-    #
-    #   An array of hashes with keys (:date_time, :value). Example output:
-    #
-    #     [
-    #       {:date_time => "2019-01-09T00:00:00.000Z", :value => 115287987.2000001},
-    #       {:date_time => "2019-01-08T00:00:00.000Z", :value => 114556606.19999972},
-    #     ]
+    # @return [Array<FiValue>] An array of FiValue instances
     def self.calculate(data)
       Validation.validate_numeric_data(data, :close, :volume)
       Validation.validate_length(data, min_data_size({}))
@@ -66,11 +60,34 @@ module TechnicalAnalysis
 
       data.each do |v|
         fi = ((v[:close] - prev_price[:close]) * v[:volume])
-        output << { date_time: v[:date_time], value: fi }
+
+        output << FiValue.new(date_time: v[:date_time], fi: fi)
+
         prev_price = v
       end
 
       output.sort_by_date_time_desc
+    end
+
+  end
+
+  # The value class to be returned by calculations
+  class FiValue
+
+    # @return [String] the date_time of the obversation as it was provided
+    attr_accessor :date_time
+
+    # @return [Float] the fi calculation value
+    attr_accessor :fi
+
+    def initialize(date_time: nil, fi: nil)
+      @date_time = date_time
+      @fi = fi
+    end
+
+    # @return [Hash] the attributes as a hash
+    def to_hash
+      { date_time: @date_time, fi: @fi }
     end
 
   end

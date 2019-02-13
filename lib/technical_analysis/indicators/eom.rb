@@ -1,4 +1,5 @@
 module TechnicalAnalysis
+  # Ease of Movement
   class Eom < Indicator
 
     # Returns the symbol of the technical indicator
@@ -41,20 +42,13 @@ module TechnicalAnalysis
       period.to_i + 1
     end
 
-    # Calculates the ease of movement (EoM and EVM) for the data over the given period
+    # Calculates the ease of movement (EoM) for the data over the given period
     # https://en.wikipedia.org/wiki/Ease_of_movement
     #
     # @param data [Array] Array of hashes with keys (:date_time, :high, :low, :volume)
-    # @param period [Integer] The given period to calculate the EoM / EVM
+    # @param period [Integer] The given period to calculate the EoM
     #
-    # @return [Array<Hash>]
-    #
-    #   An array of hashes with keys (:date_time, :value). Example output:
-    #
-    #     [
-    #       {:date_time => "2019-01-09T00:00:00.000Z", :value => -6.497226050937367},
-    #       {:date_time => "2019-01-08T00:00:00.000Z", :value => -7.7025655861800235},
-    #     ]
+    # @return [Array<Hash>] An array of EomValue instances
     def self.calculate(data, period: 14)
       period = period.to_i
       Validation.validate_numeric_data(data, :high, :low, :volume)
@@ -74,7 +68,7 @@ module TechnicalAnalysis
         period_values << emv
 
         if period_values.size == period
-          output << { date_time: v[:date_time], value: period_values.average }
+          output << EomValue.new(date_time: v[:date_time], eom: period_values.average)
           period_values.shift
         end
 
@@ -82,6 +76,27 @@ module TechnicalAnalysis
       end
 
       output.sort_by_date_time_desc
+    end
+
+  end
+
+  # The value class to be returned by calculations
+  class EomValue
+
+    # @return [String] the date_time of the obversation as it was provided
+    attr_accessor :date_time
+
+    # @return [Float] the eom calculation value
+    attr_accessor :eom
+
+    def initialize(date_time: nil, eom: nil)
+      @date_time = date_time
+      @eom = eom
+    end
+
+    # @return [Hash] the attributes as a hash
+    def to_hash
+      { date_time: @date_time, eom: @eom }
     end
 
   end
