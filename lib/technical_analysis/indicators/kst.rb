@@ -1,4 +1,5 @@
 module TechnicalAnalysis
+  # Know Sure Thing
   class Kst < Indicator
 
     # Returns the symbol of the technical indicator
@@ -55,14 +56,7 @@ module TechnicalAnalysis
     # @param sma4 [Integer] The given period to calculate the SMA of the rate-of-change for RCMA4
     # @param price_key [Symbol] The hash key for the price data. Default :value
     #
-    # @return [Array<Hash>]
-    #
-    #   An array of hashes with keys (:date_time, :value). Example output:
-    #
-    #     [
-    #       {:date_time => "2019-01-09T00:00:00.000Z", :value => -140.9140022298261},
-    #       {:date_time => "2019-01-08T00:00:00.000Z", :value => -148.9261153101682},
-    #     ]
+    # @return [Array<KstValue>] An array of KstValue instances
     def self.calculate(data, roc1: 10, roc2: 15, roc3: 20, roc4: 30, sma1: 10, sma2: 10, sma3: 10, sma4: 15, price_key: :value)
       roc1 = roc1.to_i
       roc2 = roc2.to_i
@@ -90,7 +84,8 @@ module TechnicalAnalysis
 
         kst = (1 * rcma1) + (2 * rcma2) + (3 * rcma3) + (4 * rcma4)
 
-        output << { date_time: date_time, value: kst }
+        output << KstValue.new(date_time: date_time, kst: kst)
+
         index += 1
       end
 
@@ -109,6 +104,27 @@ module TechnicalAnalysis
       end
 
       roc_data.sum / sma.to_f
+    end
+
+  end
+
+  # The value class to be returned by calculations
+  class KstValue
+
+    # @return [String] the date_time of the obversation as it was provided
+    attr_accessor :date_time
+
+    # @return [Float] the kst calculation value
+    attr_accessor :kst
+
+    def initialize(date_time: nil, kst: nil)
+      @date_time = date_time
+      @kst = kst
+    end
+
+    # @return [Hash] the attributes as a hash
+    def to_hash
+      { date_time: @date_time, kst: @kst }
     end
 
   end

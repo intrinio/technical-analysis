@@ -1,4 +1,5 @@
 module TechnicalAnalysis
+  # Monoey Flow Index
   class Mfi < Indicator
 
     # Returns the symbol of the technical indicator
@@ -47,14 +48,7 @@ module TechnicalAnalysis
     # @param data [Array] Array of hashes with keys (:date_time, :high, :low, :close, :volume)
     # @param period [Integer] The given period to calculate the MFI
     #
-    # @return [Array<Hash>]
-    #
-    #   An array of hashes with keys (:date_time, :value). Example output:
-    #
-    #     [
-    #       {:date_time => "2019-01-09T00:00:00.000Z", :value => 50.72343663578981},
-    #       {:date_time => "2019-01-08T00:00:00.000Z", :value => 50.1757147722236},
-    #     ]
+    # @return [Array<MfiValue>] An array of MfiValue instances
     def self.calculate(data, period: 14)
       period = period.to_i
       Validation.validate_numeric_data(data, :high, :low, :close, :volume)
@@ -88,7 +82,7 @@ module TechnicalAnalysis
           money_flow_ratio = (positive_period_flows / negative_period_flows)
           mfi = (100.00 - (100.00 / (1.0 + money_flow_ratio)))
 
-          output << { date_time: v[:date_time], value: mfi }
+          output << MfiValue.new(date_time: v[:date_time], mfi: mfi)
 
           raw_money_flows.shift
         end
@@ -97,6 +91,27 @@ module TechnicalAnalysis
       end
 
       output.sort_by_date_time_desc
+    end
+
+  end
+
+  # The value class to be returned by calculations
+  class MfiValue
+
+    # @return [String] the date_time of the obversation as it was provided
+    attr_accessor :date_time
+
+    # @return [Float] the mfi calculation value
+    attr_accessor :mfi
+
+    def initialize(date_time: nil, mfi: nil)
+      @date_time = date_time
+      @mfi = mfi
+    end
+
+    # @return [Hash] the attributes as a hash
+    def to_hash
+      { date_time: @date_time, mfi: @mfi }
     end
 
   end

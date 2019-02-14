@@ -1,4 +1,5 @@
 module TechnicalAnalysis
+  # Relative Strength Index
   class Rsi < Indicator
 
     # Returns the symbol of the technical indicator
@@ -48,14 +49,7 @@ module TechnicalAnalysis
     # @param period [Integer] The given period to calculate the RSI
     # @param price_key [Symbol] The hash key for the price data. Default :value
     #
-    # @return [Array<Hash>]
-    #
-    #   An array of hashes with keys (:date_time, :value). Example output:
-    #
-    #     [
-    #       {:date_time => "2019-01-09T00:00:00.000Z", :value => 41.01572095202713},
-    #       {:date_time => "2019-01-08T00:00:00.000Z", :value => 38.100858593859655},
-    #     ]
+    # @return [Array<RsiValue>] An array of RsiValue instances
     def self.calculate(data, period: 14, price_key: :value)
       period = period.to_i
       price_key = price_key.to_sym
@@ -101,7 +95,7 @@ module TechnicalAnalysis
             rsi = (100.00 - (100.00 / (1.00 + rs)))
           end
 
-          output << { date_time: v[:date_time], value: rsi }
+          output << RsiValue.new(date_time: v[:date_time], rsi: rsi)
 
           prev_avg = { gain: avg_gain, loss: avg_loss }
           price_changes.shift
@@ -111,6 +105,27 @@ module TechnicalAnalysis
       end
 
       output.sort_by_date_time_desc
+    end
+
+  end
+
+  # The value class to be returned by calculations
+  class RsiValue
+
+    # @return [String] the date_time of the obversation as it was provided
+    attr_accessor :date_time
+
+    # @return [Float] the rsi calculation value
+    attr_accessor :rsi
+
+    def initialize(date_time: nil, rsi: nil)
+      @date_time = date_time
+      @rsi = rsi
+    end
+
+    # @return [Hash] the attributes as a hash
+    def to_hash
+      { date_time: @date_time, rsi: @rsi }
     end
 
   end

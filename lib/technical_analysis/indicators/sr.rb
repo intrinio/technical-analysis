@@ -1,4 +1,5 @@
 module TechnicalAnalysis
+  # Stochastic Oscillator
   class Sr < Indicator
 
     # Returns the symbol of the technical indicator
@@ -48,26 +49,7 @@ module TechnicalAnalysis
     # @param period [Integer] The given period to calculate the SR
     # @param signal_period [Integer] The given period to calculate the SMA as a signal line for SR
     #
-    # @return [Array<Hash>]
-    #
-    #   An array of hashes with keys (:date_time, :value). Example output:
-    #
-    #     [
-    #       {
-    #         :date_time => "2019-01-09T00:00:00.000Z",
-    #         :value => {
-    #           :sr        => 44.44007858546172,
-    #           :sr_signal => 33.739408752366685
-    #         }
-    #       },
-    #       {
-    #         :date_time => "2019-01-08T00:00:00.000Z",
-    #         :value => {
-    #           :sr        => 34.27340383862123,
-    #           :sr_signal => 26.631612985573174
-    #         }
-    #       },
-    #     ]
+    # @return [Array<SrValue>] An array of SrValue instances
     def self.calculate(data, period: 14, signal_period: 3)
       period = period.to_i
       signal_period = signal_period.to_i
@@ -94,13 +76,11 @@ module TechnicalAnalysis
           if sr_values.size == signal_period
             signal = sr_values.average
 
-            output << {
+            output << SrValue.new(
               date_time: v[:date_time],
-              value: {
-                sr: sr,
-                sr_signal: signal
-              }
-            }
+              sr: sr,
+              sr_signal: signal
+            )
 
             sr_values.shift
           end
@@ -110,6 +90,31 @@ module TechnicalAnalysis
       end
 
       output.sort_by_date_time_desc
+    end
+
+  end
+
+  # The value class to be returned by calculations
+  class SrValue
+
+    # @return [String] the date_time of the obversation as it was provided
+    attr_accessor :date_time
+
+    # @return [Float] the sr calculation value
+    attr_accessor :sr
+
+    # @return [Float] the sr_signal calculation value
+    attr_accessor :sr_signal
+
+    def initialize(date_time: nil, sr: nil, sr_signal: nil)
+      @date_time = date_time
+      @sr = sr
+      @sr_signal = sr_signal
+    end
+
+    # @return [Hash] the attributes as a hash
+    def to_hash
+      { date_time: @date_time, sr: @sr, sr_signal: @sr_signal }
     end
 
   end

@@ -1,4 +1,5 @@
 module TechnicalAnalysis
+  # Simple Moving Average
   class Sma < Indicator
 
     # Returns the symbol of the technical indicator
@@ -48,14 +49,7 @@ module TechnicalAnalysis
     # @param period [Integer] The given period to calculate the SMA
     # @param price_key [Symbol] The hash key for the price data. Default :value
     #
-    # @return [Array<Hash>]
-    #
-    #   An array of hashes with keys (:date_time, :value). Example output:
-    #
-    #     [
-    #       {:date_time => "2019-01-09T00:00:00.000Z", :value => 148.488},
-    #       {:date_time => "2019-01-08T00:00:00.000Z", :value => 149.41},
-    #     ]
+    # @return [Array<SmaValue>] An array of SmaValue instances
     def self.calculate(data, period: 30, price_key: :value)
       period = period.to_i
       price_key = price_key.to_sym
@@ -70,12 +64,33 @@ module TechnicalAnalysis
       data.each do |v|
         period_values << v[price_key]
         if period_values.size == period
-          output << { date_time: v[:date_time], value: period_values.average }
+          output << SmaValue.new(date_time: v[:date_time], sma: period_values.average)
           period_values.shift
         end
       end
 
       output.sort_by_date_time_desc
+    end
+
+  end
+
+  # The value class to be returned by calculations
+  class SmaValue
+
+    # @return [String] the date_time of the obversation as it was provided
+    attr_accessor :date_time
+
+    # @return [Float] the sma calculation value
+    attr_accessor :sma
+
+    def initialize(date_time: nil, sma: nil)
+      @date_time = date_time
+      @sma = sma
+    end
+
+    # @return [Hash] the attributes as a hash
+    def to_hash
+      { date_time: @date_time, sma: @sma }
     end
 
   end

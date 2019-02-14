@@ -1,4 +1,5 @@
 module TechnicalAnalysis
+  # True Strength Index
   class Tsi < Indicator
 
     # Returns the symbol of the technical indicator
@@ -49,14 +50,7 @@ module TechnicalAnalysis
     # @param low_period [Integer] The given low period to calculate the EMA
     # @param price_key [Symbol] The hash key for the price data. Default :value
     #
-    # @return [Array<Hash>]
-    #
-    #   An array of hashes with keys (:date_time, :value). Example output:
-    #
-    #     [
-    #       {:date_time => "2019-01-09T00:00:00.000Z", :value => -28.91017661103889},
-    #       {:date_time => "2019-01-08T00:00:00.000Z", :value => -30.97413963420104},
-    #     ]
+    # @return [Array<TsiValue>] An array of TsiValue instances
     def self.calculate(data, low_period: 13, high_period: 25, price_key: :value)
       low_period = low_period.to_i
       high_period = high_period.to_i
@@ -88,7 +82,10 @@ module TechnicalAnalysis
             low_ema = process_ema(high_emas.last, high_emas, low_multiplier, low_period, low_emas)
             low_emas << low_ema
 
-            output << { date_time: v[:date_time], value: ((100 * (low_ema[:value] / low_ema[:abs_value]))) }
+            output << TsiValue.new(
+              date_time: v[:date_time],
+              tsi: ((100 * (low_ema[:value] / low_ema[:abs_value])))
+            )
 
             low_emas.shift if low_emas.size > 1 # Only need to retain the last low_ema
             high_emas.shift
@@ -114,6 +111,27 @@ module TechnicalAnalysis
       end
 
       { value: value, abs_value: abs_value }
+    end
+
+  end
+
+  # The value class to be returned by calculations
+  class TsiValue
+
+    # @return [String] the date_time of the obversation as it was provided
+    attr_accessor :date_time
+
+    # @return [Float] the tsi calculation value
+    attr_accessor :tsi
+
+    def initialize(date_time: nil, tsi: nil)
+      @date_time = date_time
+      @tsi = tsi
+    end
+
+    # @return [Hash] the attributes as a hash
+    def to_hash
+      { date_time: @date_time, tsi: @tsi }
     end
 
   end

@@ -1,4 +1,5 @@
 module TechnicalAnalysis
+  # Moving Average Convergence Divergence
   class Macd < Indicator
 
     # Returns the symbol of the technical indicator
@@ -50,28 +51,7 @@ module TechnicalAnalysis
     # @param signal_period [Integer] The given period to calculate the signal line for MACD
     # @param price_key [Symbol] The hash key for the price data. Default :value
     #
-    # @return [Array<Hash>]
-    #
-    #   An array of hashes with keys (:date_time, :value). Example output:
-    #
-    #     [
-    #       {
-    #         :date_time => "2019-01-09T00:00:00.000Z",
-    #         :value => {
-    #           :macd_histogram => 0.8762597178840466,
-    #           :macd_line      => -8.126908458242355,
-    #           :signal_line    => -9.003168176126401
-    #         }
-    #       },
-    #       {
-    #         :date_time => "2019-01-08T00:00:00.000Z",
-    #         :value => {
-    #           :macd_histogram => 0.4770591535283888,
-    #           :macd_line      => -8.745173952069024,
-    #           :signal_line    => -9.222233105597413
-    #         }
-    #       }
-    #     ]
+    # @return [Array<MacdValue>] An array of MacdValue instances
     def self.calculate(data, fast_period: 12, slow_period: 26, signal_period: 9, price_key: :value)
       fast_period = fast_period.to_i
       slow_period = slow_period.to_i
@@ -107,14 +87,12 @@ module TechnicalAnalysis
               signal = StockCalculation.ema(macd, macd_values, signal_period, prev_signal)
               prev_signal = signal
 
-              output << {
+              output << MacdValue.new(
                 date_time: v[:date_time],
-                value: {
-                  macd_line: macd,
-                  signal_line: signal,
-                  macd_histogram: macd - signal,
-                }
-              }
+                macd_line: macd,
+                signal_line: signal,
+                macd_histogram: macd - signal,
+              )
 
               macd_values.shift
             end
@@ -125,6 +103,40 @@ module TechnicalAnalysis
       end
 
       output.sort_by_date_time_desc
+    end
+
+  end
+
+  # The value class to be returned by calculations
+  class MacdValue
+
+    # @return [String] the date_time of the obversation as it was provided
+    attr_accessor :date_time
+
+    # @return [Float] the macd_line calculation value
+    attr_accessor :macd_line
+
+    # @return [Float] the macd_histogram calculation value
+    attr_accessor :macd_histogram
+
+    # @return [Float] the signal_line calculation value
+    attr_accessor :signal_line
+
+    def initialize(date_time: nil, macd_line: nil, macd_histogram: nil, signal_line: nil)
+      @date_time = date_time
+      @macd_line = macd_line
+      @macd_histogram = macd_histogram
+      @signal_line = signal_line
+    end
+
+    # @return [Hash] the attributes as a hash
+    def to_hash
+      {
+        date_time: @date_time,
+        macd_line: @macd_line,
+        macd_histogram: @macd_histogram,
+        signal_line: @signal_line
+      }
     end
 
   end

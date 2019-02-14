@@ -1,4 +1,5 @@
 module TechnicalAnalysis
+  # Volume-price Trend
   class Vpt < Indicator
 
     # Returns the symbol of the technical indicator
@@ -47,14 +48,7 @@ module TechnicalAnalysis
     #
     # @param data [Array] Array of hashes with keys (:date_time, :close, :volume)
     #
-    # @return [Array<Hash>]
-    #
-    #   An array of hashes with keys (:date_time, :value). Example output:
-    #
-    #     [
-    #       {:date_time => "2019-01-09T00:00:00.000Z", :value => -27383899.78109331},
-    #       {:date_time => "2019-01-08T00:00:00.000Z", :value => -28148662.548589166},
-    #     ]
+    # @return [Array<VptValue>] An array of VptValue instances
     def self.calculate(data)
       Validation.validate_numeric_data(data, :close, :volume)
       Validation.validate_length(data, min_data_size({}))
@@ -67,12 +61,33 @@ module TechnicalAnalysis
 
       data.each do |v|
         pvt = prev_pvt + (((v[:close] - prev_price[:close]) / prev_price[:close]) * v[:volume])
-        output << { date_time: v[:date_time], value: pvt }
+        output << VptValue.new(date_time: v[:date_time], vpt: pvt)
         prev_price = v
         prev_pvt = pvt
       end
 
       output.sort_by_date_time_desc
+    end
+
+  end
+
+  # The value class to be returned by calculations
+  class VptValue
+
+    # @return [String] the date_time of the obversation as it was provided
+    attr_accessor :date_time
+
+    # @return [Float] the vpt calculation value
+    attr_accessor :vpt
+
+    def initialize(date_time: nil, vpt: nil)
+      @date_time = date_time
+      @vpt = vpt
+    end
+
+    # @return [Hash] the attributes as a hash
+    def to_hash
+      { date_time: @date_time, vpt: @vpt }
     end
 
   end

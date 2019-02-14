@@ -1,4 +1,5 @@
 module TechnicalAnalysis
+  # Ultimate Oscillator
   class Uo < Indicator
 
     # Returns the symbol of the technical indicator
@@ -52,14 +53,7 @@ module TechnicalAnalysis
     # @param medium_weight [Float] Weight of medium Buying Pressure average for UO
     # @param long_weight [Float] Weight of long Buying Pressure average for UO
     #
-    # @return [Array<Hash>]
-    #
-    #   An array of hashes with keys (:date_time, :value). Example output:
-    #
-    #     [
-    #       {:date_time => "2019-01-09T00:00:00.000Z", :value => 47.28872762629681},
-    #       {:date_time => "2019-01-08T00:00:00.000Z", :value => 44.828908983561035},
-    #     ]
+    # @return [Array<UoValue>] An array of UoValue instances
     def self.calculate(data, short_period: 7, medium_period: 14, long_period: 28, short_weight: 4, medium_weight: 2, long_weight: 1)
       short_period = short_period.to_i
       medium_period = medium_period.to_i
@@ -92,7 +86,7 @@ module TechnicalAnalysis
           long_average = calculate_average(long_period, period_values)
           uo = 100 * (((short_weight * short_average) + (medium_weight * medium_average) + (long_weight * long_average)) / (sum_of_weights))
 
-          output << { date_time: v[:date_time], value: uo }
+          output << UoValue.new(date_time: v[:date_time], uo: uo)
 
           period_values.shift
         end
@@ -108,6 +102,27 @@ module TechnicalAnalysis
       true_ranges_sum = data.last(period).map { |d| d[:true_range] }.sum
 
       buying_pressures_sum / true_ranges_sum
+    end
+
+  end
+
+  # The value class to be returned by calculations
+  class UoValue
+
+    # @return [String] the date_time of the obversation as it was provided
+    attr_accessor :date_time
+
+    # @return [Float] the uo calculation value
+    attr_accessor :uo
+
+    def initialize(date_time: nil, uo: nil)
+      @date_time = date_time
+      @uo = uo
+    end
+
+    # @return [Hash] the attributes as a hash
+    def to_hash
+      { date_time: @date_time, uo: @uo }
     end
 
   end

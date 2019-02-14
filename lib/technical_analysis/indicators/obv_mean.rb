@@ -1,4 +1,5 @@
 module TechnicalAnalysis
+  # On-balance Volume Mean
   class ObvMean < Indicator
 
     # Returns the symbol of the technical indicator
@@ -47,14 +48,7 @@ module TechnicalAnalysis
     # @param data [Array] Array of hashes with keys (:date_time, :close, :volume)
     # @param period [Integer] The given period to calculate the OBV mean
     #
-    # @return [Array<Hash>]
-    #
-    #   An array of hashes with keys (:date_time, :value). Example output:
-    #
-    #     [
-    #       {:date_time => "2019-01-09T00:00:00.000Z", :value => -642606913.0},
-    #       {:date_time => "2019-01-08T00:00:00.000Z", :value => -654187384.0},
-    #     ]
+    # @return [Array<ObvMeanValue>] An array of ObvMeanValue instances
     def self.calculate(data, period: 10)
       period = period.to_i
       Validation.validate_numeric_data(data, :close, :volume)
@@ -82,12 +76,33 @@ module TechnicalAnalysis
         prior_close = close
 
         if obvs.size == period
-          output << { date_time: v[:date_time], value: obvs.average }
+          output << ObvMeanValue.new(date_time: v[:date_time], obv_mean: obvs.average)
           obvs.shift
         end
       end
 
       output.sort_by_date_time_desc
+    end
+
+  end
+
+  # The value class to be returned by calculations
+  class ObvMeanValue
+
+    # @return [String] the date_time of the obversation as it was provided
+    attr_accessor :date_time
+
+    # @return [Float] the obv_mean calculation value
+    attr_accessor :obv_mean
+
+    def initialize(date_time: nil, obv_mean: nil)
+      @date_time = date_time
+      @obv_mean = obv_mean
+    end
+
+    # @return [Hash] the attributes as a hash
+    def to_hash
+      { date_time: @date_time, obv_mean: @obv_mean }
     end
 
   end

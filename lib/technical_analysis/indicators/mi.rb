@@ -1,4 +1,5 @@
 module TechnicalAnalysis
+  # Mass Index
   class Mi < Indicator
 
     # Returns the symbol of the technical indicator
@@ -48,14 +49,7 @@ module TechnicalAnalysis
     # @param ema_period [Integer] The given period to calculate the EMA and EMA of EMA
     # @param sum_period [Integer] The given period to calculate the sum of EMA ratios
     #
-    # @return [Array<Hash>]
-    #
-    #   An array of hashes with keys (:date_time, :value). Example output:
-    #
-    #     [
-    #       {:date_time => "2019-01-09T00:00:00.000Z", :value => 24.77520633216394},
-    #       {:date_time => "2019-01-08T00:00:00.000Z", :value => 24.80084030980544},
-    #     ]
+    # @return [Array<MiValue>] An array of MiValue instances
     def self.calculate(data, ema_period: 9, sum_period: 25)
       ema_period = ema_period.to_i
       sum_period = sum_period.to_i
@@ -85,7 +79,7 @@ module TechnicalAnalysis
             ratio_of_emas << (single_ema / double_ema)
 
             if ratio_of_emas.size == sum_period
-              output << { date_time: v[:date_time], value: ratio_of_emas.sum }
+              output << MiValue.new(date_time: v[:date_time], mi: ratio_of_emas.sum)
 
               double_emas.shift
               ratio_of_emas.shift
@@ -99,6 +93,27 @@ module TechnicalAnalysis
       end
 
       output.sort_by_date_time_desc
+    end
+
+  end
+
+  # The value class to be returned by calculations
+  class MiValue
+
+    # @return [String] the date_time of the obversation as it was provided
+    attr_accessor :date_time
+
+    # @return [Float] the mi calculation value
+    attr_accessor :mi
+
+    def initialize(date_time: nil, mi: nil)
+      @date_time = date_time
+      @mi = mi
+    end
+
+    # @return [Hash] the attributes as a hash
+    def to_hash
+      { date_time: @date_time, mi: @mi }
     end
 
   end

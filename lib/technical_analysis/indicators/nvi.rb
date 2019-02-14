@@ -1,4 +1,5 @@
 module TechnicalAnalysis
+  # Negative Volume Index
   class Nvi < Indicator
 
     # Returns the symbol of the technical indicator
@@ -47,14 +48,7 @@ module TechnicalAnalysis
     #
     # @param data [Array] Array of hashes with keys (:date_time, :close, :volume)
     #
-    # @return [Array<Hash>]
-    #
-    #   An array of hashes with keys (:date_time, :value). Example output:
-    #
-    #     [
-    #       {:date_time => "2019-01-09T00:00:00.000Z", :value => 1002.8410612825647},
-    #       {:date_time => "2019-01-08T00:00:00.000Z", :value => 1002.8410612825647},
-    #     ]
+    # @return [Array<NviValue>] An array of NviValue instances
     def self.calculate(data)
       Validation.validate_numeric_data(data, :close, :volume)
       Validation.validate_length(data, min_data_size({}))
@@ -65,7 +59,7 @@ module TechnicalAnalysis
       output = []
       prev_price = data.shift
 
-      output << { date_time: prev_price[:date_time], value: nvi_cumulative } # Start with default of 1_000
+      output << NviValue.new(date_time: prev_price[:date_time], nvi: nvi_cumulative) # Start with default of 1_000
 
       data.each do |v|
         volume_change = ((v[:volume] - prev_price[:volume]) / prev_price[:volume])
@@ -75,11 +69,32 @@ module TechnicalAnalysis
           nvi_cumulative += price_change
         end
 
-        output << { date_time: v[:date_time], value: nvi_cumulative }
+        output << NviValue.new(date_time: v[:date_time], nvi: nvi_cumulative)
         prev_price = v
       end
 
       output.sort_by_date_time_desc
+    end
+
+  end
+
+  # The value class to be returned by calculations
+  class NviValue
+
+    # @return [String] the date_time of the obversation as it was provided
+    attr_accessor :date_time
+
+    # @return [Float] the nvi calculation value
+    attr_accessor :nvi
+
+    def initialize(date_time: nil, nvi: nil)
+      @date_time = date_time
+      @nvi = nvi
+    end
+
+    # @return [Hash] the attributes as a hash
+    def to_hash
+      { date_time: @date_time, nvi: @nvi }
     end
 
   end

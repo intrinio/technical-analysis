@@ -1,4 +1,5 @@
 module TechnicalAnalysis
+  # Vortex Indicator
   class Vi < Indicator
 
     # Returns the symbol of the technical indicator
@@ -47,26 +48,7 @@ module TechnicalAnalysis
     # @param data [Array] Array of hashes with keys (:date_time, :high, :low, :close)
     # @param period [Integer] The given period to calculate the VI
     #
-    # @return [Array<Hash>]
-    #
-    #   An array of hashes with keys (:date_time, :value). Example output:
-    #
-    #     [
-    #       {
-    #         :date_time => "2019-01-09T00:00:00.000Z",
-    #         :value => {
-    #           :negative_vi => 0.9777149447928525,
-    #           :positive_vi => 0.8609629970246735
-    #         }
-    #       },
-    #       {
-    #         :date_time => "2019-01-08T00:00:00.000Z",
-    #         :value => {
-    #           :negative_vi => 1.0113586362578701,
-    #           :positive_vi => 0.8600571901821686
-    #         }
-    #       },
-    #     ]
+    # @return [Array<Hash>] An array of ViValue instances
     def self.calculate(data, period: 14)
       period = period.to_i
       Validation.validate_numeric_data(data, :high, :low, :close)
@@ -90,13 +72,11 @@ module TechnicalAnalysis
           neg_vm_period = period_values.map { |pv| pv[:neg_vm] }.sum
           tr_period = period_values.map { |pv| pv[:tr] }.sum
 
-          output << {
+          output << ViValue.new(
             date_time: v[:date_time],
-            value: {
-              positive_vi: (pos_vm_period / tr_period),
-              negative_vi: (neg_vm_period / tr_period),
-            }
-          }
+            positive_vi: (pos_vm_period / tr_period),
+            negative_vi: (neg_vm_period / tr_period),
+          )
 
           period_values.shift
         end
@@ -105,6 +85,31 @@ module TechnicalAnalysis
       end
 
       output.sort_by_date_time_desc
+    end
+
+  end
+
+  # The value class to be returned by calculations
+  class ViValue
+
+    # @return [String] the date_time of the obversation as it was provided
+    attr_accessor :date_time
+
+    # @return [Float] the positive Vortex Indicator value
+    attr_accessor :positive_vi
+
+    # @return [Float] the negative Vortex Indicator value
+    attr_accessor :negative_vi
+
+    def initialize(date_time: nil, positive_vi: nil, negative_vi: nil)
+      @date_time = date_time
+      @positive_vi = positive_vi
+      @negative_vi = negative_vi
+    end
+
+    # @return [Hash] the attributes as a hash
+    def to_hash
+      { date_time: @date_time, positive_vi: @positive_vi, negative_vi: @negative_vi }
     end
 
   end

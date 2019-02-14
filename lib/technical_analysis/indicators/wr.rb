@@ -1,4 +1,5 @@
 module TechnicalAnalysis
+  # Williams %R
   class Wr < Indicator
 
     # Returns the symbol of the technical indicator
@@ -47,14 +48,7 @@ module TechnicalAnalysis
     # @param data [Array] Array of hashes with keys (:date_time, :high, :low, :close)
     # @param period [Integer] The given look-back period to calculate the WR
     #
-    # @return [Array<Hash>]
-    #
-    #   An array of hashes with keys (:date_time, :value). Example output:
-    #
-    #     [
-    #       {:date_time => "2019-01-09T00:00:00.000Z", :value => -55.55992141453828},
-    #       {:date_time => "2019-01-08T00:00:00.000Z", :value => -65.72659616137877},
-    #     ]
+    # @return [Array<WrValue>] An array of WrValue instances
     def self.calculate(data, period: 14)
       period = period.to_i
       Validation.validate_numeric_data(data, :high, :low, :close)
@@ -74,13 +68,34 @@ module TechnicalAnalysis
 
           wr = (highest_high - v[:close]) / (highest_high - lowest_low) * -100
 
-          output << { date_time: v[:date_time], value: wr }
+          output << WrValue.new(date_time: v[:date_time], wr: wr)
 
           period_values.shift
         end
       end
 
       output.sort_by_date_time_desc
+    end
+
+  end
+
+  # The value class to be returned by calculations
+  class WrValue
+
+    # @return [String] the date_time of the obversation as it was provided
+    attr_accessor :date_time
+
+    # @return [Float] the wr calculation value
+    attr_accessor :wr
+
+    def initialize(date_time: nil, wr: nil)
+      @date_time = date_time
+      @wr = wr
+    end
+
+    # @return [Hash] the attributes as a hash
+    def to_hash
+      { date_time: @date_time, wr: @wr }
     end
 
   end

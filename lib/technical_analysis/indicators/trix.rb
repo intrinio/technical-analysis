@@ -1,4 +1,5 @@
 module TechnicalAnalysis
+  # Triple Exponential Average
   class Trix < Indicator
 
     # Returns the symbol of the technical indicator
@@ -48,14 +49,7 @@ module TechnicalAnalysis
     # @param period [Integer] The given period to calculate the EMA for Trix
     # @param price_key [Symbol] The hash key for the price data. Default :value
     #
-    # @return [Array<Hash>]
-    #
-    #   An array of hashes with keys (:date_time, :value). Example output:
-    #
-    #     [
-    #       {:date_time => "2019-01-09T00:00:00.000Z", :value => -0.007522826289174942},
-    #       {:date_time => "2019-01-08T00:00:00.000Z", :value => -0.007639218329257057},
-    #     ]
+    # @return [Array<TrixValue>] An array of TrixValue instances
     def self.calculate(data, period: 15, price_key: :value)
       period = period.to_i
       price_key = price_key.to_sym
@@ -89,7 +83,7 @@ module TechnicalAnalysis
               if ema3.size == 2
                 prev_ema3, current_ema3 = ema3
                 trix = ((current_ema3 - prev_ema3) / prev_ema3)
-                output << { date_time: v[:date_time], value: trix }
+                output << TrixValue.new(date_time: v[:date_time], trix: trix)
 
                 ema3.shift
               end
@@ -105,6 +99,27 @@ module TechnicalAnalysis
       end
 
       output.sort_by_date_time_desc
+    end
+
+  end
+
+  # The value class to be returned by calculations
+  class TrixValue
+
+    # @return [String] the date_time of the obversation as it was provided
+    attr_accessor :date_time
+
+    # @return [Float] the trix calculation value
+    attr_accessor :trix
+
+    def initialize(date_time: nil, trix: nil)
+      @date_time = date_time
+      @trix = trix
+    end
+
+    # @return [Hash] the attributes as a hash
+    def to_hash
+      { date_time: @date_time, trix: @trix }
     end
 
   end
