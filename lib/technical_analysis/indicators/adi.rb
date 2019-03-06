@@ -50,6 +50,7 @@ module TechnicalAnalysis
     # @return [Array<AdiValue>] An array of AdiValue instances
     def self.calculate(data)
       Validation.validate_numeric_data(data, :high, :low, :close, :volume)
+      Validation.validate_date_time_key(data)
 
       data = data.sort_by_date_time_asc
 

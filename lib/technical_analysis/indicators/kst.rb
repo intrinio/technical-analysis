@@ -69,6 +69,7 @@ module TechnicalAnalysis
       price_key = price_key.to_sym
       Validation.validate_numeric_data(data, price_key)
       Validation.validate_length(data, min_data_size(roc4: roc4, sma4: sma4))
+      Validation.validate_date_time_key(data)
 
       data = data.sort_by_date_time_asc
 

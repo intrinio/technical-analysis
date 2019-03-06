@@ -55,6 +55,7 @@ module TechnicalAnalysis
       sum_period = sum_period.to_i
       Validation.validate_numeric_data(data, :high, :low)
       Validation.validate_length(data, min_data_size(ema_period: ema_period, sum_period: sum_period))
+      Validation.validate_date_time_key(data)
 
       data = data.sort_by_date_time_asc
 

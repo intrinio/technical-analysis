@@ -55,21 +55,22 @@ module TechnicalAnalysis
       price_key = price_key.to_sym
       Validation.validate_numeric_data(data, price_key)
       Validation.validate_length(data, min_data_size(period: period))
+      Validation.validate_date_time_key(data)
 
-      data = data.sort_by_date_time_asc
-      
+      data = data.sort_by { |row| row[:date_time] }
+
       output = []
       period_values = []
 
       data.each do |v|
         period_values << v[price_key]
         if period_values.size == period
-          output << SmaValue.new(date_time: v[:date_time], sma: period_values.average)
+          output << SmaValue.new(date_time: v[:date_time], sma: ArrayHelper.average(period_values))
           period_values.shift
         end
       end
 
-      output.sort_by_date_time_desc
+      output.sort_by(&:date_time).reverse
     end
 
   end

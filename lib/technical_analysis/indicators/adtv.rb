@@ -55,6 +55,7 @@ module TechnicalAnalysis
       volume_key = volume_key.to_sym
       Validation.validate_numeric_data(data, volume_key)
       Validation.validate_length(data, min_data_size(period: period))
+      Validation.validate_date_time_key(data)
 
       data = data.sort_by_date_time_asc
 
