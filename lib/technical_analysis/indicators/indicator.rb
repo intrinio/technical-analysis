@@ -15,7 +15,7 @@ module TechnicalAnalysis
     # Returns an array of TechnicalAnalysis modules
     #
     # @return [Array] A list of TechnicalAnalysis::Class
-    private_class_method def self.roster
+    def self.roster
       [
         TechnicalAnalysis::Adi,
         TechnicalAnalysis::Adtv,
@@ -31,7 +31,6 @@ module TechnicalAnalysis
         TechnicalAnalysis::Dpo,
         TechnicalAnalysis::Dr,
         TechnicalAnalysis::Eom,
-        TechnicalAnalysis::Evm,
         TechnicalAnalysis::Fi,
         TechnicalAnalysis::Ichimoku,
         TechnicalAnalysis::Kc,
