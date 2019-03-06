@@ -15,4 +15,13 @@ describe 'Validation' do
       expect { TechnicalAnalysis::Validation.validate_date_time_key(bad_date_time_format_data) }.to raise_exception(TechnicalAnalysis::Validation::ValidationError)
     end
   end
+
+  describe "numeric validation" do
+    input_data = SpecHelper.get_test_data(:close)
+
+    it 'Throws exception for non numeric price data' do
+      non_numeric_data = input_data.each { |row| row[:close] = row.delete(:close).to_s }
+      expect { TechnicalAnalysis::Validation.validate_numeric_data(non_numeric_data, :close) }.to raise_exception(TechnicalAnalysis::Validation::ValidationError)
+    end
+  end
 end
