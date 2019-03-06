@@ -52,11 +52,11 @@ module TechnicalAnalysis
       Validation.validate_numeric_data(data, :high, :low, :close, :volume)
       Validation.validate_date_time_key(data)
 
-      data = data.sort_by_date_time_asc
+      data = data.sort_by { |row| row[:date_time] }
 
       ad = 0
-      ads = []
       clv = 0
+      output = []
       prev_ad = 0
 
       data.each_with_index do |values, i|
@@ -70,9 +70,10 @@ module TechnicalAnalysis
         prev_ad = ad
         date_time = values[:date_time]
 
-        ads << AdiValue.new(date_time: date_time, adi: ad)
+        output << AdiValue.new(date_time: date_time, adi: ad)
       end
-      ads.sort_by_date_time_desc
+
+      output.sort_by(&:date_time).reverse
     end
 
   end
