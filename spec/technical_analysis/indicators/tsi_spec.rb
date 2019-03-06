@@ -49,7 +49,7 @@ describe 'Indicators' do
         size_limit = low_period + high_period - 1
         input_data = input_data.first(size_limit)
 
-        expect {indicator.calculate(input_data, low_period: low_period, high_period: high_period, price_key: :close)}.to raise_exception(Validation::ValidationError)
+        expect {indicator.calculate(input_data, low_period: low_period, high_period: high_period, price_key: :close)}.to raise_exception(TechnicalAnalysis::Validation::ValidationError)
       end
 
       it 'Returns the symbol' do
@@ -75,7 +75,7 @@ describe 'Indicators' do
 
       it 'Throws exception for invalid options' do
         invalid_options = { test: 10 }
-        expect { indicator.validate_options(invalid_options) }.to raise_exception(Validation::ValidationError)
+        expect { indicator.validate_options(invalid_options) }.to raise_exception(TechnicalAnalysis::Validation::ValidationError)
       end
 
       it 'Calculates minimum data size' do

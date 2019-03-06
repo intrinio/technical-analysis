@@ -60,7 +60,7 @@ describe 'Indicators' do
       end
 
       it "Throws exception if not enough data" do
-        expect {indicator.calculate(input_data, period: input_data.size+1, volume_key: :volume)}.to raise_exception(Validation::ValidationError)
+        expect {indicator.calculate(input_data, period: input_data.size+1, volume_key: :volume)}.to raise_exception(TechnicalAnalysis::Validation::ValidationError)
       end
 
       it 'Returns the symbol' do
@@ -86,7 +86,7 @@ describe 'Indicators' do
 
       it 'Throws exception for invalid options' do
         invalid_options = { test: 10 }
-        expect { indicator.validate_options(invalid_options) }.to raise_exception(Validation::ValidationError)
+        expect { indicator.validate_options(invalid_options) }.to raise_exception(TechnicalAnalysis::Validation::ValidationError)
       end
 
       it 'Calculates minimum data size' do
