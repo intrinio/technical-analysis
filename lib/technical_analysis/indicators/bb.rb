@@ -70,7 +70,7 @@ module TechnicalAnalysis
 
         if period_values.size == period
           mb = ArrayHelper.average(period_values)
-          sd = period_values.standard_deviation
+          sd = ArrayHelper.standard_deviation(period_values)
           ub = mb + standard_deviations * sd
           lb = mb - standard_deviations * sd
 
