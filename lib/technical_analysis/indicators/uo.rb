@@ -70,7 +70,7 @@ module TechnicalAnalysis
       output = []
       period_values = []
       prior_close = data.shift[:close]
-      sum_of_weights = [short_weight, medium_weight, long_weight].sum
+      sum_of_weights = ArrayHelper.sum([short_weight, medium_weight, long_weight])
 
       data.each do |v|
         min_low_p_close = [v[:low], prior_close].min
@@ -99,8 +99,8 @@ module TechnicalAnalysis
     end
 
     private_class_method def self.calculate_average(period, data)
-      buying_pressures_sum = data.last(period).map { |d| d[:buying_pressure] }.sum
-      true_ranges_sum = data.last(period).map { |d| d[:true_range] }.sum
+      buying_pressures_sum = ArrayHelper.sum(data.last(period).map { |d| d[:buying_pressure] })
+      true_ranges_sum = ArrayHelper.sum(data.last(period).map { |d| d[:true_range] })
 
       buying_pressures_sum / true_ranges_sum
     end

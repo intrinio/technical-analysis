@@ -104,7 +104,7 @@ module TechnicalAnalysis
         roc_data << (last_price - starting_price) / starting_price * 100
       end
 
-      roc_data.sum / sma.to_f
+      ArrayHelper.sum(roc_data) / sma.to_f
     end
 
   end

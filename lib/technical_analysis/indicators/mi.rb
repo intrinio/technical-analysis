@@ -80,7 +80,7 @@ module TechnicalAnalysis
             ratio_of_emas << (single_ema / double_ema)
 
             if ratio_of_emas.size == sum_period
-              output << MiValue.new(date_time: v[:date_time], mi: ratio_of_emas.sum)
+              output << MiValue.new(date_time: v[:date_time], mi: ArrayHelper.sum(ratio_of_emas))
 
               double_emas.shift
               ratio_of_emas.shift

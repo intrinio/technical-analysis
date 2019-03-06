@@ -120,9 +120,9 @@ module TechnicalAnalysis
 
     private_class_method def self.smooth_periodic_values(period, periodic_values, smoothed_values)
       if smoothed_values.empty?
-        tr_period = periodic_values.map { |pv| pv[:tr] }.sum
-        dm_pos_period = periodic_values.map { |pv| pv[:dm_pos] }.sum
-        dm_neg_period = periodic_values.map { |pv| pv[:dm_neg] }.sum
+        tr_period = ArrayHelper.sum(periodic_values.map { |pv| pv[:tr] })
+        dm_pos_period = ArrayHelper.sum(periodic_values.map { |pv| pv[:dm_pos] })
+        dm_neg_period = ArrayHelper.sum(periodic_values.map { |pv| pv[:dm_neg] })
       else
         prev_value = smoothed_values.last
         current_value = periodic_values.last

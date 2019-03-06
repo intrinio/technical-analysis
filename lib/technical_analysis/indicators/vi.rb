@@ -69,9 +69,9 @@ module TechnicalAnalysis
         period_values << { pos_vm: positive_vm, neg_vm: negative_vm, tr: tr }
 
         if period_values.size == period
-          pos_vm_period = period_values.map { |pv| pv[:pos_vm] }.sum
-          neg_vm_period = period_values.map { |pv| pv[:neg_vm] }.sum
-          tr_period = period_values.map { |pv| pv[:tr] }.sum
+          pos_vm_period = ArrayHelper.sum(period_values.map { |pv| pv[:pos_vm] })
+          neg_vm_period = ArrayHelper.sum(period_values.map { |pv| pv[:neg_vm] })
+          tr_period = ArrayHelper.sum(period_values.map { |pv| pv[:tr] })
 
           output << ViValue.new(
             date_time: v[:date_time],

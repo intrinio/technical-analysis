@@ -67,8 +67,8 @@ module TechnicalAnalysis
         period_values << { volume: v[:volume], mf_volume: mf_volume }
 
         if period_values.size == period
-          volume_sum = period_values.map { |pv| pv[:volume] }.sum
-          mf_volume_sum = period_values.map { |pv| pv[:mf_volume] }.sum
+          volume_sum = ArrayHelper.sum(period_values.map { |pv| pv[:volume] })
+          mf_volume_sum = ArrayHelper.sum(period_values.map { |pv| pv[:mf_volume] })
           cmf = mf_volume_sum / volume_sum
 
           output << CmfValue.new(date_time: v[:date_time], cmf: cmf)
