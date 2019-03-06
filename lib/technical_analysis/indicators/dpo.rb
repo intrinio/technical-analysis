@@ -69,7 +69,7 @@ module TechnicalAnalysis
         current_price = current_record[price_key]
 
         sma_range = (index - midpoint_index - period + 2)..(index - midpoint_index + 1)
-        midpoint_period_sma = data[sma_range].map { |v| v[price_key] }.average
+        midpoint_period_sma = ArrayHelper.average(data[sma_range].map { |v| v[price_key] })
 
         dpo = (current_price - midpoint_period_sma)
 

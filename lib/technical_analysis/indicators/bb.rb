@@ -69,7 +69,7 @@ module TechnicalAnalysis
         period_values << v[price_key]
 
         if period_values.size == period
-          mb = period_values.average
+          mb = ArrayHelper.average(period_values)
           sd = period_values.standard_deviation
           ub = mb + standard_deviations * sd
           lb = mb - standard_deviations * sd

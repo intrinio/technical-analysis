@@ -77,7 +77,7 @@ module TechnicalAnalysis
         prior_close = close
 
         if obvs.size == period
-          output << ObvMeanValue.new(date_time: v[:date_time], obv_mean: obvs.average)
+          output << ObvMeanValue.new(date_time: v[:date_time], obv_mean: ArrayHelper.average(obvs))
           obvs.shift
         end
       end

@@ -68,7 +68,7 @@ module TechnicalAnalysis
 
         if period_values.size == period
           if output.empty?
-            atr = period_values.average
+            atr = ArrayHelper.average(period_values)
           else
             atr = (output.last.atr * (period - 1.0) + tr) / period.to_f
           end

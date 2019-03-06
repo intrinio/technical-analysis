@@ -67,8 +67,8 @@ module TechnicalAnalysis
         midpoint_values << midpoint
 
         if midpoint_values.size == long_period
-          short_period_sma = midpoint_values.last(short_period).average
-          long_period_sma = midpoint_values.average
+          short_period_sma = ArrayHelper.average(midpoint_values.last(short_period))
+          long_period_sma = ArrayHelper.average(midpoint_values)
           value = short_period_sma - long_period_sma
 
           output << AoValue.new(date_time: v[:date_time], ao: value)

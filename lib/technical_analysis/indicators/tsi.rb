@@ -103,8 +103,8 @@ module TechnicalAnalysis
 
     private_class_method def self.process_ema(current_value, data, multiplier, period, store)
       if store.empty?
-        value = data.map { |d| d[:value] }.average
-        abs_value = data.map { |d| d[:abs_value] }.average
+        value = ArrayHelper.average(data.map { |d| d[:value] })
+        abs_value = ArrayHelper.average(data.map { |d| d[:abs_value] })
       else
         prev_value = store.last
         value = ((multiplier * (current_value[:value] - prev_value[:value])) + prev_value[:value])

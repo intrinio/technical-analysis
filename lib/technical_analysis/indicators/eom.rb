@@ -69,7 +69,7 @@ module TechnicalAnalysis
         period_values << emv
 
         if period_values.size == period
-          output << EomValue.new(date_time: v[:date_time], eom: period_values.average)
+          output << EomValue.new(date_time: v[:date_time], eom: ArrayHelper.average(period_values))
           period_values.shift
         end
 

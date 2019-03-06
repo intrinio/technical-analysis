@@ -65,7 +65,7 @@ module TechnicalAnalysis
       data.each do |v|
         period_values << v[volume_key]
         if period_values.size == period
-          output << AdtvValue.new(date_time: v[:date_time], adtv: period_values.average)
+          output << AdtvValue.new(date_time: v[:date_time], adtv: ArrayHelper.average(period_values))
           period_values.shift
         end
       end

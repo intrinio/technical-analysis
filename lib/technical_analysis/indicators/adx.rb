@@ -83,7 +83,7 @@ module TechnicalAnalysis
 
           if dx_values.size == period
             if prev_adx.nil?
-              adx = dx_values.average
+              adx = ArrayHelper.average(dx_values)
             else
               adx = ((prev_adx * 13) + dx) / period.to_f
             end

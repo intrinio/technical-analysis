@@ -71,8 +71,8 @@ module TechnicalAnalysis
 
         if price_changes.size == period
           if prev_avg.nil?
-            avg_gain = price_changes.map { |pc| pc.positive? ? pc : 0 }.average
-            avg_loss = price_changes.map { |pc| pc.negative? ? pc.abs : 0 }.average
+            avg_gain = ArrayHelper.average(price_changes.map { |pc| pc.positive? ? pc : 0 })
+            avg_loss = ArrayHelper.average(price_changes.map { |pc| pc.negative? ? pc.abs : 0 })
           else
             if price_change > 0
               current_loss = 0

@@ -75,7 +75,7 @@ module TechnicalAnalysis
           sr_values << sr
 
           if sr_values.size == signal_period
-            signal = sr_values.average
+            signal = ArrayHelper.average(sr_values)
 
             output << SrValue.new(
               date_time: v[:date_time],

@@ -66,9 +66,9 @@ module TechnicalAnalysis
         period_values << { typical_price: tp, trading_range: tr }
 
         if period_values.size == period
-          mb = period_values.map { |pv| pv[:typical_price] }.average
+          mb = ArrayHelper.average(period_values.map { |pv| pv[:typical_price] })
 
-          trading_range_average = period_values.map { |pv| pv[:trading_range] }.average
+          trading_range_average = ArrayHelper.average(period_values.map { |pv| pv[:trading_range] })
           ub = mb + trading_range_average
           lb = mb - trading_range_average
 
