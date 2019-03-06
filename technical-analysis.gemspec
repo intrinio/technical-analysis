@@ -1,6 +1,6 @@
 Gem::Specification.new do |spec|
   spec.name          = "technical-analysis"
-  spec.version       = "1.0.0"
+  spec.version       = "0.1.0"
   spec.authors       = ["Intrinio"]
   spec.email         = ["admin@intrinio.com"]
   spec.description   = %q{Intrinio Technical Analysis}
