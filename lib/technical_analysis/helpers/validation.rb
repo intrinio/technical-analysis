@@ -20,15 +20,9 @@ module TechnicalAnalysis
       return true if (options.keys - valid_options).empty?
       raise ValidationError.new "Invalid options provided. Valid options are #{valid_options.join(", ")}"
     end
-    
+  
     def self.validate_date_time_key(data)
-      first_data = data.first
-
-      begin
-        unless first_data.key?(:date_time) && DateTime.parse(first_data[:date_time])
-          raise ValidationError.new "Dataset must include date_time field with timestamps"
-        end
-      rescue
+      unless data.all? { |row| row.keys.include? :date_time }
         raise ValidationError.new "Dataset must include date_time field with timestamps"
       end
     end
