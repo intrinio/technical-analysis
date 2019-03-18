@@ -74,7 +74,7 @@ TechnicalAnalysis::Sma.calculate(input_data, period: 30, price_key: :close)
 ```
 
 ### 2) Call the generic indicator class and pass params to the `calculate` method
-The calculate method accepts:
+The `calculate` method on the `Indicator` class accepts:
 - The indicator `symbol` as a String - `"sma"`
 - The data to be used for calculations as an Array of Hashes - `input_data`
 - The symbol of the calculation to be performed - `:technicals`
