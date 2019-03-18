@@ -49,6 +49,7 @@ module TechnicalAnalysis
         TechnicalAnalysis::Uo,
         TechnicalAnalysis::Vi,
         TechnicalAnalysis::Vpt,
+        TechnicalAnalysis::Vwap,
         TechnicalAnalysis::Wr,
       ]
     end
