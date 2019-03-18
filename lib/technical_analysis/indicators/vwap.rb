@@ -46,7 +46,7 @@ module TechnicalAnalysis
     # Calculates the volume weighted average price (VWAP) for the data
     # https://en.wikipedia.org/wiki/Volume-weighted_average_price
     #
-    # @param data [Array] Array of hashes with keys (:date_time, :high, :low, :close)
+    # @param data [Array] Array of hashes with keys (:date_time, :high, :low, :close, :volume)
     #
     # @return [Array<VwapValue>] An array of VwapValue instances
     def self.calculate(data)
