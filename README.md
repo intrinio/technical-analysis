@@ -35,6 +35,7 @@ The following technical indicators are supported:
 - Ultimate Oscillator (UO)
 - Vortex Indicator (VI)
 - Volume-price Trend (VPT)
+- Volume Weighted Average Price (VWAP)
 - Williams %R (WR)
 
 ## Run Tests
