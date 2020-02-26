@@ -17,6 +17,7 @@ The following technical indicators are supported:
 - Detrended Price Oscillator (DPO)
 - Daily Return (DR)
 - Ease of Movement (EOM)
+- Exponential Moving Average (EMA)
 - Force Index (FI)
 - Ichimoku Kinko Hyo (ICHIMOKU)
 - Keltner Channel (KC)

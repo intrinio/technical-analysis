@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    technical-analysis (0.1.0)
+    technical-analysis (0.2.0)
 
 GEM
   remote: https://rubygems.org/
@@ -34,4 +34,4 @@ DEPENDENCIES
   yard (~> 0.9.6)
 
 BUNDLED WITH
-   1.17.1
+   1.17.2
