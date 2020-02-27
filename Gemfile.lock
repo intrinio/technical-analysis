@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    technical-analysis (0.1.0)
+    technical-analysis (0.2.0)
 
 GEM
   remote: https://rubygems.org/
@@ -21,7 +21,7 @@ GEM
       diff-lcs (>= 1.2.0, < 2.0)
       rspec-support (~> 3.8.0)
     rspec-support (3.8.0)
-    yard (0.9.18)
+    yard (0.9.24)
 
 PLATFORMS
   ruby
@@ -31,7 +31,7 @@ DEPENDENCIES
   rake (~> 10.0)
   rspec (~> 3.0)
   technical-analysis!
-  yard (~> 0.9.6)
+  yard (~> 0.9.20)
 
 BUNDLED WITH
    1.17.1
