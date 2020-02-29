@@ -6,12 +6,12 @@ class SpecHelper
   FLOAT_KEYS = [:open, :high, :low, :close].freeze
   INTEGER_KEYS = [:volume].freeze
 
-  def self.get_test_data(*columns)
+  def self.get_test_data(*columns, date_time_key: :date_time)
     @data = CSV.read(TEST_DATA_PATH, headers: true)
     columns = columns.map(&:to_sym)
     output = []
     @data.each do |v|
-      col_hash = { date_time: v["date_time"] }
+      col_hash = { date_time_key => v["date_time"] }
       columns.each do |col|
         value = v[col.to_s]
         value = value.to_f if FLOAT_KEYS.include?(col)
