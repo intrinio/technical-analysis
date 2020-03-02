@@ -3,12 +3,12 @@ require 'spec_helper'
 
 describe 'Indicators' do
   describe "EMA" do
-    input_data = SpecHelper.get_test_data(:close)
+    input_data = SpecHelper.get_test_data(:close, date_time_key: :timestep)
     indicator = TechnicalAnalysis::Ema
 
     describe 'Exponential Moving Average' do
       it 'Calculates EMA (5 day)' do
-        output = indicator.calculate(input_data, period: 5, price_key: :close)
+        output = indicator.calculate(input_data, period: 5, price_key: :close, date_time_key: :timestep)
         normalized_output = output.map(&:to_hash)
 
         expected_output = [
@@ -92,11 +92,11 @@ describe 'Indicators' do
 
       it 'Returns the valid options' do
         valid_options = indicator.valid_options
-        expect(valid_options).to eq(%i(period price_key))
+        expect(valid_options).to eq(%i(period price_key date_time_key))
       end
 
       it 'Validates options' do
-        valid_options = { period: 22, price_key: :close }
+        valid_options = { period: 22, price_key: :close, date_time_key: :timestep }
         options_validated = indicator.validate_options(valid_options)
         expect(options_validated).to eq(true)
       end

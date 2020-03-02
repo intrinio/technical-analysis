@@ -38,7 +38,7 @@ describe 'Indicators' do
 
       it 'Calculates valid_options' do
         valid_options = indicator.calculate('sma', [], :valid_options, { period: 20, price_key: :close })
-        expect(valid_options).to eq(%i(period price_key))
+        expect(valid_options).to eq(%i(period price_key date_time_key))
       end
 
       it 'Calculates validate_options' do

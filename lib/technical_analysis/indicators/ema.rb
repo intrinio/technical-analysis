@@ -20,7 +20,7 @@ module TechnicalAnalysis
     #
     # @return [Array] An array of keys as symbols for valid options for this technical indicator
     def self.valid_options
-      %i(period price_key)
+      %i(period price_key date_time_key)
     end
 
     # Validates the provided options for this technical indicator
@@ -48,16 +48,18 @@ module TechnicalAnalysis
     # @param data [Array] Array of hashes with keys (:date_time, :value)
     # @param period [Integer] The given period to calculate the EMA
     # @param price_key [Symbol] The hash key for the price data. Default :value
+    # @param date_time_key [Symbol] The hash key for the date time data. Default :date_time
     #
     # @return [Array<EmaValue>] An array of EmaValue instances
-    def self.calculate(data, period: 30, price_key: :value)
+    def self.calculate(data, period: 30, price_key: :value, date_time_key: :date_time)
       period = period.to_i
       price_key = price_key.to_sym
+      date_time_key = date_time_key.to_sym
       Validation.validate_numeric_data(data, price_key)
       Validation.validate_length(data, min_data_size(period: period))
-      Validation.validate_date_time_key(data)
+      Validation.validate_date_time_key(data, date_time_key)
 
-      data = data.sort_by { |row| row[:date_time] }
+      data = data.sort_by { |row| row[date_time_key] }
 
       output = []
       period_values = []
@@ -69,7 +71,7 @@ module TechnicalAnalysis
           ema = StockCalculation.ema(v[price_key], period_values, period, previous_ema)
           previous_ema = ema
 
-          output << EmaValue.new(date_time: v[:date_time], ema: ema)
+          output << EmaValue.new(date_time: v[date_time_key], ema: ema)
           period_values.shift
         end
       end
