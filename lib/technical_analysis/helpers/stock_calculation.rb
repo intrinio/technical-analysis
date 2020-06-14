@@ -21,5 +21,13 @@ module TechnicalAnalysis
       end
     end
 
+    def self.wma(data)
+      intermediate_values = []
+      data.each_with_index do |datum, i|
+        intermediate_values << datum * (i + 1)/(data.size * (data.size + 1)/2).to_f
+      end
+      intermediate_values.sum
+    end
+
   end
 end
