@@ -58,10 +58,13 @@ module TechnicalAnalysis
       Validation.validate_numeric_data(data, price_key)
       Validation.validate_length(data, min_data_size(period: period))
       Validation.validate_date_time_key(data, date_time_key)
+
       data = data.sort_by { |row| row[date_time_key] }
+
       output = []
       period_values = []
       previous_wma = nil
+
       data.each do |v|
         period_values << v[price_key]
         if period_values.size == period
