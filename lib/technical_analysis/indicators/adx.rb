@@ -85,7 +85,7 @@ module TechnicalAnalysis
             if prev_adx.nil?
               adx = ArrayHelper.average(dx_values)
             else
-              adx = ((prev_adx * 13) + dx) / period.to_f
+              adx = ((prev_adx * (period - 1)) + dx) / period.to_f
             end
 
             output << AdxValue.new(date_time: v[:date_time], adx: adx, di_pos: di_pos, di_neg: di_neg)
