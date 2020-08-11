@@ -37,6 +37,7 @@ The following technical indicators are supported:
 - Vortex Indicator (VI)
 - Volume-price Trend (VPT)
 - Volume Weighted Average Price (VWAP)
+- Weighted Moving Average (WMA)
 - Williams %R (WR)
 
 ## Install
