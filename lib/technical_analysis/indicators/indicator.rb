@@ -54,17 +54,56 @@ module TechnicalAnalysis
       ]
     end
 
+    def self.roster_hash
+      {
+        TechnicalAnalysis::Adi.indicator_symbol => TechnicalAnalysis::Adi,
+        TechnicalAnalysis::Adtv.indicator_symbol => TechnicalAnalysis::Adtv,
+        TechnicalAnalysis::Adx.indicator_symbol => TechnicalAnalysis::Adx,
+        TechnicalAnalysis::Ao.indicator_symbol => TechnicalAnalysis::Ao,
+        TechnicalAnalysis::Atr.indicator_symbol => TechnicalAnalysis::Atr,
+        TechnicalAnalysis::Bb.indicator_symbol => TechnicalAnalysis::Bb,
+        TechnicalAnalysis::Cci.indicator_symbol => TechnicalAnalysis::Cci,
+        TechnicalAnalysis::Cmf.indicator_symbol => TechnicalAnalysis::Cmf,
+        TechnicalAnalysis::Cr.indicator_symbol => TechnicalAnalysis::Cr,
+        TechnicalAnalysis::Dc.indicator_symbol => TechnicalAnalysis::Dc,
+        TechnicalAnalysis::Dlr.indicator_symbol => TechnicalAnalysis::Dlr,
+        TechnicalAnalysis::Dpo.indicator_symbol => TechnicalAnalysis::Dpo,
+        TechnicalAnalysis::Dr.indicator_symbol => TechnicalAnalysis::Dr,
+        TechnicalAnalysis::Eom.indicator_symbol => TechnicalAnalysis::Eom,
+        TechnicalAnalysis::Fi.indicator_symbol => TechnicalAnalysis::Fi,
+        TechnicalAnalysis::Ichimoku.indicator_symbol => TechnicalAnalysis::Ichimoku,
+        TechnicalAnalysis::Kc.indicator_symbol => TechnicalAnalysis::Kc,
+        TechnicalAnalysis::Kst.indicator_symbol => TechnicalAnalysis::Kst,
+        TechnicalAnalysis::Macd.indicator_symbol => TechnicalAnalysis::Macd,
+        TechnicalAnalysis::Mfi.indicator_symbol => TechnicalAnalysis::Mfi,
+        TechnicalAnalysis::Mi.indicator_symbol => TechnicalAnalysis::Mi,
+        TechnicalAnalysis::Nvi.indicator_symbol => TechnicalAnalysis::Nvi,
+        TechnicalAnalysis::Obv.indicator_symbol => TechnicalAnalysis::Obv,
+        TechnicalAnalysis::ObvMean.indicator_symbol => TechnicalAnalysis::ObvMean,
+        TechnicalAnalysis::Rsi.indicator_symbol => TechnicalAnalysis::Rsi,
+        TechnicalAnalysis::Sma.indicator_symbol => TechnicalAnalysis::Sma,
+        TechnicalAnalysis::Sr.indicator_symbol => TechnicalAnalysis::Sr,
+        TechnicalAnalysis::Trix.indicator_symbol => TechnicalAnalysis::Trix,
+        TechnicalAnalysis::Tsi.indicator_symbol => TechnicalAnalysis::Tsi,
+        TechnicalAnalysis::Uo.indicator_symbol => TechnicalAnalysis::Uo,
+        TechnicalAnalysis::Vi.indicator_symbol => TechnicalAnalysis::Vi,
+        TechnicalAnalysis::Vpt.indicator_symbol => TechnicalAnalysis::Vpt,
+        TechnicalAnalysis::Vwap.indicator_symbol => TechnicalAnalysis::Vwap,
+        TechnicalAnalysis::Wr.indicator_symbol => TechnicalAnalysis::Wr,
+      }
+    end
+
     # Finds the applicable indicator and returns an instance
     #
     # @param indicator_symbol [String] Downcased string of the indicator symbol
     #
     # @return TechnicalAnalysis::ClassName
     def self.find(indicator_symbol)
-      roster.each do |indicator|
-        return indicator if indicator.indicator_symbol == indicator_symbol
+      if roster_hash.key?(indicator_symbol)
+        roster_hash[indicator_symbol]
+      else
+        nil
       end
-
-      nil
     end
 
     # Find the applicable indicator and looks up the value
