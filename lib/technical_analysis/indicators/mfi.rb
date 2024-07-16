@@ -80,7 +80,14 @@ module TechnicalAnalysis
           positive_period_flows = ArrayHelper.sum(raw_money_flows.map { |rmf| rmf.positive? ? rmf : 0 })
           negative_period_flows = ArrayHelper.sum(raw_money_flows.map { |rmf| rmf.negative? ? rmf.abs : 0 })
 
-          money_flow_ratio = (positive_period_flows / negative_period_flows)
+          if positive_period_flows == 0
+            money_flow_ratio = 0
+          elsif negative_period_flows == 0
+            money_flow_ratio = positive_period_flows
+          else
+            money_flow_ratio = (positive_period_flows / negative_period_flows)
+          end
+
           mfi = (100.00 - (100.00 / (1.0 + money_flow_ratio)))
 
           output << MfiValue.new(date_time: v[:date_time], mfi: mfi)
