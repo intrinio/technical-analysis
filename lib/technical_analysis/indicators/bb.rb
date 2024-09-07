@@ -65,19 +65,14 @@ module TechnicalAnalysis
       output = []
       period_values = []
 
-      # Pre-compute the multiplier for standard deviations
-      stddev_multiplier = standard_deviations
-
-      data.each_with_index do |v, i|
-        current_value = v[price_key]
-        period_values << current_value
+      data.each do |v|
+        period_values << v[price_key]
 
         if period_values.size == period
-          # Use pre-computed moving average and standard deviation
           mb = ArrayHelper.average(period_values)
           sd = ArrayHelper.standard_deviation(period_values)
-          ub = mb + stddev_multiplier * sd
-          lb = mb - stddev_multiplier * sd
+          ub = mb + standard_deviations * sd
+          lb = mb - standard_deviations * sd
 
           output << BbValue.new(
             date_time: v[:date_time],
@@ -90,7 +85,7 @@ module TechnicalAnalysis
         end
       end
 
-      output.reverse!  # Reverse the array in place to save memory
+      output.reverse!
     end
 
   end
