@@ -60,19 +60,27 @@ module TechnicalAnalysis
       Validation.validate_length(data, min_data_size(period: period))
       Validation.validate_date_time_key(data)
 
-      data = data.sort_by { |row| row[:date_time] }
+      data.sort_by! { |row| row[:date_time] }  # Sort in place to save memory
 
       output = []
       period_values = []
 
-      data.each do |v|
-        period_values << v[price_key]
+      # Pre-compute the multiplier for standard deviations
+      stddev_multiplier = standard_deviations
+
+      data.each_with_index do |v, i|
+        current_value = v[price_key]
+        period_values << current_value
 
         if period_values.size == period
-          mb = ArrayHelper.average(period_values)
-          sd = ArrayHelper.standard_deviation(period_values)
-          ub = mb + standard_deviations * sd
-          lb = mb - standard_deviations * sd
+          # Use pre-computed moving average and standard deviation
+          sum = period_values.sum
+          mb = sum / period
+          sum_of_squares = period_values.sum { |value| (value - mb) ** 2 }
+          variance = sum_of_squares / period
+          sd = Math.sqrt(variance)
+          ub = mb + stddev_multiplier * sd
+          lb = mb - stddev_multiplier * sd
 
           output << BbValue.new(
             date_time: v[:date_time],
@@ -81,11 +89,11 @@ module TechnicalAnalysis
             upper_band: ub
           )
 
-          period_values.shift
+          period_values.shift # Efficiently maintain the sliding window
         end
       end
 
-      output.sort_by(&:date_time).reverse
+      output.reverse!  # Reverse the array in place to save memory
     end
 
   end
