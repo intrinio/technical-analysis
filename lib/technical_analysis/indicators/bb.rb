@@ -74,11 +74,8 @@ module TechnicalAnalysis
 
         if period_values.size == period
           # Use pre-computed moving average and standard deviation
-          sum = period_values.sum
-          mb = sum / period
-          sum_of_squares = period_values.sum { |value| (value - mb) ** 2 }
-          variance = sum_of_squares / period
-          sd = Math.sqrt(variance)
+          mb = ArrayHelper.average(period_values)
+          sd = ArrayHelper.standard_deviation(period_values)
           ub = mb + stddev_multiplier * sd
           lb = mb - stddev_multiplier * sd
 
@@ -89,7 +86,7 @@ module TechnicalAnalysis
             upper_band: ub
           )
 
-          period_values.shift # Efficiently maintain the sliding window
+          period_values.shift
         end
       end
 
