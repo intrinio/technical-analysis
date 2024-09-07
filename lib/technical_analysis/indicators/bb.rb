@@ -60,7 +60,7 @@ module TechnicalAnalysis
       Validation.validate_length(data, min_data_size(period: period))
       Validation.validate_date_time_key(data)
 
-      data = data.sort_by { |row| row[:date_time] }
+      data.sort_by! { |row| row[:date_time] }  # Sort in place to save memory
 
       output = []
       period_values = []
@@ -85,7 +85,7 @@ module TechnicalAnalysis
         end
       end
 
-      output.sort_by(&:date_time).reverse
+      output.reverse!
     end
 
   end

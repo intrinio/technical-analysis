@@ -1,8 +1,11 @@
 # technical-analysis
+
 A Ruby library for performing technical analysis on stock prices and other data sets.
 
 ## Indicators
+
 The following technical indicators are supported:
+
 - Accumulation/Distribution Index (ADI)
 - Average Daily Trading Volume (ADTV)
 - Average Directional Index (ADX)
@@ -57,6 +60,7 @@ gem install technical-analysis
 ```
 
 ## Usage
+
 First, for the sake of these code samples, we'll load some test data from `spec/ta_test_data.csv`. This is the same data used for the unit tests. The data will be an `Array` of `Hashes`.
 
 ```ruby
@@ -70,6 +74,7 @@ input_data = SpecHelper.get_test_data(:close)
 ```
 
 Each technical indicator has the following methods:
+
 - `calculate` - Each technical indicator returns an Array of values. These values are instances of a class specific to each indicator. It's typically in the format of SymbolValue. For example, Simple Moving Average (SMA) returns an Array of `SmaValue` instances. These classes contain the appropriate data fields for each technical indicator.
 - `indicator_symbol` returns the symbol of the technical indicator as a String.
 - `indicator_name` returns the name of the technical indicator as a String.
@@ -78,6 +83,7 @@ Each technical indicator has the following methods:
 - `min_data_size` returns the minimum number of observations needed (as an Integer) to calculate the technical indicator based on the options provided.
 
 ### Class-Based Usage
+
 You can call methods on the class of the specific technical indicator that you want to calculate. To calculate a Simple Moving Average, for example, you would just call `calculate` on the Simple Moving Average class like so:
 
 ```ruby
@@ -108,9 +114,11 @@ TechnicalAnalysis::Sma.min_data_size(options)
 ```
 
 ### Generic Usage
+
 You can also use the generic indicator class. The purpose of this class is to be a sort of master class that will find and call the correct indicator based on the params provided to it.
 
 The `calculate` method on the `Indicator` class accepts:
+
 - The indicator symbol as a String - `"sma"`
 - The data to be used for calculations as an Array of Hashes - `input_data`
 - The calculation to be performed as a Symbol - `:technicals`
@@ -174,7 +182,9 @@ simple_moving_average.min_data_size(options)
 ```
 
 ## Further documentation
+
 This gem is also documented using [Yard](https://yardoc.org/). You can view the [guides](https://yardoc.org/guides/index.html) to help get you started.
 
 ## Run Tests
+
 `rspec spec`
