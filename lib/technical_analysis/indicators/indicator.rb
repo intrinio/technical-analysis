@@ -1,6 +1,23 @@
 module TechnicalAnalysis
   class Indicator
 
+    POSITIONAL_OPTIONS_COMPATIBILITY = Module.new do
+      def min_data_size(options = nil, **params)
+        if options.is_a?(Hash)
+          super(**options, **params)
+        elsif options.nil?
+          super(**params)
+        else
+          super(options, **params)
+        end
+      end
+    end
+
+    def self.inherited(indicator)
+      super
+      indicator.singleton_class.prepend(POSITIONAL_OPTIONS_COMPATIBILITY)
+    end
+
     CALCULATIONS = [
       :indicator_name,
       :indicator_symbol,
@@ -123,8 +140,8 @@ module TechnicalAnalysis
       case calculation
       when :indicator_name; indicator.indicator_name
       when :indicator_symbol; indicator.indicator_symbol
-      when :technicals; indicator.calculate(data, options)
-      when :min_data_size; indicator.min_data_size(options)
+      when :technicals; indicator.calculate(data, **options)
+      when :min_data_size; indicator.min_data_size(**options)
       when :valid_options; indicator.valid_options
       when :validate_options; indicator.validate_options(options)
       else nil

@@ -10,8 +10,9 @@ Gem::Specification.new do |spec|
   spec.require_path  = "lib"
   spec.metadata['allowed_push_host'] = 'https://rubygems.org'
 
-  spec.add_development_dependency "bundler", "~> 1.16"
-  spec.add_development_dependency "rake", "~> 12.3"
+  spec.add_development_dependency "bundler", ">= 2.4"
+  spec.add_development_dependency "rake", ">= 13.0"
+  spec.add_development_dependency "csv", ">= 3.2"
   spec.add_development_dependency "rspec", "~> 3.0"
   spec.add_development_dependency "yard", "~> 0.9.20"
 end
